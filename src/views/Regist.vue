@@ -25,7 +25,7 @@
           id="name"
           name="name"
           type="text"
-          placeholder="請輸入密碼"
+          placeholder="請輸入使用者名稱"
           required
           autofocus
           v-model="name"
@@ -37,7 +37,7 @@
           id="email"
           name="email"
           type="email"
-          placeholder="請輸入密碼"
+          placeholder="請輸入Email"
           required
           autofocus
           v-model="email"
@@ -49,7 +49,7 @@
           id="password"
           name="password"
           type="password"
-          placeholder="請輸入密碼"
+          placeholder="請設定密碼"
           required
           autofocus
           v-model="password"
@@ -61,7 +61,7 @@
           id="password_confirm"
           name="password_confirm"
           type="password"
-          placeholder="請輸入密碼"
+          placeholder="請再次輸入密碼"
           required
           autofocus
           v-model="password_confirm"

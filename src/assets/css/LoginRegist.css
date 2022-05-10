@@ -48,6 +48,7 @@ img {
 label {
   font-size: 14px;
   line-height: 22px;
+  color: #696974;
 }
 
 input {
@@ -56,6 +57,11 @@ input {
   border: 0;
   background-color: #F5F8FA;
   outline: none;
+}
+
+::placeholder {
+  /* CSS 3 標準 */
+  color: #B5B5BE;
 }
 
 .confirm-btn {

@@ -56,15 +56,15 @@
         >
       </div>
       <div class="form-label-group">
-        <label for="password_confirm">密碼確認</label>
+        <label for="passwordCheck">密碼確認</label>
         <input
-          id="password_confirm"
-          name="password_confirm"
+          id="passwordCheck"
+          name="passwordCheck"
           type="password"
           placeholder="請再次輸入密碼"
           required
           autofocus
-          v-model="password_confirm"
+          v-model="passwordCheck"
         >
       </div>
       <div class="confirm-btn">
@@ -83,3 +83,17 @@
     justify-content: center;
   }
 </style>
+
+<script>
+export default {
+  data () {
+    return {
+      account: '',
+      name: '',
+      email: '',
+      password: '',
+      passwordCheck: ''
+    }
+  }
+}
+</script>

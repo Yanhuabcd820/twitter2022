@@ -37,10 +37,21 @@
       <nav>
         <router-link to="/regist">註冊</router-link>
         <p>・</p>
-        <router-link href="">後台登入</router-link>
+        <router-link to="">後台登入</router-link>
       </nav>
     </form>
   </div>
 </template>
 
 <style lang="css" src="./../assets/css/LoginRegist.css" scoped></style>
+
+<script>
+export default {
+  data(){
+    return {
+      account: '',
+      password: ''
+    }
+  }
+}
+</script>

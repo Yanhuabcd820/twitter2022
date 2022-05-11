@@ -22,6 +22,11 @@ const routes = [
     component: () => import('../views/mainPage.vue')
   },
   {
+    path: '/PersonalPage',
+    name: 'PersonalPage',
+    component: () => import('../views/PersonalPage.vue')
+  },
+  {
     path: '*',
     name: 'not-found',
     component: NotFound

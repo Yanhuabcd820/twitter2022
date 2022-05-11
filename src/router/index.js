@@ -22,19 +22,29 @@ const routes = [
     component: () => import('../views/mainPage.vue')
   },
   {
-    path: '/PersonalPage',
-    name: 'PersonalPage',
-    component: () => import('../views/PersonalPage.vue')
+    path: '/SelfPage',
+    name: 'SelfPage',
+    component: () => import('../views/SelfPage.vue')
   },
   {
-    path: '/PersonalPage/reply',
-    name: 'PersonalPage/reply',
-    component: () => import('../views/PersonalPage_reply.vue')
+    path: '/SelfPage/reply',
+    name: 'SelfPage/reply',
+    component: () => import('../views/SelfPageReply.vue')
   },
   {
-    path: '/PersonalPage/likes',
-    name: '/PersonalPage/likes',
-    component: () => import('../views/PersonalPage_likes.vue')
+    path: '/SelfPage/likes',
+    name: '/SelfPage/likes',
+    component: () => import('../views/SelfPageLikes.vue')
+  },
+  {
+    path: '/SelfPage/Follower',
+    name: '/SelfPage/Follower',
+    component: () => import('../views/SelfPageFollower.vue')
+  },
+  {
+    path: '/SelfPage/Following',
+    name: '/SelfPage/Following',
+    component: () => import('../views/SelfPageFollowing.vue')
   },
   {
     path: '*',

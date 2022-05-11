@@ -19,18 +19,13 @@ export default {
       tabs: [
         {
           id: uuidv4(),
-          title: '推文',
-          path: '/SelfPage'
+          title: '跟隨者',
+          path: '/SelfPage/Follower'
         },
         {
           id: uuidv4(),
-          title: '推文與回覆',
-          path: '/SelfPage/reply'
-        },
-        {
-          id: uuidv4(),
-          title: '喜歡的內容',
-          path: '/SelfPage/likes'
+          title: '正在跟隨',
+          path: '/SelfPage/Following'
         }
       ]
     }
@@ -43,6 +38,8 @@ ul {
   display: flex;
   height: 52px;
   align-items: center;
+  border-top: 1px solid #E6ECF0;
+  border-bottom: 1px solid #E6ECF0;
 }
 li {
   width: 130px;
@@ -59,5 +56,4 @@ li {
 li .router-link-exact-active {
   border-bottom: var(--main-color) 2px solid;
 }
-
 </style>

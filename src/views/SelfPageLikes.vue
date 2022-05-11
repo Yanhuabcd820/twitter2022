@@ -2,6 +2,7 @@
   <div class="wrap">
     <navigation />
     <div class="main">
+      <userTitle />
       <userInfo />
       <navTabs />
       <div class="tweet-wrap">
@@ -207,6 +208,7 @@
 import navigation from "../components/nav";
 import followTop from "../components/followTop";
 import userInfo from "../components/userInfo";
+import userTitle from "../components/userTitle";
 import navTabs from "../components/navTabs";
 
 export default {
@@ -215,6 +217,7 @@ export default {
     navigation,
     followTop,
     userInfo,
+    userTitle,
     navTabs
   },
   data() {

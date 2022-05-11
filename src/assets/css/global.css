@@ -1,0 +1,18 @@
+/* global */
+:root {
+  --main-color: #FF6600;
+  --header-text-color: black;
+  --commen-text-color: #44444F;
+  --secondary-text-color: #6C757D;
+  --grey-bg-color: #FAFAFB;
+  --border-color: #E6ECF0;
+}
+
+.wrap {
+  width: 1140px;
+  height: 100vh;
+  box-sizing: border-box;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}

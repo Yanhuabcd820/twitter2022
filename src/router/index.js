@@ -47,6 +47,21 @@ const routes = [
     component: () => import('../views/SelfPageFollowing.vue')
   },
   {
+    path: '/UserPage/:id',
+    name: 'UserPage',
+    component: () => import('../views/UserPage.vue')
+  },
+  {
+    path: '/UserPage/:id/reply',
+    name: 'UserPageReply',
+    component: () => import('../views/UserPageReply.vue')
+  },
+  {
+    path: '/UserPage/:id/likes',
+    name: 'UserPageLikes',
+    component: () => import('../views/UserPageLikes.vue')
+  },
+  {
     path: '*',
     name: 'not-found',
     component: NotFound

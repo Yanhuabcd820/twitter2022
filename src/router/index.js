@@ -7,7 +7,7 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/login',
+    path: '/',
     name: 'log-in',
     component: LogIn,
   },
@@ -15,6 +15,11 @@ const routes = [
     path: '/regist',
     name: 'regist',
     component: () => import('../views/Regist.vue')
+  },
+  {
+    path: '/mainPage',
+    name: 'mainPage',
+    component: () => import('../views/mainPage.vue')
   },
   {
     path: '*',

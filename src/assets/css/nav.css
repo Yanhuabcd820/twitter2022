@@ -1,0 +1,104 @@
+.nav {
+  width: 200px;
+  padding-right: 24px;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.logo {
+  width: 50px;
+  padding: 12px 0px;
+}
+
+.logo>img {
+  width: 100%;
+  vertical-align: bottmo;
+}
+
+.nav-btn-group {
+  padding-left: 4px;
+}
+
+
+.nav-btn-group-bottom {
+  flex-grow: 1;
+  padding-left: 4px;
+  display: flex;
+}
+
+.btn-bottom {
+  width: 100%;
+  align-self: flex-end;
+
+}
+
+a.nav-btn {
+  width: 100%;
+  padding: 10px 0px;
+  display: flex;
+}
+
+
+.btn.nav-btn-tweet {
+  display: inline-block;
+  width: 100%;
+  background-color: var(--main-color);
+  color: #fff;
+  border: 1px solid var(--main-color);
+  padding: 4px;
+  margin-top: 8px;
+  font-size: 20px;
+}
+
+
+.nav-btn-img {
+  width: 24px;
+  height: 24px;
+  margin: 4px;
+  margin-right: 16px;
+  transition: .5s;
+}
+
+.nav-btn-img.nav-btn-home-img {
+  background: url(../images/nav-home.png) no-repeat center center;
+}
+
+.nav-btn:hover .nav-btn-home-img {
+  background: url(../images/nav-home-active.png) no-repeat center center;
+}
+
+.nav-btn-img.nav-btn-user-img {
+  background: url(../images/nav-user.png) no-repeat center center;
+}
+
+.nav-btn:hover .nav-btn-user-img {
+  background: url(../images/nav-user-active.png) no-repeat center center;
+}
+
+.nav-btn-img.nav-btn-setting-img {
+  background: url(../images/nav-setting.png) no-repeat center center;
+}
+
+.nav-btn:hover .nav-btn-setting-img {
+  background: url(../images/nav-setting-active.png) no-repeat center center;
+}
+
+.nav-btn-img.nav-btn-left-img {
+  background: url(../images/nav-left.png) no-repeat center center;
+  align-self: flex-end;
+}
+
+.nav-btn:hover .nav-btn-left-img {
+  background: url(../images/nav-left-active.png) no-repeat center center;
+}
+
+.nav-btn h5 {
+  padding-top: 2px;
+  box-sizing: border-box;
+  transition: .5s;
+}
+
+.nav-btn:hover h5 {
+  color: var(--main-color);
+}

@@ -27,6 +27,16 @@ const routes = [
     component: () => import('../views/PersonalPage.vue')
   },
   {
+    path: '/PersonalPage/reply',
+    name: 'PersonalPage/reply',
+    component: () => import('../views/PersonalPage_reply.vue')
+  },
+  {
+    path: '/PersonalPage/likes',
+    name: '/PersonalPage/likes',
+    component: () => import('../views/PersonalPage_likes.vue')
+  },
+  {
     path: '*',
     name: 'not-found',
     component: NotFound

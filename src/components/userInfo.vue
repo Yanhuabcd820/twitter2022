@@ -43,6 +43,9 @@
     margin-left: 28px;
     margin-right: 19px;
   }
+  .user-title img:hover {
+    cursor: pointer;
+  }
   .user-title {
     display: flex;
     align-items: center;

@@ -27,6 +27,31 @@ const routes = [
     component: () => import('../views/reply.vue')
   },
   {
+    path: '/SelfPage',
+    name: 'SelfPage',
+    component: () => import('../views/SelfPage.vue')
+  },
+  {
+    path: '/SelfPage/reply',
+    name: 'SelfPage/reply',
+    component: () => import('../views/SelfPageReply.vue')
+  },
+  {
+    path: '/SelfPage/likes',
+    name: '/SelfPage/likes',
+    component: () => import('../views/SelfPageLikes.vue')
+  },
+  {
+    path: '/SelfPage/Follower',
+    name: '/SelfPage/Follower',
+    component: () => import('../views/SelfPageFollower.vue')
+  },
+  {
+    path: '/SelfPage/Following',
+    name: '/SelfPage/Following',
+    component: () => import('../views/SelfPageFollowing.vue')
+  },
+  {
     path: '*',
     name: 'not-found',
     component: NotFound

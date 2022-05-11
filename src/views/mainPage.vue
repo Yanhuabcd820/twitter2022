@@ -1,5 +1,6 @@
 <template>
   <div class="wrap">
+    <popupTweet v-if="isClickPopupTweet" @close-PopupTweet="closePopupTweet" />
     <navigation />
     <div class="main">
       <div class="user-title">
@@ -7,7 +8,7 @@
           <h4>首頁</h4>
         </div>
       </div>
-      <div class="post">
+      <div class="post" @click.prevent.stop="openPopupTweet">
         <div class="post-inner">
           <div class="post-avatar">
             <img src="../assets/images/avatar.png" alt="" />
@@ -219,18 +220,32 @@
 <script>
 import navigation from "../components/nav";
 import followTop from "../components/followTop";
+import popupTweet from "../components/popupTweet";
 export default {
   name: "mainPage",
   components: {
     navigation,
     followTop,
+    popupTweet,
   },
   data() {
-    return {};
+    return {
+      isClickPopupTweet: false,
+    };
+  },
+  methods: {
+    openPopupTweet() {
+      console.log(this.isClickPopupTweet);
+      this.isClickPopupTweet = true;
+    },
+    closePopupTweet(payload) {
+      const { isClickPopupTweet } = payload;
+      this.isClickPopupTweet = isClickPopupTweet;
+
+      console.log("closePopupTweet", this.isClickPopupTweet);
+    },
   },
 };
 </script>
 
 <style lang="css" src="@/assets/css/main.css" scoped></style>
-<style scoped>
-</style>

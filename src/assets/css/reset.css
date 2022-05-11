@@ -2,10 +2,12 @@
 @import url("https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,700&display=swap&subset=chinese-traditional");
 
 
-body {
+body,
+textarea {
   margin: 0;
   padding: 0;
   font-family: "Noto Sans TC", sans-serif;
+  color: var(--header-text-color);
 
 }
 
@@ -106,7 +108,8 @@ h4 {
 
 h5 {
   font-size: 18px;
-  font-weight: 5 00;
+  font-weight: 700;
+  color: var(--commen-text-color);
 }
 
 p {

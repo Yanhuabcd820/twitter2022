@@ -22,6 +22,11 @@ const routes = [
     component: () => import('../views/mainPage.vue')
   },
   {
+    path: '/reply',
+    name: 'replyPage',
+    component: () => import('../views/reply.vue')
+  },
+  {
     path: '*',
     name: 'not-found',
     component: NotFound

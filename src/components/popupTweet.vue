@@ -1,6 +1,6 @@
 <template>
   <div class="popupTweet-wrap">
-    <div class="overlay"></div>
+    <div class="overlay" @click.stop.prevent="closePopupTweet"></div>
     <div class="popupTweet">
       <div class="popupTweet-colse">
         <div class="popupTweet-colse-img" @click.stop.prevent="closePopupTweet">

@@ -8,6 +8,11 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
+    name: 'root',
+    redirect: '/logIn'
+  },
+  {
+    path: '/login',
     name: 'log-in',
     component: LogIn,
   },
@@ -26,6 +31,12 @@ const routes = [
     name: 'replyPage',
     component: () => import('../views/reply.vue')
   },
+  /*
+  {
+    path: '/:account',
+    name: 'userPage',
+    component: () => import('../views/SelfPage.vue')
+  },*/
   {
     path: '/SelfPage',
     name: 'SelfPage',
@@ -50,21 +61,6 @@ const routes = [
     path: '/SelfPage/Following',
     name: '/SelfPage/Following',
     component: () => import('../views/SelfPageFollowing.vue')
-  },
-  {
-    path: '/UserPage/:id',
-    name: 'UserPage',
-    component: () => import('../views/UserPage.vue')
-  },
-  {
-    path: '/UserPage/:id/reply',
-    name: 'UserPageReply',
-    component: () => import('../views/UserPageReply.vue')
-  },
-  {
-    path: '/UserPage/:id/likes',
-    name: 'UserPageLikes',
-    component: () => import('../views/UserPageLikes.vue')
   },
   {
     path: '*',

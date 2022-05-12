@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <form action="">
+    <form @submit.prevent.stop='handleSubmit'>
       <div class="logo">
         <img src="./../assets/icons/logo@2x.png" alt="">
       </div>
@@ -31,9 +31,9 @@
           v-model="password"
         >
       </div>
-      <div class="confirm-btn">
+      <button type="submit" class="confirm-btn" :disabled="isProcessing">
         <p>登入</p>
-      </div>
+      </button>
       <nav>
         <router-link to="/regist">註冊</router-link>
         <p>・</p>
@@ -50,7 +50,18 @@ export default {
   data(){
     return {
       account: '',
-      password: ''
+      password: '',
+      isProcessing: false
+    }
+  },
+  methods: {
+    handleSubmit(){
+      console.log('account:'+this.account)
+      console.log('pw:'+this.password)
+      if (this.account === 'root@example.com' && this.password==='12345678'){
+        console.log('success')
+        this.$router.push('/mainPage')
+      }
     }
   }
 }

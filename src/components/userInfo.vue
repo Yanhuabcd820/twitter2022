@@ -14,20 +14,31 @@
       </div>
       <div class="user-info">
         <div class="user-account">
-          <h5>John Doe</h5>
-          <p class="fz14">@heyjohn</p>
+          <h5>{{user.name}}</h5>
+          <p class="fz14">@{{user.account}}</p>
         </div>
         <p class="user-des fz14">
-          Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. 
+          {{user.introduction}} 
         </p>
         <div class="user-follow">
-          <p class="fz14">34個跟隨中</p>
-          <p class="fz14">59位跟隨者</p>
+          <p class="fz14">{{user.followingCount}}個跟隨中</p>
+          <p class="fz14">{{user.followerCount}}位跟隨者</p>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    user: {
+      type: Object,
+      required: true
+    }
+  }
+}
+</script>
 
 <style scoped>
   .user-name {

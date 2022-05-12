@@ -37,10 +37,6 @@
   margin-right: 8px;
 }
 
-.post-avatar>img {
-  width: 100%;
-}
-
 .post-inner-btn {
   align-self: flex-end;
 }
@@ -89,6 +85,7 @@
 
 .tweet-text {
   margin-bottom: 8px;
+  display: inline-block;
 }
 
 .tweet-count {
@@ -101,10 +98,16 @@
   align-items: center;
   margin-right: 40px;
   color: var(--secondary-text-color);
+  cursor: pointer;
 }
 
 .tweet-reply-img,
 .tweet-like-img {
   width: 16px;
   margin-right: 8px;
+}
+
+.tweet-reply p,
+.tweet-like p {
+  color: var(--secondary-text-color);
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <form action="">
+    <form @click.stop.prevent="handleSubmit">
       <div class="logo">
         <img src="./../assets/icons/logo@2x.png" alt="">
       </div>
@@ -67,9 +67,9 @@
           v-model="passwordCheck"
         >
       </div>
-      <div class="confirm-btn">
+      <button class="confirm-btn" type="submit">
         <p>註冊</p>
-      </div>
+      </button>
       <nav>
         <router-link to="/login">取消</router-link>
       </nav>
@@ -93,6 +93,17 @@ export default {
       email: '',
       password: '',
       passwordCheck: ''
+    }
+  },
+  methods: {
+    handleSubmit () {
+      const data = JSON.stringify({
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        passwordCheck: this.passwordCheck
+      })
+      console.log('data', data)
     }
   }
 }

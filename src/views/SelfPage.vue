@@ -2,7 +2,7 @@
   <div class="wrap">
     <navigation />
     <div class="main">
-      <userTitle />
+      <userTitle :userName="user.name" :tweetNum="tweets.length"/>
       <userInfo :user="user"/>
       <navTabs />
       <div class="tweet-wrap">
@@ -20,38 +20,6 @@
                 Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis
                 ullamco fdfsdfscillum dolor. Voluptate exercitation incididunt
                 aliquip deserunt reprehenderit elit laborum.
-              </p>
-            </div>
-            <div class="tweet-count">
-              <a href="#" class="tweet-reply">
-                <div class="tweet-reply-img">
-                  <img src="../assets/images/tweet-reply.png" alt="" />
-                </div>
-                <p class="fz14"><b>13</b></p>
-              </a>
-              <a href="#" class="tweet-like">
-                <div class="tweet-like-img">
-                  <img src="../assets/images/tweet-like.png" alt="" />
-                </div>
-                <p class="fz14"><b>76</b></p>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="tweet-card">
-          <div class="tweet-avatar">
-            <img src="../assets/images/avatar_default.png" alt="" />
-          </div>
-          <div class="tweet-content">
-            <div class="tweet-name-group">
-              <p class="tweet-name"><b>Apple</b></p>
-              <p class="tweet-account fz14">@apple・3 小時</p>
-            </div>
-            <div class="tweet-text">
-              <p>
-                Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis
-                ullamco cillum dolor. Voluptate exercitation incididunt aliquip
-                deserunt reprehenderit elit laborum.
               </p>
             </div>
             <div class="tweet-count">
@@ -101,6 +69,32 @@ const dummyUser = {
   "updatedAt": "2022-01-18T07:23:18.000Z"
 }
 
+const dummyTweets = 
+{
+  "user": {
+    "id": 1,
+    "account": "user1",
+    "name": "root",
+    "avatar": "https://via.placeholder.com/300",
+  },
+  "tweets": [
+    {
+      "id": 2,
+      "description": "yes, shekl kmsdfmld",
+      "createdAt": "2022-04-29T09:50:34.000Z",
+      "replyCount": 13,
+      "likeCount": 76
+    },
+    {
+      "id": 3,
+      "description": "no, ndic kmsdfmld",
+      "createdAt": "2022-05-31T09:50:34.000Z",
+      "replyCount": 3,
+      "likeCount": 2
+    }
+  ]
+}
+
 export default {
   name: "selfPage",
   components: {
@@ -126,17 +120,22 @@ export default {
         isFollowing: false,
         createdAt: "",
         updatedAt: ""
-      }
+      },
+      tweets: []
     };
   },
   methods: {
     fetchUser(){
       const {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt} = dummyUser
       this.user = {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt}
+    },
+    fetchTweets(){
+      this.tweets = [...dummyTweets.tweets]
     }
   },
   created(){
     this.fetchUser()
+    this.fetchTweets()
   }
 };
 </script>

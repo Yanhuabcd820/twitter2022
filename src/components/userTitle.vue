@@ -2,11 +2,26 @@
   <div class="user-title">
     <img src="../assets/images/LeftArrow.png" alt=""/>
     <div class="user-name">
-      <h5>John Doe</h5>
-      <p>25推文</p>
+      <h5>{{userName}}</h5>
+      <p>{{tweetNum}}推文</p>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    userName: {
+      type: String,
+      required: true
+    },
+    tweetNum: {
+      type: Number,
+      reqired: true
+    }
+  }
+}
+</script>
 
 <style scoped>
   .user-title img {

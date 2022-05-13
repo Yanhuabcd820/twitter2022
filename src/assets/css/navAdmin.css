@@ -1,4 +1,4 @@
-.nav {
+.nav-admin {
   width: 200px;
   padding-right: 24px;
   display: flex;
@@ -16,12 +16,12 @@
   vertical-align: bottmo;
 }
 
-.nav-btn-group {
+.nav-admin-btn-group {
   padding-left: 4px;
 }
 
 
-.nav-btn-group-bottom {
+.nav-admin-btn-group-bottom {
   flex-grow: 1;
   padding-left: 4px;
   display: flex;
@@ -33,14 +33,14 @@
 
 }
 
-a.nav-btn {
+.nav-admin-btn {
   width: 100%;
   padding: 10px 0px;
   display: flex;
 }
 
 
-.btn.nav-btn-tweet {
+.btn.nav-admin-btn-tweet {
   display: inline-block;
   width: 100%;
   background-color: var(--main-color);
@@ -52,7 +52,7 @@ a.nav-btn {
 }
 
 
-.nav-btn-img {
+.nav-admin-btn-img {
   width: 24px;
   height: 24px;
   margin: 4px;
@@ -60,49 +60,41 @@ a.nav-btn {
   transition: .5s;
 }
 
-.nav-btn-img.nav-btn-home-img {
+.nav-admin-btn-img.nav-admin-btn-home-img {
   background: url(../images/nav-home.png) no-repeat center center;
 }
 
-.nav-btn:hover .nav-btn-home-img,
-.nav-btn.active .nav-btn-home-img {
+.nav-admin-btn:hover .nav-admin-btn-home-img,
+.nav-admin-btn.active .nav-admin-btn-home-img {
   background: url(../images/nav-home-active.png) no-repeat center center;
 }
 
-.nav-btn-img.nav-btn-user-img {
+.nav-admin-btn-img.nav-admin-btn-user-img {
   background: url(../images/nav-user.png) no-repeat center center;
 }
 
-.nav-btn:hover .nav-btn-user-img,
-.nav-btn.active .nav-btn-user-img {
+.nav-admin-btn:hover .nav-admin-btn-user-img,
+.nav-admin-btn.active .nav-admin-btn-user-img {
   background: url(../images/nav-user-active.png) no-repeat center center;
 }
 
-.nav-btn-img.nav-btn-setting-img {
-  background: url(../images/nav-setting.png) no-repeat center center;
-}
 
-.nav-btn:hover .nav-btn-setting-img,
-.nav-btn.active .nav-btn-setting-img {
-  background: url(../images/nav-setting-active.png) no-repeat center center;
-}
-
-.nav-btn-img.nav-btn-left-img {
+.nav-admin-btn-img.nav-admin-btn-left-img {
   background: url(../images/nav-left.png) no-repeat center center;
   align-self: flex-end;
 }
 
-.nav-btn:hover .nav-btn-left-img {
+.nav-admin-btn:hover .nav-admin-btn-left-img {
   background: url(../images/nav-left-active.png) no-repeat center center;
 }
 
-.nav-btn h5 {
+.nav-admin-btn h5 {
   padding-top: 2px;
   box-sizing: border-box;
   transition: .5s;
 }
 
-.nav-btn:hover h5,
-.nav-btn.active h5 {
+.nav-admin-btn:hover h5,
+.nav-admin-btn.active h5 {
   color: var(--main-color);
 }

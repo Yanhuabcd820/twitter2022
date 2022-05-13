@@ -1,0 +1,124 @@
+.admin-users {
+  width: 1068px;
+  /* flex-grow: 1; */
+  overflow-y: scroll;
+  scrollbar-width: none;
+  border-right: 1px solid var(--border-color);
+  border-left: 1px solid var(--border-color);
+  height: 100vh;
+}
+
+.admin-users::-webkit-scrollbar {
+  width: 0px;
+}
+
+.admin-users-title h4 {
+  width: 100%;
+  padding: 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.admin-users-cards-wrap {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding: 16px 0px 16px 16px;
+
+}
+
+.admin-user-card {
+  width: calc(25% - 16px);
+  border-radius: 10px;
+  background-color: #F6F7F8;
+  padding-bottom: 24px;
+  overflow: hidden;
+  position: relative;
+  margin-right: 16px;
+  margin-bottom: 20px;
+}
+
+.admin-user-image {
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+}
+
+.admin-user-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  overflow: hidden;
+  position: absolute;
+  top: 64px;
+  left: 50%;
+  right: 0;
+  transform: translateX(-50%);
+  z-index: 5;
+}
+
+.admin-user-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.admin-user-name {
+  text-align: center;
+}
+
+.admin-user-account {
+  text-align: center;
+}
+
+.admin-user-tweet,
+.admin-user-like {
+  display: flex;
+  align-items: center;
+  margin: 0px 8px;
+}
+
+.admin-user-tweet-img,
+.admin-user-like-img {
+  width: 24px;
+  margin-right: 8px;
+
+}
+
+.admin-user-tweet>p,
+.admin-user-like>p {
+  padding-bottom: 2px;
+}
+
+
+.admin-user-count {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+  text-align: center;
+}
+
+.admin-user-follow-count {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.admin-user-following,
+.admin-user-follower {
+  display: flex;
+  margin: 0px 4px;
+}
+
+.admin-user-following>p.num,
+.admin-user-follower>p.num {
+  color: var(--header-text-color);
+}
+
+.admin-user-following>p.word,
+.admin-user-follower>p.word {
+  color: var(--secondary-text-color);
+}

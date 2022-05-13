@@ -5,19 +5,17 @@
     <navigation />
     <div class="main">
       <div class="user-title">
-        <div class="user-title">
-          <h4>首頁</h4>
-        </div>
+        <h4>首頁</h4>
       </div>
       <div class="post" @click.prevent.stop="openPopupTweet">
         <div class="post-inner">
           <div class="post-avatar">
             <img src="../assets/images/avatar.png" alt="" />
-          </div> 
+          </div>
           <h5>有什麼新鮮事？</h5>
         </div>
         <div class="post-inner-btn">
-          <a class="btn active" href="#"> 推文 </a>
+          <div class="btn active" href="#">推文</div>
         </div>
       </div>
       <div class="tweet-wrap">

@@ -97,7 +97,7 @@ h2 {
 
 h3 {
   font-size: 28px;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 h4 {
@@ -143,4 +143,9 @@ p.fz12 {
   background-color: var(--main-color);
   color: #fff;
   border: 1px solid var(--main-color);
+}
+
+.btn:hover p,
+.btn.active p {
+  color: #fff;
 }

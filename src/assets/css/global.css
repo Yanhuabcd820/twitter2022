@@ -1,6 +1,7 @@
 /* global */
 :root {
   --main-color: #FF6600;
+  --primary-color: #0062FF;
   --danger-color: #FC5A5A;
   --header-text-color: black;
   --commen-text-color: #44444F;
@@ -12,8 +13,18 @@
 .wrap {
   width: 1140px;
   height: 100vh;
-  box-sizing: border-box;
   margin: 0 auto;
   display: flex;
   justify-content: center;
+}
+
+.wrap.setting-wrap {
+  justify-content: flex-start;
+
+}
+
+.wrap.admin-users-wrap {
+  width: 1400px;
+  justify-content: flex-end;
+
 }

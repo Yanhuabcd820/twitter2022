@@ -13,10 +13,13 @@
       </div>
 
       <div class="popupTweet-cover">
-        <img src="../assets/images/cover.png" alt="" />
+        <img :src="user.cover" alt=""/>
         <div class="cover-edit">
           <div class="cover-edit-tool">
-            <img src="../assets/images/cover-edit.png" alt="" />
+            <label>
+              <input type="file" style="display:none" @change="handleFileChange">
+              <img src="../assets/images/cover-edit.png"> 
+            </label>
           </div>
           <div class="cover-edit-tool">
             <img src="../assets/images/cover-cross.png" alt="" />
@@ -83,7 +86,7 @@ export default {
         id: -1,
         account: "",
         avatar: "",
-        cover: "",
+        cover: "https://pbs.twimg.com/profile_banners/1006777505603379200/1614741829/1500x500",
         name: this.initialUser.name,
         introduction: this.initialUser.introduction
       }
@@ -99,6 +102,18 @@ export default {
       let text = document.querySelector('#introduction').textContent;
       this.user.introduction = text
       console.log('text')
+    },
+    handleFileChange (e) {
+      const files = e.target.files
+      console.log('files', files)
+      if (files.length === 0) {
+        // 使用者沒有選擇上傳的檔案
+        return
+      } else {
+        // 否則產生預覽圖
+        const imageURL = window.URL.createObjectURL(files[0])
+        this.user.cover = imageURL
+      }
     }
   }
 };
@@ -125,6 +140,11 @@ export default {
   }
   .popupTweet-cover {
     position: relative;
+  }
+  .popupTweet-cover>img {
+    object-fit: cover;
+    object-position: initial;
+    height: 200px;
   }
   .cover-edit {
     position: absolute;

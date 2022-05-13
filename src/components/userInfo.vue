@@ -22,8 +22,8 @@
           {{user.introduction}} 
         </p>
         <div class="user-follow">
-          <p class="fz14">{{user.followingCount}}個跟隨中</p>
-          <p class="fz14">{{user.followerCount}}位跟隨者</p>
+          <router-link to="/SelfPage/Following"><p class="fz14">{{user.followingCount}}個跟隨中</p></router-link>
+          <router-link to="/SelfPage/Follower"><p class="fz14">{{user.followerCount}}位跟隨者</p></router-link>
         </div>
       </div>
     </div>

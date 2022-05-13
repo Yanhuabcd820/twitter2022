@@ -117,6 +117,7 @@
 .reply-btn,
 .like-btn {
   width: 30px;
+  cursor: pointer;
 }
 
 .reply-btn {

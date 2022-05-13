@@ -59,7 +59,22 @@
 
 .popupReply-avatar {
   width: 50px;
-  border: 1px solid;
+  flex-shrink: 0;
+}
+
+.popupReply-avatar {
+  position: relative;
+}
+
+.popupReply-avatar::after {
+  border-left: 2px solid #aaa;
+  height: calc(100% - 50px - 16px);
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0px;
+  transform: translateX(-50%);
+
 }
 
 .popupReply-content {
@@ -90,13 +105,25 @@
 
 .popupReply-again-inner {
   display: flex;
-  align-items: center;
+  margin-top: 16px;
 }
 
 .popupReply-again-avatar {
   width: 50px;
-  margin-right: 8px;
-  border: 1px solid;
+  /* margin-right: 8px; */
+}
+
+.popupReply-again-inner>textarea {
+  display: inline-block;
+  height: 100%;
+  padding: 12px 8px;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--commen-text-color);
+  border: 0px;
+  flex-grow: 1;
+  resize: none;
+
 }
 
 .popupReply-btn-wrap {

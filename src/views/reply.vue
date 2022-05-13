@@ -1,15 +1,19 @@
 <template>
   <div class="wrap">
-    <!-- <popupReply v-if="isClickPopupReply" @close-PopupReply="closePopupReply" /> -->
-    <popupReply />
+    <popupReply v-if="isClickPopupReply" @close-PopupReply="closePopupReply" />
+
+    <popupReplyList
+      v-if="isClickPopupReplyList"
+      @close-PopupReplyList="closePopupReplyList"
+    />
     <navigation />
     <div class="reply-wrap">
-      <div class="reply-title">
-        <div class="reply-forward" @click="$router.back()">
+      <router-link to="/mainPage" class="reply-title">
+        <div class="reply-forward">
           <img src="../assets/images/forward.png" alt="" />
         </div>
-        <h4 @click="$router.back()">推文</h4>
-      </div>
+        <h4>推文</h4>
+      </router-link>
       <div class="reply">
         <div class="reply-inner">
           <div class="reply-user">
@@ -28,13 +32,11 @@
           <p class="fz14 reply-time">上午 10:05・2021年11月10日</p>
         </div>
         <div class="reply-count">
-          <div class="reply-num" @click.prevent.stop="openPopupReply">
-            <span>34</span> 回覆
-          </div>
+          <div class="reply-num"><span>34</span> 回覆</div>
           <div class="like-num"><span>808</span> 喜歡次數</div>
         </div>
         <div class="reply-count-btn">
-          <div class="reply-btn">
+          <div class="reply-btn" @click.prevent.stop="openPopupReply">
             <img src="../assets/images/tweet-reply.png" alt="" />
           </div>
           <div class="like-btn">
@@ -57,12 +59,15 @@
             </div>
             <div class="reply-tweet-text">
               <p>
-                former apple engineer shares a simple DIY fix to seal your
+                111former apple engineer shares a simple DIY fix to seal your
                 surgical mask
               </p>
             </div>
             <div class="reply-tweet-count">
-              <div class="reply-tweet-reply">
+              <div
+                class="reply-tweet-reply"
+                @click.prevent.stop="openPopupReplyList"
+              >
                 <div class="reply-tweet-reply-img">
                   <img src="../assets/images/tweet-reply.png" alt="" />
                 </div>
@@ -154,29 +159,40 @@
 import navigation from "../components/nav";
 import followTop from "../components/followTop";
 import popupReply from "../components/popupReply";
+import popupReplyList from "../components/popupReplyList";
 export default {
   name: "replyPage",
   components: {
     navigation,
     followTop,
     popupReply,
+    popupReplyList,
   },
   data() {
     return {
       isClickPopupReply: false,
+      isClickPopupReplyList: false,
     };
   },
   methods: {
     openPopupReply() {
-      console.log(this.isClickPopupTweet);
+      console.log(this.isClickPopupReply);
       this.isClickPopupReply = true;
     },
-    // closePopupTweet(payload) {
-    //   const { isClickPopupTweet } = payload;
-    //   this.isClickPopupTweet = isClickPopupTweet;
-
-    //   console.log("closePopupTweet", this.isClickPopupTweet);
-    // },
+    openPopupReplyList() {
+      console.log(this.isClickPopupReplyList);
+      this.isClickPopupReplyList = true;
+    },
+    closePopupReply(payload) {
+      const { isClickPopupReply } = payload;
+      this.isClickPopupReply = isClickPopupReply;
+      console.log("closePopupReply", this.isClickPopupReply);
+    },
+    closePopupReplyList(payload) {
+      const { isClickPopupReplyList } = payload;
+      this.isClickPopupReplyList = isClickPopupReplyList;
+      console.log("closePopupReplyList", this.isClickPopupReplyList);
+    },
   },
 };
 </script>

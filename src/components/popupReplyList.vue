@@ -1,9 +1,12 @@
 <template>
   <div class="popupReply-wrap">
-    <div class="overlay" @click.stop.prevent="closePopupReply"></div>
+    <div class="overlay" @click.stop.prevent="closePopupReplyList"></div>
     <div class="popupReply">
       <div class="popupReply-colse">
-        <div class="popupReply-colse-img" @click.stop.prevent="closePopupReply">
+        <div
+          class="popupReply-colse-img"
+          @click.stop.prevent="closePopupReplyList"
+        >
           <img src="../assets/images/pop-up-cancle.png" alt="" />
         </div>
       </div>
@@ -52,16 +55,16 @@
 </template>
 <script>
 export default {
-  name: "popupReply",
+  name: "popupReplyList",
   data() {
     return {
       popupText: "",
     };
   },
   methods: {
-    closePopupReply() {
-      this.$emit("close-PopupReply", {
-        isClickPopupReply: false,
+    closePopupReplyList() {
+      this.$emit("close-PopupReplyList", {
+        isClickPopupReplyList: false,
       });
     },
   },

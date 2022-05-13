@@ -27,14 +27,35 @@ const routes = [
     component: () => import('../views/reply.vue')
   },
   {
+    path: '/setting',
+    name: 'setting',
+    component: () => import('../views/setting.vue')
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: () => import('../views/admin.vue')
+  },
+  {
+    path: '/admin/adminTweetList',
+    name: 'adminTweetList',
+    component: () => import('../views/adminTweetList.vue')
+  },
+  {
+    path: '/admin/adminUsers',
+    name: 'users',
+    component: () => import('../views/adminUsers.vue')
+  },
+  {
     path: '*',
     name: 'not-found',
     component: NotFound
   }
 ]
 
+
 const router = new VueRouter({
+  linkExactActiveClass: 'active',
   routes
 })
-
 export default router

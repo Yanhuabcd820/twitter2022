@@ -30,7 +30,7 @@
         <div>
           <div class="avatar">
             <div class="avatar-grayLayer"></div>
-            <img src="../assets/images/AvatarBigger.png" alt="" />
+            <img :src="user.avatar" alt="" />
             <label class="avatar-edit">
               <input type="file" accept="image/*"  style="display:none" @change="handleAvatarChange">
               <img src="../assets/images/cover-edit.png" alt="" >/>
@@ -54,17 +54,6 @@
         </div>
         <div class="form-label-group" style="height:147px">
           <label for="introduction">自我介紹</label>
-          <!--
-          <input
-            id="introduction"
-            name="introduction"
-            type="text"
-            placeholder="請輸入帳號"
-            required
-            autofocus
-            v-model="introduction"
-          >
-          -->
           <div class="textarea" contenteditable="true" id="introduction"
             name="introduction" @keydown="updateIntro">{{user.introduction}}</div>
           <div class="length">{{temp.length}}/160</div>
@@ -87,7 +76,7 @@ export default {
       user : {
         id: -1,
         account: "",
-        avatar: "",
+        avatar: "https://pbs.twimg.com/profile_images/1366952029030027264/eNb0Ah2P_400x400.jpg",
         cover: "https://pbs.twimg.com/profile_banners/1006777505603379200/1614741829/1500x500",
         name: this.initialUser.name,
         introduction: this.initialUser.introduction
@@ -188,17 +177,24 @@ export default {
     height: 140px;
     position: relative;
   }
+  .avatar>img{
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: initial;
+  }
   .avatar-grayLayer{
-    width: 139px;
-    height: 139px;  
+    width: 136px;
+    height: 136px;  
     background-color: #171725;
     opacity: 0.5;
     position:absolute;
     border-radius: 50%;
     border: white 3px solid;
     box-sizing:border-box;
-    left: 1px;
-    top: -1px;
+    left: 2px;
+    top: 1px;
   }
   .avatar-edit {
     width: 24px;

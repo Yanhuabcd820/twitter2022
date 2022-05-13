@@ -22,8 +22,8 @@
           {{user.introduction}} 
         </p>
         <div class="user-follow">
-          <router-link to="/SelfPage/Following"><p class="fz14">{{user.followingCount}}個跟隨中</p></router-link>
-          <router-link to="/SelfPage/Follower"><p class="fz14">{{user.followerCount}}位跟隨者</p></router-link>
+          <router-link to="/SelfPage/Following"><p class="fz14 udline">{{user.followingCount}}個跟隨中</p></router-link>
+          <router-link to="/SelfPage/Follower"><p class="fz14 udline">{{user.followerCount}}位跟隨者</p></router-link>
         </div>
       </div>
     </div>
@@ -110,5 +110,9 @@ export default {
   }
   .user-follow p {
     margin-right: 20px;
+    color: #171725;
+  }
+  .udline:hover{
+    text-decoration: underline;
   }
 </style>

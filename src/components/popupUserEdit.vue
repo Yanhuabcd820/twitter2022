@@ -11,13 +11,13 @@
         <h5>編輯個人資料</h5>
         <div class="header-btn btn">儲存</div>  
       </div>
-
       <div class="popupTweet-cover">
         <img :src="user.cover" alt=""/>
+        <div class="cover-grayLayer"></div>
         <div class="cover-edit">
           <div class="cover-edit-tool">
             <label>
-              <input type="file" style="display:none" @change="handleFileChange">
+              <input type="file" accept="image/*"  style="display:none" @change="handleCoverChange">
               <img src="../assets/images/cover-edit.png"> 
             </label>
           </div>
@@ -29,10 +29,12 @@
       <div class="avatar-block">
         <div>
           <div class="avatar">
-            <img src="../assets/images/AvatarBigger.png" alt="" />
-            <div class="avatar-edit">
-              <img src="../assets/images/cover-edit.png" alt="" />
-            </div>
+            <div class="avatar-grayLayer"></div>
+            <img :src="user.avatar" alt="" />
+            <label class="avatar-edit">
+              <input type="file" accept="image/*"  style="display:none" @change="handleAvatarChange">
+              <img src="../assets/images/cover-edit.png" alt="" >/>
+            </label>
           </div>
         </div>
       </div>
@@ -52,20 +54,9 @@
         </div>
         <div class="form-label-group" style="height:147px">
           <label for="introduction">自我介紹</label>
-          <!--
-          <input
-            id="introduction"
-            name="introduction"
-            type="text"
-            placeholder="請輸入帳號"
-            required
-            autofocus
-            v-model="introduction"
-          >
-          -->
-          <div class="textarea" contenteditable="true" placeholder="user.name" id="introduction"
+          <div class="textarea" contenteditable="true" id="introduction"
             name="introduction" @keydown="updateIntro">{{user.introduction}}</div>
-          <div class="length">{{user.introduction.length}}/160</div>
+          <div class="length">{{temp.length}}/160</div>
         </div>
       </div>
     </div>
@@ -85,11 +76,12 @@ export default {
       user : {
         id: -1,
         account: "",
-        avatar: "",
+        avatar: "https://pbs.twimg.com/profile_images/1366952029030027264/eNb0Ah2P_400x400.jpg",
         cover: "https://pbs.twimg.com/profile_banners/1006777505603379200/1614741829/1500x500",
         name: this.initialUser.name,
         introduction: this.initialUser.introduction
-      }
+      },
+      temp: this.initialUser.introduction
     };
   },
   methods: {
@@ -100,10 +92,9 @@ export default {
     },
     updateIntro(){
       let text = document.querySelector('#introduction').textContent;
-      this.user.introduction = text
-      console.log('text')
+      this.temp = text
     },
-    handleFileChange (e) {
+    handleCoverChange (e) {
       const files = e.target.files
       console.log('files', files)
       if (files.length === 0) {
@@ -113,6 +104,18 @@ export default {
         // 否則產生預覽圖
         const imageURL = window.URL.createObjectURL(files[0])
         this.user.cover = imageURL
+      }
+    },
+    handleAvatarChange (e) {
+      const files = e.target.files
+      console.log('files', files)
+      if (files.length === 0) {
+        // 使用者沒有選擇上傳的檔案
+        return
+      } else {
+        // 否則產生預覽圖
+        const imageURL = window.URL.createObjectURL(files[0])
+        this.user.avatar = imageURL
       }
     }
   }
@@ -146,6 +149,15 @@ export default {
     object-position: initial;
     height: 200px;
   }
+  .cover-grayLayer{
+    position: absolute;
+    height: 200px;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: #171725;
+    opacity: 0.5;
+  }
   .cover-edit {
     position: absolute;
     top: 50%;
@@ -155,14 +167,34 @@ export default {
     justify-content: space-around;
     width: 80px;
   }
-  .cover-edit-tool {
+  .cover-edit-tool img{
     width: 24px;
     height: 24px;
+    cursor: pointer;
   }
   .avatar {
     width: 140px;
     height: 140px;
     position: relative;
+  }
+  .avatar>img{
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: initial;
+  }
+  .avatar-grayLayer{
+    width: 136px;
+    height: 136px;  
+    background-color: #171725;
+    opacity: 0.5;
+    position:absolute;
+    border-radius: 50%;
+    border: white 3px solid;
+    box-sizing:border-box;
+    left: 2px;
+    top: 1px;
   }
   .avatar-edit {
     width: 24px;
@@ -171,6 +203,7 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+    cursor: pointer;
   }
   .avatar-block {
     position: relative;
@@ -216,6 +249,8 @@ export default {
     position: absolute;
     top: 100%;
     right:0;
+    font-size: 12px;
+    color: #696974;
   }
   .textarea {
     height: 100%;

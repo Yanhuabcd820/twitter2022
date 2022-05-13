@@ -37,7 +37,7 @@
       <nav>
         <router-link to="/regist">註冊</router-link>
         <p>・</p>
-        <router-link to="">後台登入</router-link>
+        <router-link to="/admin">後台登入</router-link>
       </nav>
     </form>
   </div>
@@ -46,7 +46,7 @@
 <style lang="css" src="./../assets/css/LoginRegist.css" scoped></style>
 
 <script>
-import authorizationAPI from './../apis/authorization'
+//import authorizationAPI from './../apis/authorization'
 //import { Toast } from './../utils/helpers'
 
 export default {
@@ -58,23 +58,24 @@ export default {
     }
   },
   methods: {
-    handleSubmit (e) {
-      
-      console.log(e)
-      authorizationAPI.signIn({
-        account: this.account,
-        password: this.password
-      }).then(response => {
-        console.log(response)
-        console.log('1')
+    handleSubmit () {
+      //console.log(e)
+      //authorizationAPI.signIn({
+      //  account: this.account,
+      //  password: this.password
+      //}).then(response => {
+      //  console.log(response)
+      //  console.log('1')
         // 取得 API 請求後的資料
         //const { data } = response
         // 將 token 存放在 localStorage 內
-        //localStorage.setItem('token', data.token)
-
+        const data = {
+          token: 'justForTest'
+        }
+        localStorage.setItem('token', data.token)
         // 成功登入後轉址到餐廳首頁
-        //this.$router.push('/mainPage')
-      })
+        this.$router.push('/mainPage')
+      //})
     },
     
   }

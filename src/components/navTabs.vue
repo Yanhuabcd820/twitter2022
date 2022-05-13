@@ -53,10 +53,10 @@ li {
   color: #657786;
   position: relative;
 }
-.router-link-exact-active {
+.router-link-exact-active{
   color: var(--main-color);
 }
-li .router-link-exact-active {
+li .router-link-exact-active{
   border-bottom: var(--main-color) 2px solid;
 }
 

@@ -110,6 +110,7 @@ export default {
   }
   .user-follow p {
     margin-right: 20px;
+    color: #171725;
   }
   .udline:hover{
     text-decoration: underline;

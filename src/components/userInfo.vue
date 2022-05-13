@@ -1,5 +1,6 @@
 <template>
   <div>
+    <popupUserEdit v-if="isClickPopupTweet" @close-PopupTweet="closePopupTweet" />
     <div class="user-block">
       <div class="user-cover">
         <img src="../assets/images/cover.png" alt="">
@@ -8,7 +9,7 @@
         <div class="user-avatar">
           <img src="../assets/images/AvatarBigger.png" alt="">
         </div>
-        <div class="user-edit">
+        <div class="user-edit" @click.prevent.stop="openPopupTweet">
           編輯個人資料
         </div>
       </div>
@@ -30,12 +31,34 @@
 </template>
 
 <script>
+import popupUserEdit from "../components/popupUserEdit";
+
 export default {
   props: {
     user: {
       type: Object,
       required: true
     }
+  },
+  components: {
+    popupUserEdit
+  },
+  data() {
+    return {
+      isClickPopupTweet: false,
+    };
+  },
+  methods: {
+    openPopupTweet() {
+      console.log(this.isClickPopupTweet);
+      this.isClickPopupTweet = true;
+    },
+    closePopupTweet(payload) {
+      const { isClickPopupTweet } = payload;
+      this.isClickPopupTweet = isClickPopupTweet;
+
+      console.log("closePopupTweet", this.isClickPopupTweet);
+    },
   }
 }
 </script>

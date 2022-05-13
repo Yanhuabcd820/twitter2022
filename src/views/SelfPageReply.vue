@@ -54,6 +54,22 @@ import userTitle from "../components/userTitle";
 import navTabs from "../components/navTabs";
 
 
+const dummyUser = {
+  "id": 1,
+  "account": "heyjohn",
+  "name": "John Doe",
+  "email": "root@example.com",
+  "role": "admin",
+  "introduction": "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.",
+  "avatar": "../assets/images/AvatarBigger.png",
+  "cover": "../assets/images/cover.png",
+  "followingCount": 34,
+  "followerCount": 59,
+  "isFollowing": true,
+  "createdAt": "2022-01-18T07:23:18.000Z",
+  "updatedAt": "2022-01-18T07:23:18.000Z"
+}
+
 const dummyData = {
   "user": {
     "id": 1,
@@ -95,10 +111,19 @@ export default {
   data() {
     return {
       user: {
-        "id": -1,
-        "account": "",
-        "name": "",
-        "avatar": "",
+        id: -1,
+        account: "",
+        name: "",
+        email: "",
+        role: "",
+        introduction: "",
+        avatar: "",
+        cover: "",
+        followingCount: -1,
+        followerCount: -1,
+        isFollowing: false,
+        createdAt: "",
+        updatedAt: ""
       },
       replies: [],
       isMe: true
@@ -106,8 +131,8 @@ export default {
   },
   methods: {
     fetchData(){
-      const {id,account,name,avatar} = dummyData.user;
-      this.user = {id,account,name,avatar}
+      const {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt} = dummyUser
+      this.user = {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt}
       this.replies = [...dummyData.replies]
     }
   },

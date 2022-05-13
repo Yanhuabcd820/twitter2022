@@ -104,7 +104,7 @@ export default {
     userInfo,
     userTitle,
     navTabs,
-    userInfoOther
+    userInfoOther,
   },
   data() {
     return {
@@ -124,7 +124,8 @@ export default {
         updatedAt: ""
       },
       tweets: [],
-      isMe: true
+      isMe: true,
+      isClickPopupEditModal: false
     };
   },
   methods: {

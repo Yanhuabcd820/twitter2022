@@ -43,9 +43,9 @@
             placeholder="請輸入帳號"
             required
             autofocus
-            v-model="name"
+            v-model="user.name"
           >
-          <div style="text-align:right">8/50</div>
+          <div class="length">{{user.name.length}}/50</div>
         </div>
         <div class="form-label-group" style="height:147px">
           <label for="introduction">自我介紹</label>
@@ -60,9 +60,9 @@
             v-model="introduction"
           >
           -->
-          <div class="textarea" contenteditable="true" placeholder="請輸入" id="introduction"
-            name="introduction">{{test}}</div>
-          <div class="length">8/50</div>
+          <div class="textarea" contenteditable="true" placeholder="user.name" id="introduction"
+            name="introduction" @keydown="updateIntro">{{user.introduction}}</div>
+          <div class="length">{{user.introduction.length}}/160</div>
         </div>
       </div>
     </div>
@@ -70,11 +70,23 @@
 </template>
 <script>
 export default {
-  name: "popupTweet",
+  name: "popupUserEdit",
+  props: {
+    initialUser: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
-      popupText: "",
-      test:'ffff'
+      user : {
+        id: -1,
+        account: "",
+        avatar: "",
+        cover: "",
+        name: this.initialUser.name,
+        introduction: this.initialUser.introduction
+      }
     };
   },
   methods: {
@@ -83,7 +95,12 @@ export default {
         isClickPopupTweet: false,
       });
     },
-  },
+    updateIntro(){
+      let text = document.querySelector('#introduction').textContent;
+      this.user.introduction = text
+      console.log('text')
+    }
+  }
 };
 </script>
 
@@ -181,8 +198,8 @@ export default {
     right:0;
   }
   .textarea {
-    height: 100px;
-    width: 300px;
+    height: 100%;
+    width: 100%;
     padding: 4px;
     border: 0;
     overflow: auto;

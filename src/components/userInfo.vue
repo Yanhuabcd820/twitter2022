@@ -1,6 +1,6 @@
 <template>
   <div>
-    <popupUserEdit v-if="isClickPopupTweet" @close-PopupTweet="closePopupTweet" />
+    <popupUserEdit v-if="isClickPopupTweet" @close-PopupTweet="closePopupTweet" :initial-user="user"/>
     <div class="user-block">
       <div class="user-cover">
         <img src="../assets/images/cover.png" alt="">

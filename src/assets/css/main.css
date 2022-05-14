@@ -97,6 +97,8 @@
 .tweet-content {
   box-sizing: border-box;
   flex-shrink: 1;
+  /* background-color: aqua; */
+  width: 100%;
 }
 
 .tweet-name-group {
@@ -107,6 +109,10 @@
 
 .tweet-name {
   margin-right: 12px;
+}
+
+.tweet-name:hover {
+  text-decoration: underline;
 }
 
 .tweet-account {

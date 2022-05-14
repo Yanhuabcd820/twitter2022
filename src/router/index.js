@@ -31,6 +31,11 @@ const routes = [
     name: 'replyPage',
     component: () => import('../views/reply.vue')
   },
+  // {
+  //   path: '/reply',
+  //   name: 'replyPage',
+  //   component: () => import('../views/reply.vue')
+  // },
   /*
   {
     path: '/:account',

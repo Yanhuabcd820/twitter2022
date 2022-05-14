@@ -62,6 +62,19 @@
   flex-shrink: 0;
 }
 
+.popupReply-avatar-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.popupReply-avatar-img>img {
+  width: 100%;
+  height: 100%;
+}
+
 .popupReply-avatar {
   position: relative;
 }
@@ -110,7 +123,14 @@
 
 .popupReply-again-avatar {
   width: 50px;
-  /* margin-right: 8px; */
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.popupReply-again-avatar>img {
+  width: 100%;
+  height: 100%;
 }
 
 .popupReply-again-inner>textarea {

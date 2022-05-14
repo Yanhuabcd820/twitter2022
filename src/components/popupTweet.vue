@@ -24,13 +24,19 @@
           <div class="post-text-num-warning" v-if="popupText.length >= 140">
             字數不可超過 140 字
           </div>
-          <div class="btn popupTweet-btn active">推文</div>
+          <div
+            class="btn popupTweet-btn active"
+            @click.prevent.stop="handleSubmit"
+          >
+            推文
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { v4 as uuidv4 } from "uuid";
 export default {
   name: "popupTweet",
   data() {
@@ -43,6 +49,15 @@ export default {
       this.$emit("close-PopupTweet", {
         isClickPopupTweet: false,
       });
+    },
+    handleSubmit() {
+      console.log(this.popupText);
+      this.$emit("after-create-tweet", {
+        tweetId: uuidv4(),
+        tweetText: this.popupText,
+      });
+      this.popupText = "";
+      this.closePopupTweet(); /*關掉PopupTweet*/
     },
   },
 };

@@ -2,7 +2,7 @@
   <div class="container">
     <form @click.stop.prevent="handleSubmit">
       <div class="logo">
-        <img src="./../assets/icons/logo@2x.png" alt="">
+        <img src="./../assets/icons/logo@2x.png" alt="" />
       </div>
       <div class="title">
         <h3>建立你的稱號</h3>
@@ -17,7 +17,7 @@
           required
           autofocus
           v-model="account"
-        >
+        />
       </div>
       <div class="form-label-group">
         <label for="name">名稱</label>
@@ -29,7 +29,7 @@
           required
           autofocus
           v-model="name"
-        >
+        />
       </div>
       <div class="form-label-group">
         <label for="email">Email</label>
@@ -41,7 +41,7 @@
           required
           autofocus
           v-model="email"
-        >
+        />
       </div>
       <div class="form-label-group">
         <label for="password">密碼</label>
@@ -53,7 +53,7 @@
           required
           autofocus
           v-model="password"
-        >
+        />
       </div>
       <div class="form-label-group">
         <label for="passwordCheck">密碼確認</label>
@@ -65,7 +65,7 @@
           required
           autofocus
           v-model="passwordCheck"
-        >
+        />
       </div>
       <button class="confirm-btn" type="submit">
         <p>註冊</p>
@@ -79,32 +79,32 @@
 
 <style lang="css" src="./../assets/css/LoginRegist.css" scoped></style>
 <style scoped>
-  nav {
-    justify-content: center;
-  }
+nav {
+  justify-content: center;
+}
 </style>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      account: '',
-      name: '',
-      email: '',
-      password: '',
-      passwordCheck: ''
-    }
+      account: "",
+      name: "",
+      email: "",
+      password: "",
+      passwordCheck: "",
+    };
   },
   methods: {
-    handleSubmit () {
+    handleSubmit() {
       const data = JSON.stringify({
         name: this.name,
         email: this.email,
         password: this.password,
-        passwordCheck: this.passwordCheck
-      })
-      console.log('data', data)
-    }
-  }
-}
+        passwordCheck: this.passwordCheck,
+      });
+      console.log("data", data);
+    },
+  },
+};
 </script>

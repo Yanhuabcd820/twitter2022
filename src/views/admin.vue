@@ -51,5 +51,28 @@ export default {
       password: "",
     };
   },
+  methods: {
+    handleSubmit () {
+      // 暫時，避免錯誤
+      if(this.account === 'root@example.com' || this.account === 'root') {
+        console.log('you are admin')
+        return
+      }
+      authorizationAPI.signIn({
+        account: this.account,
+        password: this.password
+      }).then(response => {
+        console.log(response)
+        // 取得 API 請求後的資料
+        const { data } = response
+        // 將 token 存放在 localStorage 內
+        localStorage.setItem('token', data.data.token)
+        //vuex: setting current user
+        this.$store.commit('setCurrentUser',data.data.user)
+        // 成功登入後轉址到餐廳首頁
+        this.$router.push('/adminTweetList')
+
+    },
+  }
 };
 </script>

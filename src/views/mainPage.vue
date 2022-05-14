@@ -18,13 +18,8 @@
           <div class="btn active">推文</div>
         </div>
       </div>
-      <div class="tweet-wrap">
-        <div
-          class="tweet-card"
-          v-for="tweet in tweets"
-          :key="tweet.id"
-          @after-create-tweet="afterCreateTweet"
-        >
+      <div class="tweet-wrap" @after-create-tweet="afterCreateTweet">
+        <div class="tweet-card" v-for="tweet in tweets" :key="tweet.id">
           <div class="tweet-avatar">
             <img :src="tweet.User.avatar" alt="" />
           </div>
@@ -309,25 +304,24 @@ export default {
       this.avatar = avatar;
     },
 
+    afterCreateTweet(payload) {
+      /* payload顯示不出來!! */
+      const { tweetText, tweetId } = payload;
+      console.log("payload", payload);
+
+      this.tweets.push({
+        description: tweetText,
+        id: tweetId,
+      });
+    },
     openPopupTweet() {
-      console.log(this.isClickPopupTweet);
+      //將彈跳視窗打開
       this.isClickPopupTweet = true;
     },
-    closePopupTweet(payload) {
-      const { isClickPopupTweet } = payload;
+    closePopupTweet(payloadPopup) {
+      //將彈跳視窗關閉
+      const { isClickPopupTweet } = payloadPopup;
       this.isClickPopupTweet = isClickPopupTweet;
-
-      console.log("closePopupTweet", this.isClickPopupTweet);
-    },
-    afterCreateTweet(payload) {
-      const { tweetId, tweetText } = payload;
-      console.log(tweetText);
-      console.log(tweetId);
-      // this.tweets.push({
-      //   id: tweetId,
-      //   description: tweetText,
-      // });
-      // console.log(payload);
     },
   },
 

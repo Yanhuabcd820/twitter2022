@@ -42,22 +42,23 @@ export default {
   data() {
     return {
       popupText: "",
+      // id:'',
     };
   },
   methods: {
-    closePopupTweet() {
-      this.$emit("close-PopupTweet", {
-        isClickPopupTweet: false,
-      });
-    },
     handleSubmit() {
-      console.log(this.popupText);
+      console.log("handleSubmit");
       this.$emit("after-create-tweet", {
         tweetId: uuidv4(),
         tweetText: this.popupText,
       });
       this.popupText = "";
       this.closePopupTweet(); /*關掉PopupTweet*/
+    },
+    closePopupTweet() {
+      this.$emit("close-PopupTweet", {
+        isClickPopupTweet: false,
+      });
     },
   },
 };

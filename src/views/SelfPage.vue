@@ -3,7 +3,7 @@
     <navigation />
     <div class="main">
       <userTitle :userName="user.name" :tweetNum="tweets.length"/>
-      <userInfo :user="user" v-if="isMe"/>
+      <userInfo :initial-user="user" v-if="isMe"/>
       <userInfoOther v-else/>
       <navTabs />
       <div class="tweet-wrap">
@@ -61,8 +61,8 @@ const dummyUser = {
   "email": "root@example.com",
   "role": "admin",
   "introduction": "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.",
-  "avatar": "../assets/images/AvatarBigger.png",
-  "cover": "../assets/images/cover.png",
+  "avatar": "https://cdn.hk01.com/di/media/images/dw/20200804/367368833650003968.jpeg/WZNYUVhEOnTmxwVbLcUyZLqMQJKiBeb8nWt9dZ1rfXU?v=w1920",
+  "cover": "https://scontent.frmq2-2.fna.fbcdn.net/v/t31.18172-8/21752675_1819087734773580_6613367383358618796_o.jpg?_nc_cat=104&ccb=1-6&_nc_sid=19026a&_nc_ohc=i9AuuAiYA3AAX-J3HnU&_nc_ht=scontent.frmq2-2.fna&oh=00_AT-Cz6zvSyiHcugn54znkPIhWKWYKa1Wzxa0bCXjVR5zfQ&oe=62A46C73",
   "followingCount": 34,
   "followerCount": 59,
   "isFollowing": true,

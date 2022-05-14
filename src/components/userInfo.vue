@@ -1,13 +1,13 @@
 <template>
   <div>
-    <popupUserEdit v-if="isClickPopupTweet" @close-PopupTweet="closePopupTweet" :initial-user="user"/>
+    <popupUserEdit v-if="isClickPopupTweet" @close-PopupTweet="closePopupTweet" :initial-user="user" @after-edit-info="AfterEditInfo"/>
     <div class="user-block">
       <div class="user-cover">
-        <img src="../assets/images/cover.png" alt="">
+        <img :src="user.cover" alt="">
       </div>
       <div class="avatar-block">
         <div class="user-avatar">
-          <img src="../assets/images/AvatarBigger.png" alt="">
+          <img :src="user.avatar" alt="">
         </div>
         <div class="user-edit" @click.prevent.stop="openPopupTweet">
           編輯個人資料
@@ -22,8 +22,8 @@
           {{user.introduction}} 
         </p>
         <div class="user-follow">
-          <router-link to="/SelfPage/Following"><p class="fz14 udline">{{user.followingCount}}個跟隨中</p></router-link>
-          <router-link to="/SelfPage/Follower"><p class="fz14 udline">{{user.followerCount}}位跟隨者</p></router-link>
+          <router-link to="/SelfPage/Following"><p class="fz14 udline">{{initialUser.followingCount}}個跟隨中</p></router-link>
+          <router-link to="/SelfPage/Follower"><p class="fz14 udline">{{initialUser.followerCount}}位跟隨者</p></router-link>
         </div>
       </div>
     </div>
@@ -35,7 +35,7 @@ import popupUserEdit from "../components/popupUserEdit";
 
 export default {
   props: {
-    user: {
+    initialUser: {
       type: Object,
       required: true
     }
@@ -46,6 +46,14 @@ export default {
   data() {
     return {
       isClickPopupTweet: false,
+       user : {
+        id: this.initialUser.id,
+        account: this.initialUser.account,
+        avatar: this.initialUser.avatar,
+        cover: this.initialUser.cover,
+        name: this.initialUser.name,
+        introduction: this.initialUser.introduction
+      },
     };
   },
   methods: {
@@ -59,6 +67,12 @@ export default {
 
       console.log("closePopupTweet", this.isClickPopupTweet);
     },
+    AfterEditInfo(payload){
+      const { avatar,cover } = payload
+      console.log(payload)
+      this.user.avatar = avatar
+      this.user.cover = cover
+    }
   }
 }
 </script>
@@ -75,6 +89,12 @@ export default {
     line-height: 18.82px;
     color: var(--secondary-text-color);
   }
+  .user-cover>img {
+    object-fit: cover;
+    object-position: initial;
+    height: 200px;
+    width: 639px;
+  }
   .avatar-block {
     position: relative;
     display: flex;
@@ -85,6 +105,14 @@ export default {
     position: absolute;
     top: -70px;
     left: 16px;
+  }
+  .user-avatar>img{
+    object-fit: cover;
+    object-position: initial;
+    height: 140px;
+    width: 140px;
+    border-radius: 50%;
+    border: 3px white solid;
   }
   .user-edit {
     width: 128px;
@@ -97,6 +125,12 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  .user-edit:hover {
+    border: var(--main-color) 1px solid;
+    color: white;
+    background-color: var(--main-color);
+    cursor: pointer;
   }
   .user-info{
     margin-left: 16px;

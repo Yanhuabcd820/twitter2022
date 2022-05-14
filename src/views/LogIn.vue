@@ -46,7 +46,7 @@
 <style lang="css" src="./../assets/css/LoginRegist.css" scoped></style>
 
 <script>
-//import authorizationAPI from './../apis/authorization'
+import authorizationAPI from './../apis/authorization'
 //import { Toast } from './../utils/helpers'
 
 export default {
@@ -60,22 +60,19 @@ export default {
   methods: {
     handleSubmit () {
       //console.log(e)
-      //authorizationAPI.signIn({
-      //  account: this.account,
-      //  password: this.password
-      //}).then(response => {
-      //  console.log(response)
-      //  console.log('1')
+      authorizationAPI.signIn({
+        account: this.account,
+        password: this.password
+      }).then(response => {
+        console.log(response)
+        console.log('1')
         // 取得 API 請求後的資料
-        //const { data } = response
+        const { data } = response
         // 將 token 存放在 localStorage 內
-        const data = {
-          token: 'justForTest'
-        }
-        localStorage.setItem('token', data.token)
+        localStorage.setItem('token', data.data.token)
         // 成功登入後轉址到餐廳首頁
-        this.$router.push('/mainPage')
-      //})
+        //this.$router.push('/mainPage')
+      })
     },
     
   }

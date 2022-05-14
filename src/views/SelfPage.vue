@@ -52,8 +52,12 @@ import userTitle from "../components/userTitle";
 import navTabs from "../components/navTabs";
 import { fromNowFilter } from './../utils/mixins'
 
+import userAPI from './../apis/user'
+
+
 // 要得到使用者info、使用者自己的推文、推計追蹤者的資料
 // 使用者info丟進去component，使用者自己的推文直接render
+/*
 const dummyUser = {
   "id": 1,
   "account": "heyjohn",
@@ -69,6 +73,7 @@ const dummyUser = {
   "createdAt": "2022-01-18T07:23:18.000Z",
   "updatedAt": "2022-01-18T07:23:18.000Z"
 }
+*/
 
 const dummyTweets = 
 {
@@ -129,16 +134,25 @@ export default {
     };
   },
   methods: {
-    fetchUser(){
-      const {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt} = dummyUser
-      this.user = {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt}
+    async fetchUser(userId){
+      try {
+        const response = await userAPI.getUser(userId)
+        console.log('res', response)
+      } catch (error) {
+        console.log('error', error)
+      }
+
+      //const {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt} = dummyUser
+      //this.user = {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt}
     },
     fetchTweets(){
       this.tweets = [...dummyTweets.tweets]
     }
   },
   created(){
-    this.fetchUser()
+    const { id: userId } = this.$route.params
+    console.log(userId)
+    this.fetchUser(userId)
     this.fetchTweets()
   },
   mixins: [fromNowFilter]

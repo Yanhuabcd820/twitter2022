@@ -45,7 +45,7 @@
             id="name"
             name="name"
             type="text"
-            placeholder="請輸入帳號"
+            placeholder="請輸入名稱"
             required
             autofocus
             v-model="user.name"
@@ -55,7 +55,7 @@
         <div class="form-label-group" style="height:147px">
           <label for="introduction">自我介紹</label>
           <div class="textarea" contenteditable="true" id="introduction"
-            name="introduction" @keydown="updateIntro">{{user.introduction}}</div>
+            name="introduction"  @keydown="updateIntro">{{user.introduction}}</div>
           <div class="length">{{temp.length}}/160</div>
         </div>
       </div>

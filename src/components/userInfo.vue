@@ -73,12 +73,19 @@ export default {
       this.user.avatar = avatar
       this.user.cover = cover
     },
-    fetchUser(){
-      this.user = {...this.initialUser}
+    //fetchUser(){
+    //  this.user = {...this.initialUser}
+    //}
+    async fetchUser(){
+      
+      const response = await this.initialUser
+      console.log(response)
+
     }
   },
   created(){
-    setTimeout(() => this.fetchUser(), 1000)
+    //setTimeout(() => this.fetchUser(), 1000)
+    this.fetchUser()
   }
 }
 </script>

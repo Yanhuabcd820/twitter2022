@@ -53,7 +53,7 @@ import navTabs from "../components/navTabs";
 import { fromNowFilter } from './../utils/mixins'
 
 import userAPI from './../apis/user'
-
+import { mapState } from 'vuex'
 
 // 要得到使用者info、使用者自己的推文、推計追蹤者的資料
 // 使用者info丟進去component，使用者自己的推文直接render
@@ -130,8 +130,8 @@ export default {
         updatedAt: ""
       },
       tweets: [],
-      isMe: true,
-      isClickPopupEditModal: false
+      isMe: false,
+      isClickPopupEditModal: false,
     };
   },
   methods: {
@@ -154,12 +154,24 @@ export default {
       } catch (error) {
         console.log('error', error)
       }
+    },
+    isThisMe(paramsId){
+
+      console.log('params', paramsId)
+      console.log('vuex',this.currentUser)
+
+      //this.isMe = this.currentUser.id===paramsId
+      //console.log(this.isMe)
     }
+  },  
+  computed: {
+    ...mapState(['currentUser'])
   },
   created(){
     const { id: userId } = this.$route.params
     this.fetchUser(userId)
     this.fetchTweets(userId)
+    this.isThisMe(userId)
   },
   mixins: [fromNowFilter]
 };

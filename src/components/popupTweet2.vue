@@ -46,22 +46,20 @@ export default {
     };
   },
   methods: {
-    closePopupTweet() {
-      this.$emit("close-PopupTweet", {
-        isClickPopupTweet: false,
-      });
-    },
     handleSubmit() {
       console.log("handleSubmit");
-      if (!this.popupText.trim()) {
-        this.closePopupTweet();
-        return;
-      }
       this.$emit("after-create-tweet", {
         tweetId: uuidv4(),
         tweetText: this.popupText,
       });
       this.popupText = "";
+
+      this.closePopupTweet(); /*關掉PopupTweet*/
+    },
+    closePopupTweet() {
+      this.$emit("close-PopupTweet", {
+        isClickPopupTweet: false,
+      });
     },
   },
 };

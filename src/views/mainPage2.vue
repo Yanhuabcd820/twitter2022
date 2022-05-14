@@ -312,12 +312,14 @@ export default {
       this.tweets = tweets;
     },
     afterCreateTweet(payload) {
+      /* payload顯示不出來!! */
       const { tweetText, tweetId } = payload;
+      // const { tweetText } = payload;
       console.log("payload", payload);
-      this.isClickPopupTweet = false; /*關掉PopupTweet*/
+
       this.tweets.push({
-        id: tweetId,
         description: tweetText,
+        id: tweetId,
         user: {
           id: this.user.id,
           account: this.user.account,

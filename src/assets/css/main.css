@@ -4,45 +4,64 @@
   scrollbar-width: none;
   border-right: 1px solid var(--border-color);
   border-left: 1px solid var(--border-color);
-
 }
 
 .main::-webkit-scrollbar {
   width: 0px;
 }
 
-.user-title h4 {
+.user-title {
+  width: 624px;
   padding: 24px;
+  background-color: #fff;
   border-bottom: 1px solid var(--border-color);
+  position: fixed;
+  top: 0;
+  z-index: 5;
 }
 
 .post {
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
   height: 156px;
-  padding: 16px 28px;
+  padding: 16px 24px;
+  margin-top: 84px;
   color: var(--secondary-text-color);
   border-bottom: 10px solid var(--border-color);
   cursor: pointer;
 }
 
 .post-inner {
-  display: flex;
-  align-items: center;
+  align-self: flex-start;
+  flex-shrink: 1;
 }
 
 .post-avatar {
+  display: block;
   width: 50px;
   height: 50px;
   border-radius: 50%;
   overflow: hidden;
   margin-right: 8px;
+  align-items: flex-start;
+  align-self: flex-start;
 }
 
 .post-avatar>img {
   width: 100%;
   height: 100%;
+}
+
+.post-inner-tweet {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+  /* border: 1px solid; */
+}
+
+.post-inner-tweet h5 {
+  padding-top: 10px;
 }
 
 .post-inner-btn {

@@ -3,11 +3,11 @@
     <popupUserEdit v-if="isClickPopupTweet" @close-PopupTweet="closePopupTweet" :initial-user="user" @after-edit-info="AfterEditInfo"/>
     <div class="user-block">
       <div class="user-cover">
-        <img :src="user.cover" alt="">
+        <img :src="initialUser.cover" alt="">
       </div>
       <div class="avatar-block">
         <div class="user-avatar">
-          <img :src="user.avatar" alt="">
+          <img :src="initialUser.avatar" alt="">
         </div>
         <div class="user-edit" @click.prevent.stop="openPopupTweet">
           編輯個人資料
@@ -64,8 +64,6 @@ export default {
     closePopupTweet(payload) {
       const { isClickPopupTweet } = payload;
       this.isClickPopupTweet = isClickPopupTweet;
-
-      console.log("closePopupTweet", this.isClickPopupTweet);
     },
     AfterEditInfo(payload){
       const { avatar,cover } = payload
@@ -74,13 +72,13 @@ export default {
       this.user.cover = cover
     },
     fetchUser(){
-      this.user = {...this.initialUser}
+      this.user = this.initialUser
+      console.log('initial-user in userInfo',this.initialUser)
     }
   },
   created(){
-    //const test =  this.initialUser
-    //console.log('this.initial',test)
-    setTimeout(() => this.fetchUser(), 1000)
+    //setTimeout(this.fetchUser(),2000)
+    this.fetchUser()
   }
 }
 </script>

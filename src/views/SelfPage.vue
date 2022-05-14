@@ -74,7 +74,7 @@ const dummyUser = {
   "updatedAt": "2022-01-18T07:23:18.000Z"
 }
 */
-/*
+
 const dummyTweets = 
 {
   "user": {
@@ -100,7 +100,7 @@ const dummyTweets =
     }
   ]
 }
-*/
+
 
 export default {
   name: "selfPage",
@@ -147,18 +147,21 @@ export default {
         console.log('error', error)
       }
     },
-    async fetchTweets(userId){
-      try {
-        const response = await userAPI.getUserTweets(userId)
-        console.log('response', response)
-      } catch (error) {
-        console.log('error', error)
-      }
+    //async fetchTweets(userId){
+    //  try {
+    //    const response = await userAPI.getUserTweets(userId)
+    //    console.log('response', response)
+    //  } catch (error) {
+    //    console.log('error', error)
+    //  }
+    //},
+    fetchTweets(){
+      this.tweets = [...dummyTweets.tweets]
     },
     isThisMe(paramsId){
-      console.log('params', paramsId)
-      console.log('vuex',this.currentUser.id)
-      console.log(this.isMe)
+      //console.log('params', paramsId)
+      //console.log('vuex',this.currentUser.id)
+      //console.log(this.isMe)
       this.isMe = this.currentUser.id == paramsId   // 驗證是不是我
     }
   },  

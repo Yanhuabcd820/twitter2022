@@ -130,7 +130,7 @@ export default {
         updatedAt: ""
       },
       tweets: [],
-      isMe: false,
+      isMe: true,
       isClickPopupEditModal: false,
     };
   },
@@ -156,12 +156,10 @@ export default {
       }
     },
     isThisMe(paramsId){
-
       console.log('params', paramsId)
-      console.log('vuex',this.currentUser)
-
-      //this.isMe = this.currentUser.id===paramsId
-      //console.log(this.isMe)
+      console.log('vuex',this.currentUser.id)
+      console.log(this.isMe)
+      this.isMe = this.currentUser.id == paramsId   // 驗證是不是我
     }
   },  
   computed: {

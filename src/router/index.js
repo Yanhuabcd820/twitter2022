@@ -38,7 +38,7 @@ const routes = [
     component: () => import('../views/SelfPage.vue')
   },*/
   {
-    path: '/SelfPage',
+    path: '/user/:id',
     name: 'SelfPage',
     component: () => import('../views/SelfPage.vue')
   },

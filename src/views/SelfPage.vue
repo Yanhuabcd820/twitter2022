@@ -74,7 +74,7 @@ const dummyUser = {
   "updatedAt": "2022-01-18T07:23:18.000Z"
 }
 */
-
+/*
 const dummyTweets = 
 {
   "user": {
@@ -100,6 +100,7 @@ const dummyTweets =
     }
   ]
 }
+*/
 
 export default {
   name: "selfPage",
@@ -137,23 +138,28 @@ export default {
     async fetchUser(userId){
       try {
         const response = await userAPI.getUser(userId)
-        console.log('res', response)
+        console.log('response', response)
+        // dummyUser 對應 response.data.user
+        const {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt} = response.data.user
+        this.user = {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt}
+        console.log('user',this.user)
       } catch (error) {
         console.log('error', error)
       }
-
-      //const {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt} = dummyUser
-      //this.user = {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt}
     },
-    fetchTweets(){
-      this.tweets = [...dummyTweets.tweets]
+    async fetchTweets(userId){
+      try {
+        const response = await userAPI.getUserTweets(userId)
+        console.log('response', response)
+      } catch (error) {
+        console.log('error', error)
+      }
     }
   },
   created(){
     const { id: userId } = this.$route.params
-    console.log(userId)
     this.fetchUser(userId)
-    this.fetchTweets()
+    this.fetchTweets(userId)
   },
   mixins: [fromNowFilter]
 };

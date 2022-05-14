@@ -46,13 +46,13 @@ export default {
   data() {
     return {
       isClickPopupTweet: false,
-       user : {
-        id: this.initialUser.id,
-        account: this.initialUser.account,
-        avatar: this.initialUser.avatar,
-        cover: this.initialUser.cover,
-        name: this.initialUser.name,
-        introduction: this.initialUser.introduction
+      user : {
+        //id: this.initialUser.id,
+        //account: this.initialUser.account,
+        //avatar: this.initialUser.avatar,
+        //cover: this.initialUser.cover,
+        //name: this.initialUser.name,
+        //introduction: this.initialUser.introduction
       },
     };
   },
@@ -72,7 +72,13 @@ export default {
       console.log(payload)
       this.user.avatar = avatar
       this.user.cover = cover
+    },
+    fetchUser(){
+      this.user = {...this.initialUser}
     }
+  },
+  created(){
+    setTimeout(() => this.fetchUser(), 1000)
   }
 }
 </script>

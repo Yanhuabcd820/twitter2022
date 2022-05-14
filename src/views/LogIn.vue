@@ -59,6 +59,13 @@ export default {
   },
   methods: {
     handleSubmit () {
+
+      // 暫時，避免錯誤
+      if(this.account === 'root@example.com' || this.account === 'root') {
+        console.log('you are admin')
+        return
+      }
+
       authorizationAPI.signIn({
         account: this.account,
         password: this.password

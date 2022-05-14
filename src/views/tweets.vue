@@ -40,7 +40,7 @@
             <img :src="tweet.User.avatar" alt="" />
           </router-link>
           <router-link
-            :to="{ name: 'replyPage', params: { id: tweet.User.id } }"
+            :to="{ name: 'tweet', params: { id: tweet.User.id } }"
             class="tweet-content"
           >
             <router-link
@@ -385,7 +385,7 @@ import popupReply from "../components/popupReply";
 import { fromNowFilter } from "./../utils/mixins";
 
 export default {
-  name: "tweets",
+  name: "mainPage",
   components: {
     navigation,
     followTop,
@@ -491,6 +491,6 @@ export default {
 };
 </script>
 
-<style lang="css" src="@/assets/css/tweets.css" scoped></style>
+<style lang="css" src="@/assets/css/main.css" scoped></style>
 
 

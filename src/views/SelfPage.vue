@@ -138,11 +138,11 @@ export default {
     async fetchUser(userId){
       try {
         const response = await userAPI.getUser(userId)
-        console.log('response', response)
+        //console.log('response', response)
         // dummyUser 對應 response.data.user
         const {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt} = response.data.user
         this.user = {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt}
-        console.log('user',this.user)
+        //console.log('user',this.user)
       } catch (error) {
         console.log('error', error)
       }

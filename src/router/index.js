@@ -107,11 +107,11 @@ const routes = [
 
 
 const router = new VueRouter({
-  linkExactActiveClass: 'active',
+  // linkExactActiveClass: 'active',
   routes
 })
 
-router.beforeEach(async(to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   // 使用 dispatch 呼叫 Vuex 內的 actions
   await store.dispatch('fetchCurrentUser')
   next()

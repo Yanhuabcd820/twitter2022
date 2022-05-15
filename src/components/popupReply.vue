@@ -87,7 +87,7 @@ export default {
   methods: {
     closePopupReply() {
       this.$emit("close-PopupReply", {
-        //這裡只是要告訴父層已經點擊了關閉PopupReply按鈕
+        isClickPopupReplyTweet: false,
       });
     },
 

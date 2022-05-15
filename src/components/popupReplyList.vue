@@ -13,27 +13,33 @@
       <div class="popupReply-text-wrap">
         <div class="popupReply-user">
           <div class="popupReply-avatar">
-            <img src="../assets/images/avatar_default.png" alt="" />
+            <div class="popupReply-avatar-img">
+              <img :src="tweet.User.avatar" alt="" />
+            </div>
           </div>
           <div class="popupReply-content">
             <div class="popupReply-name-group">
-              <p class="popupReply-name"><b>Apple</b></p>
-              <p class="popupReply-account fz14">@apple・3 小時</p>
+              <p class="popupReply-name">
+                <b>{{ tweet.User.name }}</b>
+              </p>
+              <p class="popupReply-account fz14">
+                @{{ tweet.User.account }}・{{ tweet.createdAt | fromNow }}
+              </p>
             </div>
             <div class="popupReply-text">
               <p>
-                Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis
-                ullamco fdfsdfscillum dolor. Voluptate exercitation incididunt
-                aliquip deserunt reprehenderit elit laborum.
+                {{ tweet.description }}
               </p>
 
-              <p class="reply-to fz14"><span>回覆</span> @apple</p>
+              <p class="reply-to fz14">
+                <span>回覆</span> @{{ tweet.User.name }}
+              </p>
             </div>
           </div>
         </div>
         <div class="popupReply-again-inner">
           <div class="popupReply-again-avatar">
-            <img src="../assets/images/avatar.png" alt="" />
+            <img :src="user.avatar" alt="" />
           </div>
           <textarea
             name=""
@@ -47,15 +53,35 @@
           <div class="post-text-num-warning" v-if="popupText.length >= 80">
             字數不可超過 80 字
           </div>
-          <div class="btn popupReply-btn active">推文</div>
+          <div class="post-text-num-warning" v-if="popupText.length <= 0">
+            不得為空白
+          </div>
+          <div
+            class="btn popupReply-btn active"
+            @click.prevent.stop="handleSubmit"
+          >
+            推文
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { v4 as uuidv4 } from "uuid";
+import { fromNowFilter } from "./../utils/mixins";
 export default {
   name: "popupReplyList",
+  props: {
+    tweet: {
+      type: Object,
+      required: true,
+    },
+    user: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       popupText: "",
@@ -67,7 +93,19 @@ export default {
         isClickPopupReplyList: false,
       });
     },
+    handleSubmit() {
+      console.log("handleSubmit33");
+      if (!this.popupText.trim()) {
+        return;
+      }
+      this.$emit("after-create-reply-list", {
+        tweetId: uuidv4(),
+        tweetText: this.popupText,
+      });
+      this.popupText = "";
+    },
   },
+  mixins: [fromNowFilter],
 };
 </script>
 

@@ -236,28 +236,23 @@ export default {
       /*關掉PopupTweet*/
       this.closePopupReply();
     },
-    async afterCreateTweet(formData) {
-      try {
-        for (let [name, value] of formData.entries()) {
-          console.log(name + ": " + value);
-        }
-        /*關掉PopupTweet*/
-        this.isClickPopupTweet = false;
-        const { data } = await tweetsApi.postTweets.create({
-          formData,
-        });
-
-        console.log("data", data);
-        // if (data.status !== "success") {
-        //   throw new Error(data.message);
-        // }
-        // this.$router.unshift({ name: "tweets" });
-      } catch (error) {
-        Toast.fire({
-          icon: "error",
-          title: "無法新增此筆tweet",
-        });
-      }
+    afterCreateTweet(payload) {
+      const { tweetText, tweetId } = payload;
+      console.log("payload", payload);
+      this.tweets.unshift({
+        id: tweetId,
+        description: tweetText,
+        User: {
+          id: this.user.id,
+          account: this.user.account,
+          name: this.user.name,
+          avatar: this.user.avatar,
+        },
+        createdAt: new Date(),
+        totalLikes: 0,
+      });
+      /*關掉PopupTweet*/
+      this.isClickPopupTweet = false;
     },
     openPopupTweet() {
       //將彈跳視窗打開

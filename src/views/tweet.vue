@@ -3,7 +3,13 @@
     <popupReplyList
       v-if="isClickPopupReplyList"
       @close-PopupReplyList="closePopupReplyList"
+      :tweet="tweet"
+      :user="user"
+      @after-create-reply-list="afterCreateReplyList"
     />
+    <!-- <popupReplyList /> -->
+    <!-- <popupReplyList />
+    <popupReply /> -->
     <navigation />
     <div class="reply-wrap">
       <router-link to="/tweets" class="reply-title">
@@ -35,7 +41,7 @@
         <div class="reply-count">
           <div class="reply-num"><span>34</span> 回覆</div>
           <div class="like-num">
-            <span> {{ tweet.totalLikes }}</span> 喜歡次數
+            <span> {{ tweet.LikedUsers.length }}</span> 喜歡次數
           </div>
         </div>
         <div class="reply-count-btn">
@@ -93,23 +99,45 @@
   </div>
 </template>
 <script>
-const dummyData = {
-  tweet: {
-    id: 56,
-    userId: 1,
-    description: "希望 Heroku 測試成功！！",
-    createdAt: "2022-05-14T15:55:01.000Z",
-    updatedAt: "2022-05-14T15:55:01.000Z",
-    User: {
-      id: 1,
-      account: "user1",
-      name: "user1",
-      avatar: "https://loremflickr.com/320/240/people/?random=73.0908396968221",
-    },
-    LikedUsers: [],
-    isLiked: false,
-    totalLikes: 0,
+const dummyUser = {
+  status: "success",
+  user: {
+    id: 1,
+    account: "user1",
+    name: "user1",
+    email: "user1@example.com",
+    password: "$2a$10$DRteVVsafLSZdoetjOpfdeSYGf3t5SuswRL3sRrSvdGpS3ACmU5NG",
+    role: "user",
+    introduction: "Deleniti est id inventore.",
+    avatar: "https://loremflickr.com/320/240/people/?random=73.0908396968221",
+    cover:
+      "https://loremflickr.com/320/240/restaurant,food/?random=79.46570629965461",
+    createdAt: "2022-05-13T15:55:16.000Z",
+    updatedAt: "2022-05-13T15:55:16.000Z",
   },
+};
+const dummyData = {
+  status: "Success",
+  statusCode: 200,
+  data: {
+    tweet: {
+      id: 56,
+      userId: 1,
+      description: "希望 Heroku 測試成功！！",
+      createdAt: "2022-05-14T15:55:01.000Z",
+      updatedAt: "2022-05-14T15:55:01.000Z",
+      User: {
+        id: 1,
+        account: "user1",
+        name: "user1",
+        avatar:
+          "https://loremflickr.com/320/240/people/?random=73.0908396968221",
+      },
+      LikedUsers: [],
+    },
+    isLiked: false,
+  },
+  message: "",
 };
 const dummyTweetsReplies = {
   status: "Success",
@@ -188,6 +216,7 @@ const dummyTweetsReplies = {
   },
   message: "",
 };
+
 import navigation from "../components/nav";
 import followTop from "../components/followTop";
 import popupReplyList from "../components/popupReplyList";
@@ -203,18 +232,36 @@ export default {
     return {
       isClickPopupReplyList: false,
       replies: dummyTweetsReplies.data.replies,
-      tweet: dummyData.tweet,
+      tweet: dummyData.data.tweet,
+      user: dummyUser.user,
     };
   },
   methods: {
     openPopupReplyList() {
-      // console.log(this.isClickPopupReplyList);
+      console.log(this.isClickPopupReplyList);
       this.isClickPopupReplyList = true;
     },
     closePopupReplyList(payload) {
       const { isClickPopupReplyList } = payload;
       this.isClickPopupReplyList = isClickPopupReplyList;
       // console.log("closePopupReplyList", this.isClickPopupReplyList);
+    },
+    afterCreateReplyList(payload) {
+      const { tweetText, tweetId } = payload;
+      console.log("payload", payload);
+      this.replies.unshift({
+        id: tweetId,
+        comment: tweetText,
+        User: {
+          id: this.user.id,
+          account: this.user.account,
+          name: this.user.name,
+          avatar: this.user.avatar,
+        },
+        createdAt: new Date(),
+      });
+      /*關掉PopupTweet*/
+      this.isClickPopupTweet = false;
     },
   },
   mixins: [fromNowFilter],

@@ -54,7 +54,7 @@ import { fromNowFilter } from './../utils/mixins'
 
 import userAPI from './../apis/user'
 import { mapState } from 'vuex'
-
+import { Toast } from './../utils/helpers'
 // 要得到使用者info、使用者自己的推文、推計追蹤者的資料
 // 使用者info丟進去component，使用者自己的推文直接render
 /*
@@ -169,6 +169,16 @@ export default {
     ...mapState(['currentUser'])
   },
   created(){
+    // 用token取得資料，取得後看role，是user或是admin，如果不是use，就跳出提醒，回到登入頁
+    const twitterToken = localStorage.getItem('token')
+    console.log(twitterToken)
+    if (!twitterToken){
+      Toast.fire({
+        icon: 'warning',
+        title: '請登入'
+      })
+      this.$router.push("/login");
+    }
     const { id: userId } = this.$route.params
     this.fetchUser(userId)
     this.fetchTweets(userId)

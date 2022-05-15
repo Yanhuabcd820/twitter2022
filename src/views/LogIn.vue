@@ -47,7 +47,7 @@
 
 <script>
 import authorizationAPI from "./../apis/authorization";
-//import { Toast } from './../utils/helpers'
+import { Toast } from './../utils/helpers'
 
 export default {
   data() {
@@ -62,6 +62,10 @@ export default {
       // 暫時，避免錯誤
       if (this.account === "root@example.com" || this.account === "root") {
         console.log("you are admin");
+        Toast.fire({
+          icon: 'warning',
+          title: '管理者帳號'
+        })
         return;
       }
       authorizationAPI
@@ -79,6 +83,10 @@ export default {
           this.$store.commit("setCurrentUser", data.data.user);
           // 成功登入後轉址到餐廳首頁
           this.$router.push("/tweets");
+          Toast.fire({
+            icon: 'success',
+            title: '成功登入'
+          })
         });
     },
   },

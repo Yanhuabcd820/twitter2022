@@ -87,6 +87,11 @@ export default {
   },
   created(){
     this.fetchUser()
+  },
+  watch:{
+    initialUser(){
+      this.user = this.initialUser
+    }
   }
 }
 </script>

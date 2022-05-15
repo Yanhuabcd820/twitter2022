@@ -9,29 +9,34 @@
 </template>
 
 <script>
-import { v4 as uuidv4 } from "uuid";
 export default {
+  props:{
+    userId: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       tabs: [
         {
-          id: uuidv4(),
+          id: 1,
           title: "推文",
-          path: "/SelfPage",
+          path: `/user/${this.userId}`,
         },
         {
-          id: uuidv4(),
+          id: 2,
           title: "推文與回覆",
-          path: "/SelfPage/reply",
+          path: `/user/${this.userId}/reply`,
         },
         {
-          id: uuidv4(),
+          id: 3,
           title: "喜歡的內容",
-          path: "/SelfPage/likes",
+          path: `/user/${this.userId}/like`,
         },
       ],
     };
-  },
+  }
 };
 </script>
 

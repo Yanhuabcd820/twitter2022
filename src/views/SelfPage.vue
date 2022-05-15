@@ -5,7 +5,7 @@
       <userTitle :userName="user.name" :tweetNum="tweets.length"/>
       <userInfo :initial-user="user" v-if="isMe"/>
       <userInfoOther v-else/>
-      <navTabs />
+      <navTabs :userId="$route.params.id"/>
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="tweet in tweets" :key="tweet.id">
           <div class="tweet-avatar">
@@ -51,7 +51,6 @@ import userInfoOther from "../components/userInfoOther";
 import userTitle from "../components/userTitle";
 import navTabs from "../components/navTabs";
 import { fromNowFilter } from './../utils/mixins'
-
 import userAPI from './../apis/user'
 import { mapState } from 'vuex'
 import { Toast } from './../utils/helpers'

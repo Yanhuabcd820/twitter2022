@@ -64,8 +64,8 @@ const routes = [
     component: () => import('../views/SelfPageReply.vue')
   },
   {
-    path: '/SelfPage/likes',
-    name: '/SelfPage/likes',
+    path: '/user/:id/like',
+    name: '/SelfPage/like',
     component: () => import('../views/SelfPageLikes.vue')
   },
   {

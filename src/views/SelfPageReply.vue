@@ -5,7 +5,7 @@
       <userTitle :userName="user.name" :tweetNum="2"/>
       <userInfo :initial-user="user" v-if="isMe"/>
       <userInfoOther v-else/>
-      <navTabs />
+      <navTabs :userId="$route.params.id"/>
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="reply in replies" :key="reply.id">
           <div class="tweet-avatar">
@@ -21,6 +21,7 @@
                 {{reply.comment}}
               </p>
             </div>
+            <!--
             <div class="tweet-count">
               <a href="#" class="tweet-reply">
                 <div class="tweet-reply-img">
@@ -34,7 +35,9 @@
                 </div>
                 <p class="fz14"><b>76</b></p>
               </a>
-            </div>
+            </div> 
+            -->
+
           </div>
         </div>
       </div>
@@ -118,8 +121,8 @@ export default {
         name: "",
         role: "",
         introduction: "",
-        avatar: "",
-        cover: "",
+        avatar: "https://dummyimage.com/600x400/a1a1a1/fff.jpg&text=+",
+        cover: "https://dummyimage.com/600x400/a1a1a1/fff.jpg&text=+",
         followingCount: -1,
         followerCount: -1,
         isFollowing: false,
@@ -141,7 +144,7 @@ export default {
     async fetchUserReplies(userId){
       try {
         const response = await userAPI.getUserReplies(userId)
-        console.log(response)
+        //console.log(response)
         this.replies = [...response.data.data.replies]
       } catch (error) {
         console.log(error)

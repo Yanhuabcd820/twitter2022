@@ -3,7 +3,7 @@
     <navigation />
     <div class="main">
       <userTitle :userName="user.name"/>
-      <navTabsFollow />
+      <navTabsFollow :userId="$route.params.id"/>
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="followship in followships" :key="followship.id">
           <div class="tweet-avatar">
@@ -38,6 +38,12 @@ import followTop from "../components/followTop";
 import userTitle from "../components/userTitle.vue"
 import navTabsFollow from "../components/navTabsFollow";
 
+import { fromNowFilter } from './../utils/mixins'
+import userAPI from './../apis/user'
+import { mapState } from 'vuex'
+import { Toast } from './../utils/helpers'
+
+/*
 const dummyUser = {
   "id": 1,
   "account": "heyjohn",
@@ -76,6 +82,7 @@ const dummyData = {
       }
     ]
   }
+  */
 
 export default {
   name: "mainPage",
@@ -95,15 +102,52 @@ export default {
     };
   },
   methods: {
-    fetchData(){
-      this.user.name = dummyUser.name
-      this.user.tweetNum = 2
-      this.followships = dummyData.followships
+    async fetchUser(userId){
+      try {
+        const response = await userAPI.getUser(userId)
+        //console.log('response in selfPage', response)
+        // dummyUser 對應 response.data.user
+        const {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt} = response.data.data.user
+        this.user = {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt}
+        //console.log('user',this.user)
+      } catch (error) {
+        console.log('error', error)
+      }
+    },
+    async fetchUserFollower(userId){
+      try {
+        //const response = await userAPI.getUserFollowers(userId)
+        console.log(userId)
+        //this.followships = dummyData.followships
+
+      } catch (error) {
+        console.log('error', error)
+      }
+    },
+    isThisMe(paramsId){
+      this.isMe = this.currentUser.id == paramsId   // 驗證是不是我
     }
   },
+  computed: {
+    ...mapState(['currentUser'])
+  },
   created(){
-    this.fetchData()
-  }
+    // 用token取得資料，取得後看role，是user或是admin，如果不是use，就跳出提醒，回到登入頁
+    const twitterToken = localStorage.getItem('token')
+    //console.log(twitterToken)
+    if (!twitterToken){
+      Toast.fire({
+        icon: 'warning',
+        title: '請登入'
+      })
+      this.$router.push("/login");
+    }
+    const { id: userId } = this.$route.params
+    this.fetchUser(userId)
+    this.fetchUserFollower(userId)
+    this.isThisMe(userId)
+  },
+  mixins: [fromNowFilter]
 };
 </script>
 

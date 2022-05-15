@@ -28,3 +28,15 @@
   justify-content: flex-end;
 
 }
+
+.swal2-container {
+  direction: rtl !important;
+}
+
+.swal2-popup {
+  grid-template-columns: 1fr 1fr !important;
+}
+
+.swal2-title {
+  text-align: left !important;
+}

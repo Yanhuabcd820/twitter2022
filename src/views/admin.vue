@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <form action="">
+    <form action="" @click.stop.prevent="handleSubmit">
       <div class="logo">
         <img src="./../assets/icons/logo@2x.png" alt="" />
       </div>
@@ -44,6 +44,8 @@
 <style lang="css" src="./../assets/css/LoginRegist.css" scoped></style>
 
 <script>
+import { Toast } from './../utils/helpers'
+
 export default {
   data() {
     return {
@@ -53,9 +55,32 @@ export default {
   },
   methods: {
     handleSubmit () {
-     
-        // 成功登入後轉址到餐廳首頁
-        this.$router.push('/adminTweetList')
+      
+      if (this.account !== "root") {
+        console.log("you are not admin");
+
+        Toast.fire({
+          icon: 'warning',
+          title: '請確認您輸入了正確的帳號密碼'
+        })
+
+        return;
+      }
+      Toast.fire({
+        icon: 'success',
+        title: '成功登入'
+      })
+      // 把帳號密碼連API
+
+      // 取得 API 請求後的資料
+      //const { data } = response;
+      // 將 token 存放在 localStorage 內
+      //localStorage.setItem("token", data.data.token);
+      //vuex: setting current user
+      //this.$store.commit("setCurrentUser", data.data.user);
+
+      // 成功登入後轉址到餐廳首頁
+      this.$router.push('/admin/adminTweetList')
     },
   }
 };

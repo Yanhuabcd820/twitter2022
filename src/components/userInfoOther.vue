@@ -2,11 +2,11 @@
   <div>
     <div class="user-block">
       <div class="user-cover">
-        <img src="../assets/images/cover2.png" alt="">
+        <img :src="initialUser.cover" alt="">
       </div>
       <div class="avatar-block">
         <div class="user-avatar">
-          <img src="../assets/images/avatar2.png" alt="">
+          <img :src="initialUser.avatar" alt="">
         </div>
         <div class="tools">
           <div class="icon"><img src="../assets/images/mail.png" alt=""></div>
@@ -16,20 +16,32 @@
       </div>
       <div class="user-info">
         <div class="user-account">
-          <h5>John Doe</h5>
-          <p class="fz14">@heyjohn</p>
+          <h5>{{initialUser.name}}</h5>
+          <p class="fz14">@{{initialUser.account}}</p>
         </div>
         <p class="user-des fz14">
-          Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. 
+          {{initialUser.introduction}}  
         </p>
         <div class="user-follow">
-          <p class="fz14">34個跟隨中</p>
-          <p class="fz14">59位跟隨者</p>
+          <router-link to="/SelfPage/Following"><p class="fz14 udline">{{initialUser.followingCount}}個跟隨中</p></router-link>
+          <router-link to="/SelfPage/Follower"><p class="fz14 udline">{{initialUser.followerCount}}位跟隨者</p></router-link>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    initialUser: {
+      type: Object,
+      required: true
+    }
+  },
+}
+</script>
+
 
 <style scoped>
   .user-name {
@@ -43,6 +55,12 @@
     line-height: 18.82px;
     color: var(--secondary-text-color);
   }
+  .user-cover>img {
+    object-fit: cover;
+    object-position: initial;
+    height: 200px;
+    width: 639px;
+  }
   .avatar-block {
     position: relative;
     display: flex;
@@ -53,6 +71,14 @@
     position: absolute;
     top: -70px;
     left: 16px;
+  }
+  .user-avatar>img{
+    object-fit: cover;
+    object-position: initial;
+    height: 140px;
+    width: 140px;
+    border-radius: 50%;
+    border: 3px white solid;
   }
   .user-edit {
     width: 128px;

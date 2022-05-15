@@ -33,10 +33,11 @@ export default new Vuex.Store({
   actions: {
     async fetchCurrentUser({ commit }) {
       try {
+
         // 呼叫 usersAPI.getCurrentUser() 方法，並將 response 顯示出來
         const response = await userAPI.getUser(1)  // 現在暫時都把user1當成登入的使用者資料
-        //console.log('response', response)
-        const { id, name, account, email, avatar, cover, introduction, role, isAdmin } = response.data.user
+        //console.log('store vuex',response)
+        const { id, name, account, email, avatar, cover, introduction, role,isAdmin } = response.data.data.user
         commit('setCurrentUser', {
           id, name, account, email, avatar, cover, introduction, role, isAdmin
         })

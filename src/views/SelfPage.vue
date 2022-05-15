@@ -4,8 +4,8 @@
     <div class="main">
       <userTitle :userName="user.name" :tweetNum="tweets.length"/>
       <userInfo :initial-user="user" v-if="isMe"/>
-      <userInfoOther v-else/>
-      <navTabs />
+      <userInfoOther :initial-user="user" v-else/>
+      <navTabs :userId="$route.params.id"/>
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="tweet in tweets" :key="tweet.id">
           <div class="tweet-avatar">
@@ -51,10 +51,9 @@ import userInfoOther from "../components/userInfoOther";
 import userTitle from "../components/userTitle";
 import navTabs from "../components/navTabs";
 import { fromNowFilter } from './../utils/mixins'
-
 import userAPI from './../apis/user'
 import { mapState } from 'vuex'
-
+import { Toast } from './../utils/helpers'
 // 要得到使用者info、使用者自己的推文、推計追蹤者的資料
 // 使用者info丟進去component，使用者自己的推文直接render
 /*
@@ -73,7 +72,6 @@ const dummyUser = {
   "createdAt": "2022-01-18T07:23:18.000Z",
   "updatedAt": "2022-01-18T07:23:18.000Z"
 }
-*/
 
 const dummyTweets = 
 {
@@ -100,7 +98,7 @@ const dummyTweets =
     }
   ]
 }
-
+*/
 
 export default {
   name: "selfPage",
@@ -121,8 +119,8 @@ export default {
         email: "",
         role: "",
         introduction: "",
-        avatar: "",
-        cover: "",
+        avatar: "https://dummyimage.com/600x400/a1a1a1/fff.jpg&text=+",
+        cover: "https://dummyimage.com/600x400/a1a1a1/fff.jpg&text=+",
         followingCount: -1,
         followerCount: -1,
         isFollowing: false,
@@ -138,26 +136,27 @@ export default {
     async fetchUser(userId){
       try {
         const response = await userAPI.getUser(userId)
-        //console.log('response', response)
+        //console.log('response in selfPage', response)
         // dummyUser 對應 response.data.user
-        const {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt} = response.data.user
+        const {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt} = response.data.data.user
         this.user = {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt}
         //console.log('user',this.user)
       } catch (error) {
         console.log('error', error)
       }
     },
-    //async fetchTweets(userId){
-    //  try {
-    //    const response = await userAPI.getUserTweets(userId)
-    //    console.log('response', response)
-    //  } catch (error) {
-    //    console.log('error', error)
-    //  }
-    //},
-    fetchTweets(){
-      this.tweets = [...dummyTweets.tweets]
+    async fetchTweets(userId){
+      try {
+        const response = await userAPI.getUserTweets(userId)
+        //console.log('fetch tweets response', response)
+        this.tweets = [...response.data.data.tweets]
+      } catch (error) {
+        console.log('error', error)
+      }
     },
+    //fetchTweets(){
+    //  this.tweets = [...dummyTweets.tweets]
+    //},
     isThisMe(paramsId){
       //console.log('params', paramsId)
       //console.log('vuex',this.currentUser.id)
@@ -169,6 +168,16 @@ export default {
     ...mapState(['currentUser'])
   },
   created(){
+    // 用token取得資料，取得後看role，是user或是admin，如果不是use，就跳出提醒，回到登入頁
+    const twitterToken = localStorage.getItem('token')
+    //console.log(twitterToken)
+    if (!twitterToken){
+      Toast.fire({
+        icon: 'warning',
+        title: '請登入'
+      })
+      this.$router.push("/login");
+    }
     const { id: userId } = this.$route.params
     this.fetchUser(userId)
     this.fetchTweets(userId)

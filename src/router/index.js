@@ -50,22 +50,22 @@ const routes = [
     component: () => import('../views/SelfPage.vue')
   },
   {
-    path: '/SelfPage/reply',
+    path: '/user/:id/reply',
     name: 'SelfPage/reply',
     component: () => import('../views/SelfPageReply.vue')
   },
   {
-    path: '/SelfPage/likes',
-    name: '/SelfPage/likes',
+    path: '/user/:id/like',
+    name: '/SelfPage/like',
     component: () => import('../views/SelfPageLikes.vue')
   },
   {
-    path: '/SelfPage/Follower',
+    path: '/user/:id/follower',
     name: '/SelfPage/Follower',
     component: () => import('../views/SelfPageFollower.vue')
   },
   {
-    path: '/SelfPage/Following',
+    path: '/user/:id/following',
     name: '/SelfPage/Following',
     component: () => import('../views/SelfPageFollowing.vue')
   },
@@ -88,6 +88,11 @@ const routes = [
     path: '/admin/adminUsers',
     name: 'users',
     component: () => import('../views/adminUsers.vue')
+  },
+  {
+    path: '/test',
+    name: 'test',
+    component: () => import('../views/test.vue')
   },
   {
     path: '*',

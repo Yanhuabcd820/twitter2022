@@ -24,6 +24,7 @@ h6,
 p {
   margin: 0px;
   padding: 0px;
+  word-break: break-word;
 }
 
 b {

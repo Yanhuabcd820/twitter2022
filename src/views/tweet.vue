@@ -16,22 +16,27 @@
         <div class="reply-inner">
           <div class="reply-user">
             <div class="reply-avatar">
-              <img src="../assets/images/avatar_default.png" alt="" />
+              <img :src="tweet.User.avatar" alt="" />
             </div>
             <div class="reply-name-group">
-              <p class="reply-name"><b>Apple</b></p>
-              <p class="reply-account fz14">@apple・3 小時</p>
+              <p class="reply-name">
+                <b>{{ tweet.User.name }}</b>
+              </p>
+              <p class="reply-account fz14">
+                @{{ tweet.User.account }}・{{ tweet.createdAt }}
+              </p>
             </div>
           </div>
           <div class="reply-text">
-            Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco
-            cillum dolor. Voluptate exercitation incididunt aliquip deserunt.
+            {{ tweet.description }}
           </div>
           <p class="fz14 reply-time">上午 10:05・2021年11月10日</p>
         </div>
         <div class="reply-count">
           <div class="reply-num"><span>34</span> 回覆</div>
-          <div class="like-num"><span>808</span> 喜歡次數</div>
+          <div class="like-num">
+            <span> {{ tweet.totalLikes }}</span> 喜歡次數
+          </div>
         </div>
         <div class="reply-count-btn">
           <div class="reply-btn" @click.prevent.stop="openPopupReplyList">
@@ -88,6 +93,24 @@
   </div>
 </template>
 <script>
+const dummyData = {
+  tweet: {
+    id: 56,
+    userId: 1,
+    description: "希望 Heroku 測試成功！！",
+    createdAt: "2022-05-14T15:55:01.000Z",
+    updatedAt: "2022-05-14T15:55:01.000Z",
+    User: {
+      id: 1,
+      account: "user1",
+      name: "user1",
+      avatar: "https://loremflickr.com/320/240/people/?random=73.0908396968221",
+    },
+    LikedUsers: [],
+    isLiked: false,
+    totalLikes: 0,
+  },
+};
 const dummyTweetsReplies = {
   status: "Success",
   statusCode: 200,
@@ -170,18 +193,7 @@ import followTop from "../components/followTop";
 import popupReplyList from "../components/popupReplyList";
 import { fromNowFilter } from "./../utils/mixins";
 export default {
-  name: "replyPage",
-  // prpos: {
-  //   tweet: {
-  //     id: { type: Number, required: true },
-  //     User: {
-  //       id: { type: Number, required: true },
-  //       account: { type: Number, required: String },
-  //       name: { type: Number, required: String },
-  //       avatar: { type: Number },
-  //     },
-  //   },
-  // },
+  name: "tweet",
   components: {
     navigation,
     followTop,
@@ -191,6 +203,7 @@ export default {
     return {
       isClickPopupReplyList: false,
       replies: dummyTweetsReplies.data.replies,
+      tweet: dummyData.tweet,
     };
   },
   methods: {

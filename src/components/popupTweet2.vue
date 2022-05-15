@@ -10,7 +10,7 @@
       <div class="popupTweet-text-wrap">
         <div class="popupTweet-text">
           <div class="popupTweet-avatar">
-            <img :src="user.avatar" alt="" />
+            <img src="../assets/images/avatar.png" alt="" />
           </div>
           <textarea
             name=""
@@ -23,9 +23,6 @@
         <div class="popupTweet-btn-wrap">
           <div class="post-text-num-warning" v-if="popupText.length >= 140">
             字數不可超過 140 字
-          </div>
-          <div class="post-text-num-warning" v-if="popupText.length <= 0">
-            不得為空白
           </div>
           <div
             class="btn popupTweet-btn active"
@@ -42,36 +39,27 @@
 import { v4 as uuidv4 } from "uuid";
 export default {
   name: "popupTweet",
-  props: {
-    user: {
-      type: Object,
-      required: true,
-    },
-  },
   data() {
     return {
       popupText: "",
-      noZero: false,
+      // id:'',
     };
   },
-
   methods: {
-    closePopupTweet() {
-      this.$emit("close-PopupTweet", {
-        isClickPopupTweet: false,
-      });
-    },
     handleSubmit() {
       console.log("handleSubmit");
-      if (!this.popupText.trim()) {
-        this.noZero = true;
-        return;
-      }
       this.$emit("after-create-tweet", {
         tweetId: uuidv4(),
         tweetText: this.popupText,
       });
       this.popupText = "";
+
+      this.closePopupTweet(); /*關掉PopupTweet*/
+    },
+    closePopupTweet() {
+      this.$emit("close-PopupTweet", {
+        isClickPopupTweet: false,
+      });
     },
   },
 };

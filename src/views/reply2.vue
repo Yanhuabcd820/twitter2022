@@ -6,7 +6,7 @@
     />
     <navigation />
     <div class="reply-wrap">
-      <router-link to="/tweets" class="reply-title">
+      <router-link to="/mainPage" class="reply-title">
         <div class="reply-forward">
           <img src="../assets/images/forward.png" alt="" />
         </div>
@@ -43,27 +43,93 @@
         </div>
       </div>
       <div class="reply-tweet-wrap">
-        <div class="reply-tweet-card" v-for="reply in replies" :key="reply.id">
+        <div class="reply-tweet-card">
           <div class="reply-tweet-avatar">
-            <img :src="reply.User.avatar" alt="" />
+            <img src="../assets/images/avatar_default.png" alt="" />
           </div>
           <div class="reply-tweet-content">
             <div class="reply-tweet-name-group">
               <p class="reply-tweet-name">
-                <b>{{ reply.User.name }}</b>
-                <span
-                  >@{{ reply.User.account }}・{{
-                    reply.createdAt | fromNow
-                  }}</span
-                >
+                <b>Devon Lane</b>
+                <span>@devon_lane・12 小時</span>
               </p>
-              <p class="reply-to fz14">
-                <span>回覆</span> @{{ reply.User.name }}
-              </p>
+              <p class="reply-to fz14"><span>回覆</span> @apple</p>
             </div>
             <div class="reply-tweet-text">
               <p>
-                {{ reply.comment }}
+                111former apple engineer shares a simple DIY fix to seal your
+                surgical mask
+              </p>
+            </div>
+            <div class="reply-tweet-count">
+              <div
+                class="reply-tweet-reply"
+                @click.prevent.stop="openPopupReplyList"
+              >
+                <div class="reply-tweet-reply-img">
+                  <img src="../assets/images/tweet-reply.png" alt="" />
+                </div>
+                <p class="fz14"><b>13</b></p>
+              </div>
+              <div class="reply-tweet-like">
+                <div class="reply-tweet-like-img">
+                  <img src="../assets/images/tweet-like.png" alt="" />
+                </div>
+                <p class="fz14"><b>76</b></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reply-tweet-card">
+          <div class="reply-tweet-avatar">
+            <img src="../assets/images/avatar_default.png" alt="" />
+          </div>
+          <div class="reply-tweet-content">
+            <div class="reply-tweet-name-group">
+              <p class="reply-tweet-name">
+                <b>Devon Lane</b>
+                <span>@devon_lane・12 小時</span>
+              </p>
+              <p class="reply-to fz14"><span>回覆</span> @apple</p>
+            </div>
+            <div class="reply-tweet-text">
+              <p>
+                former apple engineer shares a simple DIY fix to seal your
+                surgical mask
+              </p>
+            </div>
+            <div class="reply-tweet-count">
+              <div class="reply-tweet-reply">
+                <div class="reply-tweet-reply-img">
+                  <img src="../assets/images/tweet-reply.png" alt="" />
+                </div>
+                <p class="fz14"><b>13</b></p>
+              </div>
+              <div class="reply-tweet-like">
+                <div class="reply-tweet-like-img">
+                  <img src="../assets/images/tweet-like.png" alt="" />
+                </div>
+                <p class="fz14"><b>76</b></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reply-tweet-card">
+          <div class="reply-tweet-avatar">
+            <img src="../assets/images/avatar_default.png" alt="" />
+          </div>
+          <div class="reply-tweet-content">
+            <div class="reply-tweet-name-group">
+              <p class="reply-tweet-name">
+                <b>Devon Lane</b>
+                <span>@devon_lane・12 小時</span>
+              </p>
+              <p class="reply-to fz14"><span>回覆</span> @apple</p>
+            </div>
+            <div class="reply-tweet-text">
+              <p>
+                former apple engineer shares a simple DIY fix to seal your
+                surgical mask
               </p>
             </div>
             <div class="reply-tweet-count">
@@ -88,100 +154,22 @@
   </div>
 </template>
 <script>
-const dummyTweetsReplies = {
-  status: "Success",
-  statusCode: 200,
-  data: {
-    replies: [
-      {
-        id: 151,
-        userId: 1,
-        tweetId: 1,
-        comment: "阿，就沒有其他人的token阿",
-        createdAt: "2022-05-14T16:01:17.000Z",
-        updatedAt: "2022-05-14T16:01:17.000Z",
-        User: {
-          id: 1,
-          account: "user1",
-          name: "user1",
-          avatar:
-            "https://loremflickr.com/320/240/people/?random=73.0908396968221",
-        },
-        LikedUsers: [],
-        isLiked: false,
-      },
-      {
-        id: 1,
-        userId: 3,
-        tweetId: 1,
-        comment: "Voluptas accusamus voluptas nostrum libero.",
-        createdAt: "2022-05-13T15:55:17.000Z",
-        updatedAt: "2022-05-13T15:55:17.000Z",
-        User: {
-          id: 3,
-          account: "user3",
-          name: "user3",
-          avatar:
-            "https://loremflickr.com/320/240/people/?random=69.43540081532018",
-        },
-        LikedUsers: [],
-        isLiked: false,
-      },
-      {
-        id: 51,
-        userId: 3,
-        tweetId: 1,
-        comment: "Fugiat voluptatem dignissimos.",
-        createdAt: "2022-05-13T15:55:17.000Z",
-        updatedAt: "2022-05-13T15:55:17.000Z",
-        User: {
-          id: 3,
-          account: "user3",
-          name: "user3",
-          avatar:
-            "https://loremflickr.com/320/240/people/?random=69.43540081532018",
-        },
-        LikedUsers: [],
-        isLiked: false,
-      },
-      {
-        id: 101,
-        userId: 2,
-        tweetId: 1,
-        comment: "Qui minus est et corporis soluta sequi ut minima sed.",
-        createdAt: "2022-05-13T15:55:17.000Z",
-        updatedAt: "2022-05-13T15:55:17.000Z",
-        User: {
-          id: 2,
-          account: "user2",
-          name: "user2",
-          avatar:
-            "https://loremflickr.com/320/240/people/?random=73.3635043604953",
-        },
-        LikedUsers: [],
-        isLiked: false,
-      },
-    ],
-  },
-  message: "",
-};
 import navigation from "../components/nav";
 import followTop from "../components/followTop";
 import popupReplyList from "../components/popupReplyList";
-import { fromNowFilter } from "./../utils/mixins";
 export default {
   name: "replyPage",
-  // prpos: {
-  //   tweet: {
-  //     id: { type: Number, required: true },
-  //     User: {
-  //       id: { type: Number, required: true },
-  //       account: { type: Number, required: String },
-  //       name: { type: Number, required: String },
-  //       avatar: { type: Number },
-  //     },
-  //   },
-  // },
+  prpos: {
+    tweet: {
+      id: { type: Number, required: true },
+      User: {
+        id: { type: Number, required: true },
+        account: { type: Number, required: String },
+        name: { type: Number, required: String },
+        avatar: { type: Number },
+      },
+    },
+  },
   components: {
     navigation,
     followTop,
@@ -190,7 +178,6 @@ export default {
   data() {
     return {
       isClickPopupReplyList: false,
-      replies: dummyTweetsReplies.data.replies,
     };
   },
   methods: {
@@ -204,7 +191,6 @@ export default {
       // console.log("closePopupReplyList", this.isClickPopupReplyList);
     },
   },
-  mixins: [fromNowFilter],
 };
 </script>
 

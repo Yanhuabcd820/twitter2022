@@ -4,8 +4,10 @@
       v-if="isClickPopupTweet"
       @close-PopupTweet="closePopupTweet"
       @after-create-tweet="afterCreateTweet"
-      :user="user"
     />
+
+    <!-- @after-create-tweet="afterCreateTweet" -->
+    <!-- <popupTweet @close-PopupTweet="closePopupTweet" /> -->
     <navigation />
     <div class="main">
       <div class="user-title">
@@ -26,44 +28,28 @@
       </div>
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="tweet in tweets" :key="tweet.id">
-          <popupReply
-            v-if="whichPopupReply === tweet.id"
-            @close-PopupReply="closePopupReply"
-            :tweet="tweet"
-            :user="user"
-            @after-create-reply="afterCreateReply"
-          />
           <router-link
             :to="{ name: 'SelfPage', params: { id: tweet.User.id } }"
             class="tweet-avatar"
           >
             <img :src="tweet.User.avatar" alt="" />
           </router-link>
-          <router-link
-            :to="{ name: 'replyPage', params: { id: tweet.User.id } }"
-            class="tweet-content"
-          >
-            <router-link
-              :to="{ name: 'SelfPage', params: { id: tweet.User.id } }"
-              class="tweet-name-group"
-            >
+          <div class="tweet-content">
+            <div class="tweet-name-group">
               <p class="tweet-name">
                 <b>{{ tweet.User.name }}</b>
               </p>
               <p class="tweet-account fz14">
                 @{{ tweet.User.account }}・{{ tweet.createdAt | fromNow }}
               </p>
-            </router-link>
-            <div class="tweet-text">
+            </div>
+            <router-link to="/reply" class="tweet-text">
               <p>
                 {{ tweet.description }}
               </p>
-            </div>
+            </router-link>
             <div class="tweet-count">
-              <div
-                class="tweet-reply"
-                @click.prevent.stop="openPopupReply(tweet.id)"
-              >
+              <div class="tweet-reply">
                 <div class="tweet-reply-img">
                   <img src="../assets/images/tweet-reply.png" alt="" />
                 </div>
@@ -87,7 +73,7 @@
                 </p>
               </div>
             </div>
-          </router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -301,165 +287,47 @@ const dummyTweets = {
   },
   message: "",
 };
-const dummyTweetsReplies = {
-  status: "Success",
-  statusCode: 200,
-  data: {
-    replies: [
-      {
-        id: 151,
-        userId: 1,
-        tweetId: 1,
-        comment: "阿，就沒有其他人的token阿",
-        createdAt: "2022-05-14T16:01:17.000Z",
-        updatedAt: "2022-05-14T16:01:17.000Z",
-        User: {
-          id: 1,
-          account: "user1",
-          name: "user1",
-          avatar:
-            "https://loremflickr.com/320/240/people/?random=73.0908396968221",
-        },
-        LikedUsers: [],
-        isLiked: false,
-      },
-      {
-        id: 1,
-        userId: 3,
-        tweetId: 1,
-        comment: "Voluptas accusamus voluptas nostrum libero.",
-        createdAt: "2022-05-13T15:55:17.000Z",
-        updatedAt: "2022-05-13T15:55:17.000Z",
-        User: {
-          id: 3,
-          account: "user3",
-          name: "user3",
-          avatar:
-            "https://loremflickr.com/320/240/people/?random=69.43540081532018",
-        },
-        LikedUsers: [],
-        isLiked: false,
-      },
-      {
-        id: 51,
-        userId: 3,
-        tweetId: 1,
-        comment: "Fugiat voluptatem dignissimos.",
-        createdAt: "2022-05-13T15:55:17.000Z",
-        updatedAt: "2022-05-13T15:55:17.000Z",
-        User: {
-          id: 3,
-          account: "user3",
-          name: "user3",
-          avatar:
-            "https://loremflickr.com/320/240/people/?random=69.43540081532018",
-        },
-        LikedUsers: [],
-        isLiked: false,
-      },
-      {
-        id: 101,
-        userId: 2,
-        tweetId: 1,
-        comment: "Qui minus est et corporis soluta sequi ut minima sed.",
-        createdAt: "2022-05-13T15:55:17.000Z",
-        updatedAt: "2022-05-13T15:55:17.000Z",
-        User: {
-          id: 2,
-          account: "user2",
-          name: "user2",
-          avatar:
-            "https://loremflickr.com/320/240/people/?random=73.3635043604953",
-        },
-        LikedUsers: [],
-        isLiked: false,
-      },
-    ],
-  },
-  message: "",
-};
 import navigation from "../components/nav";
 import followTop from "../components/followTop";
 import popupTweet from "../components/popupTweet";
-import popupReply from "../components/popupReply";
 import { fromNowFilter } from "./../utils/mixins";
 
 export default {
-  name: "tweets",
+  name: "mainPage",
   components: {
     navigation,
     followTop,
     popupTweet,
-    popupReply,
   },
   data() {
     return {
       user: dummyUser.user,
       tweets: [],
-      replies: [],
-      // tweet: {
-      //   id: -1,
-      //   userId: -1,
-      //   description: "",
-      //   createdAt: "",
-      //   updatedAt: "",
-      //   User: {
-      //     id: -1,
-      //     account: "",
-      //     name: "",
-      //     avatar: "",
-      //   },
-      //   LikedUsers: [],
-      //   isLiked: false,
-      //   totalLikes: 0,
-      // },
       isClickPopupTweet: false,
-      // isClickPopupReply: false,
-      whichPopupReply: -1,
     };
   },
   methods: {
     featchTweets() {
       const { tweets } = dummyTweets.data;
       this.tweets = tweets;
-      const { replies } = dummyTweetsReplies.data;
-      this.replies = replies;
-    },
-    afterCreateReply(payload) {
-      const { replyText, replyId } = payload;
-      console.log("payload", payload);
-      this.replies.unshift({
-        id: replyId,
-        comment: replyText,
-        User: {
-          id: this.user.id,
-          account: this.user.account,
-          name: this.user.name,
-          avatar: this.user.avatar,
-        },
-        createdAt: new Date(),
-        totalLikes: 0,
-      });
-      /*關掉PopupTweet*/
-      this.closePopupReply();
     },
     afterCreateTweet(payload) {
+      /* payload顯示不出來!! */
       const { tweetText, tweetId } = payload;
+      // const { tweetText } = payload;
       console.log("payload", payload);
-      this.tweets.unshift({
-        id: tweetId,
+
+      this.tweets.push({
         description: tweetText,
-        User: {
+        id: tweetId,
+        user: {
           id: this.user.id,
           account: this.user.account,
           name: this.user.name,
           avatar: this.user.avatar,
         },
         createdAt: new Date(),
-        totalLikes: 0,
       });
-      /*關掉PopupTweet*/
-      this.isClickPopupTweet = false;
     },
     openPopupTweet() {
       //將彈跳視窗打開
@@ -470,18 +338,6 @@ export default {
       const { isClickPopupTweet } = payloadPopup;
       this.isClickPopupTweet = isClickPopupTweet;
     },
-
-    openPopupReply(tweetId) {
-      // console.log("tweetId", tweetId);
-      //將彈跳視窗PopupReply打開,
-      //讓whichPopupReply等於tweet.Id即成立
-      this.whichPopupReply = tweetId;
-    },
-    closePopupReply() {
-      //將彈跳視窗PopupReply關閉,
-      //只要讓whichPopupReply不等於tweet.Id即可關閉
-      this.whichPopupReply = -1;
-    },
   },
 
   created() {
@@ -491,6 +347,6 @@ export default {
 };
 </script>
 
-<style lang="css" src="@/assets/css/tweets.css" scoped></style>
+<style lang="css" src="@/assets/css/main.css" scoped></style>
 
 

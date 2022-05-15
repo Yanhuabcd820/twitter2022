@@ -1,6 +1,6 @@
 <template>
   <div class="user-title">
-    <img src="../assets/images/LeftArrow.png" alt=""/>
+    <img src="../assets/images/LeftArrow.png" alt="" @click="$router.go(-1)"/>
     <div class="user-name">
       <h5>{{userName}}</h5>
       <p>{{tweetNum}}推文</p>

@@ -12,20 +12,25 @@
 </template>
 
 <script>
-import {v4 as uuidv4} from 'uuid'
 export default {
+  props:{
+    userId: {
+      type: String,
+      required: true
+    }
+  },
   data(){
     return {
       tabs: [
         {
-          id: uuidv4(),
+          id: 1,
           title: '跟隨者',
-          path: '/SelfPage/Follower'
+          path: `/user/${this.userId}/Follower`
         },
         {
-          id: uuidv4(),
+          id: 2,
           title: '正在跟隨',
-          path: '/SelfPage/Following'
+          path: `/user/${this.userId}/Following`
         }
       ]
     }
@@ -40,6 +45,7 @@ ul {
   align-items: center;
   border-top: 1px solid #E6ECF0;
   border-bottom: 1px solid #E6ECF0;
+  margin-top: 100px;
 }
 li {
   width: 130px;

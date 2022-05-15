@@ -82,6 +82,7 @@ export default {
           // 取得 API 請求後的資料
           const { data } = response;
           // 將 token 存放在 localStorage 內
+          console.log('data in login',data)
           localStorage.setItem("token", data.data.token);
           //vuex: setting current user
           this.$store.commit("setCurrentUser", data.data.user);

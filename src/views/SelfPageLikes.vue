@@ -3,17 +3,17 @@
     <navigation />
     <div class="main">
       <userTitle :userName="user.name" :tweetNum="2"/>
-      <userInfo :user="user" v-if="isMe"/>
+      <userInfo :initial-user="user" v-if="isMe"/>
       <userInfoOther v-else/>
-      <navTabs />
+      <navTabs :userId="$route.params.id"/>
       <div class="tweet-wrap">
-        <div class="tweet-card" v-for="like in likes" :key="like.tweet_id">
+        <div class="tweet-card" v-for="like in likes" :key="like.id">
           <div class="tweet-avatar">
             <img src="../assets/images/avatar_default.png" alt="" />
           </div>
           <div class="tweet-content">
             <div class="tweet-name-group">
-              <p class="tweet-name"><b>{{like.Tweet.User.account}}</b></p>
+              <p class="tweet-name"><b>{{like.Tweet.User.name}}</b></p>
               <p class="tweet-account fz14">@{{like.Tweet.User.account}}・3 小時</p>
             </div>
             <div class="tweet-text">
@@ -26,13 +26,13 @@
                 <div class="tweet-reply-img">
                   <img src="../assets/images/tweet-reply.png" alt="" />
                 </div>
-                <p class="fz14"><b>13</b></p>
+                <p class="fz14"><b>{{like.replyCount}}</b></p>
               </a>
               <a href="#" class="tweet-like">
                 <div class="tweet-like-img">
                   <img src="../assets/images/tweet-like.png" alt="" />
                 </div>
-                <p class="fz14"><b>76</b></p>
+                <p class="fz14"><b>{{like.likeCount}}</b></p>
               </a>
             </div>
           </div>
@@ -47,9 +47,15 @@
 import navigation from "../components/nav";
 import followTop from "../components/followTop";
 import userInfo from "../components/userInfo";
+import userInfoOther from "../components/userInfoOther";
 import userTitle from "../components/userTitle";
 import navTabs from "../components/navTabs";
+import { fromNowFilter } from './../utils/mixins'
+import userAPI from './../apis/user'
+import { mapState } from 'vuex'
+import { Toast } from './../utils/helpers'
 
+/*
 const dummyUser = {
   "id": 1,
   "account": "heyjohn",
@@ -96,6 +102,7 @@ const dummyData = {
     }
   ]
 }
+*/
 
 export default {
   name: "mainPageLikes",
@@ -104,7 +111,8 @@ export default {
     followTop,
     userInfo,
     userTitle,
-    navTabs
+    navTabs,
+    userInfoOther,
   },
   data() {
     return {
@@ -115,8 +123,8 @@ export default {
         email: "",
         role: "",
         introduction: "",
-        avatar: "",
-        cover: "",
+        avatar: "https://dummyimage.com/600x400/a1a1a1/fff.jpg&text=+",
+        cover: "https://dummyimage.com/600x400/a1a1a1/fff.jpg&text=+",
         followingCount: -1,
         followerCount: -1,
         isFollowing: false,
@@ -128,15 +136,50 @@ export default {
     };
   },
   methods: {
-    fetchData(){
-      const {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt} = dummyUser
-      this.user = {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt}
-      this.likes = [...dummyData.likes]
+    async fetchUser(userId){
+      try {
+        const response = await userAPI.getUser(userId)
+        //console.log('response in selfPage', response)
+        // dummyUser 對應 response.data.user
+        const {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt} = response.data.data.user
+        this.user = {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt}
+        //console.log('user',this.user)
+      } catch (error) {
+        console.log('error', error)
+      }
+    },
+    async fetchUserLikes(userId){
+      try {
+        const response = await userAPI.getUserLikes(userId)
+        console.log('like res', response)
+        this.likes = [...response.data.data.tweets]
+      } catch (error) {
+        console.log('error', error)
+      }
+    },
+    isThisMe(paramsId){
+      this.isMe = this.currentUser.id == paramsId  
     }
   },
+  computed: {
+    ...mapState(['currentUser'])
+  },
   created(){
-    this.fetchData()
-  }
+    const twitterToken = localStorage.getItem('token')
+    //console.log(twitterToken)
+    if (!twitterToken){
+      Toast.fire({
+        icon: 'warning',
+        title: '請登入'
+      })
+      this.$router.push("/login");
+    }
+    const { id: userId } = this.$route.params
+    this.fetchUser(userId)
+    this.fetchUserLikes(userId)
+    this.isThisMe(userId)
+},
+  mixins: [fromNowFilter]
 };
 </script>
 

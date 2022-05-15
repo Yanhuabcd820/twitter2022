@@ -53,7 +53,7 @@ import navTabs from "../components/navTabs";
 import { fromNowFilter } from './../utils/mixins'
 
 import userAPI from './../apis/user'
-
+import { mapState } from 'vuex'
 
 // 要得到使用者info、使用者自己的推文、推計追蹤者的資料
 // 使用者info丟進去component，使用者自己的推文直接render
@@ -74,7 +74,7 @@ const dummyUser = {
   "updatedAt": "2022-01-18T07:23:18.000Z"
 }
 */
-/*
+
 const dummyTweets = 
 {
   "user": {
@@ -100,7 +100,7 @@ const dummyTweets =
     }
   ]
 }
-*/
+
 
 export default {
   name: "selfPage",
@@ -131,35 +131,48 @@ export default {
       },
       tweets: [],
       isMe: true,
-      isClickPopupEditModal: false
+      isClickPopupEditModal: false,
     };
   },
   methods: {
     async fetchUser(userId){
       try {
         const response = await userAPI.getUser(userId)
-        console.log('response', response)
+        //console.log('response', response)
         // dummyUser 對應 response.data.user
         const {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt} = response.data.user
         this.user = {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt}
-        console.log('user',this.user)
+        //console.log('user',this.user)
       } catch (error) {
         console.log('error', error)
       }
     },
-    async fetchTweets(userId){
-      try {
-        const response = await userAPI.getUserTweets(userId)
-        console.log('response', response)
-      } catch (error) {
-        console.log('error', error)
-      }
+    //async fetchTweets(userId){
+    //  try {
+    //    const response = await userAPI.getUserTweets(userId)
+    //    console.log('response', response)
+    //  } catch (error) {
+    //    console.log('error', error)
+    //  }
+    //},
+    fetchTweets(){
+      this.tweets = [...dummyTweets.tweets]
+    },
+    isThisMe(paramsId){
+      //console.log('params', paramsId)
+      //console.log('vuex',this.currentUser.id)
+      //console.log(this.isMe)
+      this.isMe = this.currentUser.id == paramsId   // 驗證是不是我
     }
+  },  
+  computed: {
+    ...mapState(['currentUser'])
   },
   created(){
     const { id: userId } = this.$route.params
     this.fetchUser(userId)
     this.fetchTweets(userId)
+    this.isThisMe(userId)
   },
   mixins: [fromNowFilter]
 };

@@ -15,11 +15,11 @@
       </div>
       <div class="user-info">
         <div class="user-account">
-          <h5>{{user.name}}</h5>
-          <p class="fz14">@{{user.account}}</p>
+          <h5>{{initialUser.name}}</h5>
+          <p class="fz14">@{{initialUser.account}}</p>
         </div>
         <p class="user-des fz14">
-          {{user.introduction}} 
+          {{initialUser.introduction}} 
         </p>
         <div class="user-follow">
           <router-link to="/SelfPage/Following"><p class="fz14 udline">{{initialUser.followingCount}}個跟隨中</p></router-link>
@@ -47,6 +47,12 @@ export default {
     return {
       isClickPopupTweet: false,
       user : {
+        id: -1,
+        account: '',
+        avatar: '',
+        cover: '',
+        name: '',
+        introduction: ''
         //id: this.initialUser.id,
         //account: this.initialUser.account,
         //avatar: this.initialUser.avatar,
@@ -58,14 +64,12 @@ export default {
   },
   methods: {
     openPopupTweet() {
-      console.log(this.isClickPopupTweet);
+      //console.log(this.isClickPopupTweet);
       this.isClickPopupTweet = true;
     },
     closePopupTweet(payload) {
       const { isClickPopupTweet } = payload;
       this.isClickPopupTweet = isClickPopupTweet;
-
-      console.log("closePopupTweet", this.isClickPopupTweet);
     },
     AfterEditInfo(payload){
       const { avatar,cover } = payload
@@ -74,11 +78,15 @@ export default {
       this.user.cover = cover
     },
     fetchUser(){
-      this.user = {...this.initialUser}
+      console.log(1)
+      this.user = {...this.user,...this.initialUser}
+      console.log('initial-user in userInfo',this.initialUser.account)
+      console.log('user', this.user.account)
+      console.log(2)
     }
   },
   created(){
-    setTimeout(() => this.fetchUser(), 1000)
+    this.fetchUser()
   }
 }
 </script>

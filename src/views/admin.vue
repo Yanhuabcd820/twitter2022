@@ -51,5 +51,12 @@ export default {
       password: "",
     };
   },
+  methods: {
+    handleSubmit () {
+     
+        // 成功登入後轉址到餐廳首頁
+        this.$router.push('/adminTweetList')
+    },
+  }
 };
 </script>

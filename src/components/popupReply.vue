@@ -65,7 +65,7 @@
   </div>
 </template>
 <script>
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 import { fromNowFilter } from "./../utils/mixins";
 export default {
   name: "popupReply",
@@ -97,10 +97,9 @@ export default {
         return;
       }
       this.$emit("after-create-reply", {
-        replyId: uuidv4(),
-        replyText: this.popupText,
+        tweetId: this.tweet.id,
+        replyComment: this.popupText,
       });
-      this.popupText = "";
     },
   },
 

@@ -27,16 +27,7 @@ const routes = [
     name: 'tweets',
     component: () => import('../views/tweets.vue')
   },
-  // {
-  //   path: '/mainPage',
-  //   name: 'mainPage',
-  //   component: () => import('../views/mainPage.vue')
-  // },
-  // {
-  //   path: '/tweets/:id/replies',
-  //   name: 'replyPage',
-  //   component: () => import('../views/reply.vue')
-  // },
+
   {
     path: '/tweets/:id',
     name: 'tweet',

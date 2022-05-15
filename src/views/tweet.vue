@@ -36,10 +36,13 @@
           <div class="reply-text">
             {{ tweet.description }}
           </div>
-          <p class="fz14 reply-time">上午 10:05・2021年11月10日</p>
+          <p class="fz14 reply-time">{{ tweet.updatedAt }}</p>
+          <!-- <p class="fz14 reply-time">上午 10:05・2021年11月10日</p> -->
         </div>
         <div class="reply-count">
-          <div class="reply-num"><span>34</span> 回覆</div>
+          <div class="reply-num">
+            <span>{{ replies.length }}</span> 回覆
+          </div>
           <div class="like-num">
             <span> {{ tweet.LikedUsers.length }}</span> 喜歡次數
           </div>
@@ -48,7 +51,12 @@
           <div class="reply-btn" @click.prevent.stop="openPopupReplyList">
             <img src="../assets/images/tweet-reply.png" alt="" />
           </div>
-          <div class="like-btn">
+
+          <div class="like-btn" v-if="tweet.isLiked">
+            <img src="../assets/images/tweet-like-active.png" alt="" />
+          </div>
+
+          <div class="like-btn" v-if="!tweet.isLiked">
             <img src="../assets/images/tweet-like.png" alt="" />
           </div>
         </div>
@@ -88,7 +96,9 @@
                 <div class="reply-tweet-like-img">
                   <img src="../assets/images/tweet-like.png" alt="" />
                 </div>
-                <p class="fz14"><b>76</b></p>
+                <p class="fz14">
+                  <b>{{ reply.LikedUsers.length }}</b>
+                </p>
               </div>
             </div>
           </div>
@@ -116,111 +126,12 @@ const dummyUser = {
     updatedAt: "2022-05-13T15:55:16.000Z",
   },
 };
-const dummyData = {
-  status: "Success",
-  statusCode: 200,
-  data: {
-    tweet: {
-      id: 56,
-      userId: 1,
-      description: "希望 Heroku 測試成功！！",
-      createdAt: "2022-05-14T15:55:01.000Z",
-      updatedAt: "2022-05-14T15:55:01.000Z",
-      User: {
-        id: 1,
-        account: "user1",
-        name: "user1",
-        avatar:
-          "https://loremflickr.com/320/240/people/?random=73.0908396968221",
-      },
-      LikedUsers: [],
-    },
-    isLiked: false,
-  },
-  message: "",
-};
-const dummyTweetsReplies = {
-  status: "Success",
-  statusCode: 200,
-  data: {
-    replies: [
-      {
-        id: 151,
-        userId: 1,
-        tweetId: 1,
-        comment: "阿，就沒有其他人的token阿",
-        createdAt: "2022-05-14T16:01:17.000Z",
-        updatedAt: "2022-05-14T16:01:17.000Z",
-        User: {
-          id: 1,
-          account: "user1",
-          name: "user1",
-          avatar:
-            "https://loremflickr.com/320/240/people/?random=73.0908396968221",
-        },
-        LikedUsers: [],
-        isLiked: false,
-      },
-      {
-        id: 1,
-        userId: 3,
-        tweetId: 1,
-        comment: "Voluptas accusamus voluptas nostrum libero.",
-        createdAt: "2022-05-13T15:55:17.000Z",
-        updatedAt: "2022-05-13T15:55:17.000Z",
-        User: {
-          id: 3,
-          account: "user3",
-          name: "user3",
-          avatar:
-            "https://loremflickr.com/320/240/people/?random=69.43540081532018",
-        },
-        LikedUsers: [],
-        isLiked: false,
-      },
-      {
-        id: 51,
-        userId: 3,
-        tweetId: 1,
-        comment: "Fugiat voluptatem dignissimos.",
-        createdAt: "2022-05-13T15:55:17.000Z",
-        updatedAt: "2022-05-13T15:55:17.000Z",
-        User: {
-          id: 3,
-          account: "user3",
-          name: "user3",
-          avatar:
-            "https://loremflickr.com/320/240/people/?random=69.43540081532018",
-        },
-        LikedUsers: [],
-        isLiked: false,
-      },
-      {
-        id: 101,
-        userId: 2,
-        tweetId: 1,
-        comment: "Qui minus est et corporis soluta sequi ut minima sed.",
-        createdAt: "2022-05-13T15:55:17.000Z",
-        updatedAt: "2022-05-13T15:55:17.000Z",
-        User: {
-          id: 2,
-          account: "user2",
-          name: "user2",
-          avatar:
-            "https://loremflickr.com/320/240/people/?random=73.3635043604953",
-        },
-        LikedUsers: [],
-        isLiked: false,
-      },
-    ],
-  },
-  message: "",
-};
-
+import { fromNowFilter } from "./../utils/mixins";
+import { Toast } from "./../utils/helpers";
 import navigation from "../components/nav";
 import followTop from "../components/followTop";
 import popupReplyList from "../components/popupReplyList";
-import { fromNowFilter } from "./../utils/mixins";
+import tweetsApi from "../apis/tweets";
 export default {
   name: "tweet",
   components: {
@@ -231,12 +142,40 @@ export default {
   data() {
     return {
       isClickPopupReplyList: false,
-      replies: dummyTweetsReplies.data.replies,
-      tweet: dummyData.data.tweet,
+      tweet: {},
+      replies: {},
       user: dummyUser.user,
     };
   },
   methods: {
+    async fetchTweet(tweetId) {
+      try {
+        const { data } = await tweetsApi.getTweet(tweetId);
+        const { tweet } = data.data;
+        this.tweet = tweet;
+        console.log("this.tweet", this.tweet);
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法取得餐廳資料，請稍後再試",
+        });
+      }
+    },
+    async fetchTweetReplies(tweetId) {
+      try {
+        const { data } = await tweetsApi.getTweetReplies(tweetId);
+        const { replies } = data.data;
+        this.replies = replies;
+
+        console.log("replies", replies);
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法取得餐廳資料，請稍後再試",
+        });
+      }
+    },
+
     openPopupReplyList() {
       console.log(this.isClickPopupReplyList);
       this.isClickPopupReplyList = true;
@@ -263,6 +202,11 @@ export default {
       /*關掉PopupTweet*/
       this.isClickPopupTweet = false;
     },
+  },
+  created() {
+    const { id: tweetId } = this.$route.params;
+    this.fetchTweet(tweetId);
+    this.fetchTweetReplies(tweetId);
   },
   mixins: [fromNowFilter],
 };

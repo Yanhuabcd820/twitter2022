@@ -1,5 +1,5 @@
 <template>
-  <form class="popupTweet-wrap" @submit.prevent.stop="handleSubmit">
+  <div class="popupTweet-wrap">
     <div class="overlay" @click.stop.prevent="closePopupTweet"></div>
     <div class="popupTweet">
       <div class="popupTweet-colse">
@@ -27,14 +27,19 @@
           <div class="post-text-num-warning" v-if="popupText.length <= 0">
             不得為空白
           </div>
-          <button type="submit" class="btn popupTweet-btn active">推文</button>
+          <div
+            type="submit"
+            class="btn popupTweet-btn active"
+            @click.prevent.stop="handleSubmit"
+          >
+            推文
+          </div>
         </div>
       </div>
     </div>
-  </form>
+  </div>
 </template>
 <script>
-// import { v4 as uuidv4 } from "uuid";
 export default {
   name: "popupTweet",
   props: {
@@ -56,17 +61,15 @@ export default {
         isClickPopupReplyTweet: false,
       });
     },
-    handleSubmit(e) {
-      console.log("handleSubmitFORM");
-      const form = e.target  
-      const formData = new FormData(form)
-      // for (let [name, value] of formData.entries()) {
-      //   console.log(name + ': ' + value)
-      // }
-      
-      this.$emit("after-create-tweet", formData);
+
+    handleSubmit() {
+      if (!this.popupText.trim()) {
+        return;
+      }
+      this.$emit("after-create-tweet", {
+        tweetDescription: this.popupText,
+      });
     },
- 
   },
 };
 </script>

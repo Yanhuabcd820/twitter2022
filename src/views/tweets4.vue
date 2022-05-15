@@ -33,6 +33,13 @@
       />
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="tweet in tweets" :key="tweet.id">
+          <!-- <popupReply
+            v-if="whichPopupReply === tweet.id"
+            @close-PopupReply="closePopupReply"
+            :tweet="tweet"
+            :user="user"
+            @after-create-reply="afterCreateReply"
+          /> -->
           <router-link
             :to="{ name: 'SelfPage', params: { id: tweet.User.id } }"
             class="tweet-avatar"
@@ -40,7 +47,7 @@
             <img :src="tweet.User.avatar" alt="" />
           </router-link>
           <router-link
-            :to="{ name: 'tweet', params: { id: tweet.id } }"
+            :to="{ name: 'tweet', params: { id: tweet.User.id } }"
             class="tweet-content"
           >
             <router-link
@@ -156,7 +163,6 @@ export default {
         const responesTweets = await tweetsApi.getTweets();
         const { tweets } = responesTweets.data.data;
         this.tweets = tweets;
-        console.log(this.tweets);
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -164,7 +170,6 @@ export default {
         });
       }
     },
-
     async addLike(tweetId) {
       try {
         const dataLike = await userApi.addLike({ tweetId });
@@ -213,87 +218,41 @@ export default {
       }
     },
 
-    async afterCreateReply(payload) {
-      try {
-        console.log("payload00", payload);
-        const { replyComment, tweetId } = payload;
-        console.log("replyComment", replyComment);
-        console.log("tweetId", tweetId);
-        const { data } = await tweetsApi.postTweetsReply({
-          replyComment,
-          tweetId,
-        });
-
-        console.log("replyComment", replyComment);
-        console.log("data", data);
-        // // const tweetId = data.data.data.tweet.id;
-        // this.replies.unshift({
-        //   description: replyComment,
-        //   id: tweetId,
-        //   User: {
-        //     id: this.user.id,
-        //     account: this.user.account,
-        //     name: this.user.name,
-        //     avatar: this.user.avatar,
-        //   },
-        //   createdAt: new Date(),
-        //   totalLikes: 0,
-        // });
-
-        // /*關掉PopupTweet*/
-        // this.isClickPopupTweet = false;
-        // // 成功的話則轉址到 `/tweets/:id`
-        // this.$router.push({ name: "tweet", params: { id: tweetId } });
-
-        // const { replyText, replyId } = payload;
-        // console.log("payload", payload);
-        // this.replies.unshift({
-        //   id: replyId,
-        //   comment: replyText,
-        //   User: {
-        //     id: this.user.id,
-        //     account: this.user.account,
-        //     name: this.user.name,
-        //     avatar: this.user.avatar,
-        //   },
-        //   createdAt: new Date(),
-        //   totalLikes: 0,
-        // });
-        // /*關掉PopupTweet*/
-        // this.closePopupReply();
-      } catch (error) {
-        Toast.fire({
-          icon: "error",
-          title: "無法新增此筆tweetReply",
-        });
-      }
+    afterCreateReply(payload) {
+      const { replyText, replyId } = payload;
+      console.log("payload", payload);
+      this.replies.unshift({
+        id: replyId,
+        comment: replyText,
+        User: {
+          id: this.user.id,
+          account: this.user.account,
+          name: this.user.name,
+          avatar: this.user.avatar,
+        },
+        createdAt: new Date(),
+        totalLikes: 0,
+      });
+      /*關掉PopupTweet*/
+      this.closePopupReply();
     },
-    async afterCreateTweet(payload) {
-      try {
-        const { tweetDescription } = payload;
-        const data = await tweetsApi.postTweets({ tweetDescription });
-        const tweetId = data.data.data.tweet.id;
-        this.tweets.unshift({
-          description: tweetDescription,
-          id: tweetId,
-          User: {
-            id: this.user.id,
-            account: this.user.account,
-            name: this.user.name,
-            avatar: this.user.avatar,
-          },
-          createdAt: new Date(),
-          totalLikes: 0,
-        });
-
-        /*關掉PopupTweet*/
-        this.isClickPopupTweet = false;
-      } catch (error) {
-        Toast.fire({
-          icon: "error",
-          title: "無法新增此筆tweet",
-        });
-      }
+    afterCreateTweet(payload) {
+      const { tweetText, tweetId } = payload;
+      console.log("payload", payload);
+      this.tweets.unshift({
+        id: tweetId,
+        description: tweetText,
+        User: {
+          id: this.user.id,
+          account: this.user.account,
+          name: this.user.name,
+          avatar: this.user.avatar,
+        },
+        createdAt: new Date(),
+        totalLikes: 0,
+      });
+      /*關掉PopupTweet*/
+      this.isClickPopupTweet = false;
     },
     openPopupTweet() {
       //將彈跳視窗打開

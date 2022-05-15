@@ -20,18 +20,18 @@ export default new Vuex.Store({
     isAuthenticated: false
   },
   mutations: {
-    setCurrentUser (state, currentUser) {
+    setCurrentUser(state, currentUser) {
       state.currentUser = {
         ...state.currentUser,
         // 將 API 取得的 currentUser 覆蓋掉 Vuex state 中的 currentUser
-        ...currentUser 
+        ...currentUser
       }
       // 將使用者的登入狀態改為 true
       state.isAuthenticated = true
     }
   },
   actions: {
-    async fetchCurrentUser ({commit}) {
+    async fetchCurrentUser({ commit }) {
       try {
 
         // 呼叫 usersAPI.getCurrentUser() 方法，並將 response 顯示出來
@@ -39,7 +39,7 @@ export default new Vuex.Store({
         //console.log('store vuex',response)
         const { id, name, account, email, avatar, cover, introduction, role,isAdmin } = response.data.data.user
         commit('setCurrentUser', {
-          id, name, account, email, avatar, cover, introduction, role,isAdmin
+          id, name, account, email, avatar, cover, introduction, role, isAdmin
         })
       } catch (error) {
         console.error(error.message)

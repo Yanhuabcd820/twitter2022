@@ -10,10 +10,10 @@
       <div class="popupTweet-text-wrap">
         <div class="popupTweet-text">
           <div class="popupTweet-avatar">
-            <img :src="user.avatar" alt="" />
+            <img src="../assets/images/avatar.png" alt="" />
           </div>
           <textarea
-            name="description"
+            name=""
             id=""
             maxlength="140"
             placeholder="有什麼新鮮事？"
@@ -24,11 +24,7 @@
           <div class="post-text-num-warning" v-if="popupText.length >= 140">
             字數不可超過 140 字
           </div>
-          <div class="post-text-num-warning" v-if="popupText.length <= 0">
-            不得為空白
-          </div>
           <div
-            type="submit"
             class="btn popupTweet-btn active"
             @click.prevent.stop="handleSubmit"
           >
@@ -40,34 +36,29 @@
   </div>
 </template>
 <script>
+import { v4 as uuidv4 } from "uuid";
 export default {
   name: "popupTweet",
-  props: {
-    user: {
-      type: Object,
-      required: true,
-    },
-  },
   data() {
     return {
       popupText: "",
-      noZero: false,
+      // id:'',
     };
   },
-
   methods: {
+    handleSubmit() {
+      console.log("handleSubmit");
+      this.$emit("after-create-tweet", {
+        tweetId: uuidv4(),
+        tweetText: this.popupText,
+      });
+      this.popupText = "";
+
+      this.closePopupTweet(); /*關掉PopupTweet*/
+    },
     closePopupTweet() {
       this.$emit("close-PopupTweet", {
-        isClickPopupReplyTweet: false,
-      });
-    },
-
-    handleSubmit() {
-      if (!this.popupText.trim()) {
-        return;
-      }
-      this.$emit("after-create-tweet", {
-        tweetDescription: this.popupText,
+        isClickPopupTweet: false,
       });
     },
   },

@@ -65,7 +65,7 @@
   </div>
 </template>
 <script>
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 import { fromNowFilter } from "./../utils/mixins";
 export default {
   name: "popupReply",
@@ -87,7 +87,7 @@ export default {
   methods: {
     closePopupReply() {
       this.$emit("close-PopupReply", {
-        //這裡只是要告訴父層已經點擊了關閉PopupReply按鈕
+        isClickPopupReplyTweet: false,
       });
     },
 
@@ -97,10 +97,9 @@ export default {
         return;
       }
       this.$emit("after-create-reply", {
-        replyId: uuidv4(),
-        replyText: this.popupText,
+        tweetId: this.tweet.id,
+        replyComment: this.popupText,
       });
-      this.popupText = "";
     },
   },
 

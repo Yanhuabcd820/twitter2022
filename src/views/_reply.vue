@@ -168,7 +168,7 @@ const dummyTweetsReplies = {
 import navigation from "../components/nav";
 import followTop from "../components/followTop";
 import popupReplyList from "../components/popupReplyList";
-import { fromNowFilter } from "./../utils/mixins";
+import { fromNowFilter } from "../utils/mixins";
 export default {
   name: "replyPage",
   // prpos: {

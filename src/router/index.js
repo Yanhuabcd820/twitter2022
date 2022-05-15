@@ -27,16 +27,7 @@ const routes = [
     name: 'tweets',
     component: () => import('../views/tweets.vue')
   },
-  // {
-  //   path: '/mainPage',
-  //   name: 'mainPage',
-  //   component: () => import('../views/mainPage.vue')
-  // },
-  // {
-  //   path: '/tweets/:id/replies',
-  //   name: 'replyPage',
-  //   component: () => import('../views/reply.vue')
-  // },
+
   {
     path: '/tweets/:id',
     name: 'tweet',
@@ -112,11 +103,11 @@ const routes = [
 
 
 const router = new VueRouter({
-  linkExactActiveClass: 'active',
+  // linkExactActiveClass: 'active',
   routes
 })
 
-router.beforeEach(async(to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   // 使用 dispatch 呼叫 Vuex 內的 actions
   await store.dispatch('fetchCurrentUser')
   next()

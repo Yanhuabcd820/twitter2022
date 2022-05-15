@@ -1,13 +1,18 @@
 <template>
   <div>
-    <popupUserEdit v-if="isClickPopupTweet" @close-PopupTweet="closePopupTweet" :initial-user="user" @after-edit-info="AfterEditInfo"/>
+    <popupUserEdit
+      v-if="isClickPopupTweet"
+      @close-PopupTweet="closePopupTweet"
+      :initial-user="user"
+      @after-edit-info="AfterEditInfo"
+    />
     <div class="user-block">
       <div class="user-cover">
-        <img :src="user.cover" alt="">
+        <img :src="user.cover" alt="" />
       </div>
       <div class="avatar-block">
         <div class="user-avatar">
-          <img :src="user.avatar" alt="">
+          <img :src="user.avatar" alt="" />
         </div>
         <div class="user-edit" @click.prevent.stop="openPopupTweet">
           編輯個人資料
@@ -15,11 +20,11 @@
       </div>
       <div class="user-info">
         <div class="user-account">
-          <h5>{{initialUser.name}}</h5>
-          <p class="fz14">@{{initialUser.account}}</p>
+          <h5>{{ initialUser.name }}</h5>
+          <p class="fz14">@{{ initialUser.account }}</p>
         </div>
         <p class="user-des fz14">
-          {{initialUser.introduction}} 
+          {{ initialUser.introduction }}
         </p>
         <div class="user-follow">
           <router-link :to="{ name: '/SelfPage/Following', params: { id: initialUser.id }}"><p class="fz14 udline">{{initialUser.followingCount}}個跟隨中</p></router-link>
@@ -37,22 +42,22 @@ export default {
   props: {
     initialUser: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   components: {
-    popupUserEdit
+    popupUserEdit,
   },
   data() {
     return {
       isClickPopupTweet: false,
-      user : {
+      user: {
         id: -1,
-        account: '',
-        avatar: '',
-        cover: '',
-        name: '',
-        introduction: ''
+        account: "",
+        avatar: "",
+        cover: "",
+        name: "",
+        introduction: "",
         //id: this.initialUser.id,
         //account: this.initialUser.account,
         //avatar: this.initialUser.avatar,
@@ -71,101 +76,104 @@ export default {
       const { isClickPopupTweet } = payload;
       this.isClickPopupTweet = isClickPopupTweet;
     },
-    AfterEditInfo(payload){
-      const { avatar,cover } = payload
-      console.log(payload)
-      this.user.avatar = avatar
-      this.user.cover = cover
+    AfterEditInfo(payload) {
+      const { avatar, cover } = payload;
+      console.log(payload);
+      this.user.avatar = avatar;
+      this.user.cover = cover;
     },
-    fetchUser(){
-      //console.log(1)
-      this.user = {...this.user,...this.initialUser}
-      //console.log('initial-user in userInfo',this.initialUser.account)
-      //console.log('user', this.user.account)
-      //console.log(2)
-    }
+    fetchUser() {
+      console.log(1);
+      this.user = { ...this.user, ...this.initialUser };
+      console.log("initial-user in userInfo", this.initialUser.account);
+      console.log("user", this.user.account);
+      console.log(2);
+    },
   },
-  created(){
-    this.fetchUser()
+  created() {
+    this.fetchUser();
   },
-  watch:{
-    initialUser(){
-      this.user = this.initialUser
-    }
-  }
-}
+  watch: {
+    initialUser() {
+      this.user = this.initialUser;
+    },
+  },
+};
 </script>
 
 <style scoped>
-  .user-name {
-    display: flex;
-    flex-direction: column;
-  }
-  .user-name h5 {
-    line-height: 26px;
-  }
-  .user-name p {
-    line-height: 18.82px;
-    color: var(--secondary-text-color);
-  }
-  .user-cover>img {
-    object-fit: cover;
-    object-position: initial;
-    height: 200px;
-    width: 639px;
-  }
-  .avatar-block {
-    position: relative;
-    display: flex;
-    justify-content: end;
-  }
-  .user-avatar {
-    width: 140px;
-    position: absolute;
-    top: -70px;
-    left: 16px;
-  }
-  .user-avatar>img{
-    object-fit: cover;
-    object-position: initial;
-    height: 140px;
-    width: 140px;
-    border-radius: 50%;
-    border: 3px white solid;
-  }
-  .user-edit {
-    width: 128px;
-    height: 40px;
-    border: var(--main-color) 1px solid;
-    color: var(--main-color);
-    border-radius: 50px;
-    margin-top: 16px;
-    margin-right: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .user-edit:hover {
-    border: var(--main-color) 1px solid;
-    color: white;
-    background-color: var(--main-color);
-    cursor: pointer;
-  }
-  .user-info{
-    margin-left: 16px;
-    margin-top: 16px;
-  }
-  .user-account p {
-    color: var(--secondary-text-color);
-  }
-  .user-follow {
-    display: flex;
-  }
-  .user-follow p {
-    margin-right: 20px;
-    color: #171725;
-  }
-  .udline:hover{
-    text-decoration: underline;
-  }
+.user-block {
+  margin-top: 75px;
+}
+.user-name {
+  display: flex;
+  flex-direction: column;
+}
+.user-name h5 {
+  line-height: 26px;
+}
+.user-name p {
+  line-height: 18.82px;
+  color: var(--secondary-text-color);
+}
+.user-cover > img {
+  object-fit: cover;
+  object-position: initial;
+  height: 200px;
+  width: 639px;
+}
+.avatar-block {
+  position: relative;
+  display: flex;
+  justify-content: end;
+}
+.user-avatar {
+  width: 140px;
+  position: absolute;
+  top: -70px;
+  left: 16px;
+}
+.user-avatar > img {
+  object-fit: cover;
+  object-position: initial;
+  height: 140px;
+  width: 140px;
+  border-radius: 50%;
+  border: 3px white solid;
+}
+.user-edit {
+  width: 128px;
+  height: 40px;
+  border: var(--main-color) 1px solid;
+  color: var(--main-color);
+  border-radius: 50px;
+  margin-top: 16px;
+  margin-right: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.user-edit:hover {
+  border: var(--main-color) 1px solid;
+  color: white;
+  background-color: var(--main-color);
+  cursor: pointer;
+}
+.user-info {
+  margin-left: 16px;
+  margin-top: 16px;
+}
+.user-account p {
+  color: var(--secondary-text-color);
+}
+.user-follow {
+  display: flex;
+}
+.user-follow p {
+  margin-right: 20px;
+  color: #171725;
+}
+.udline:hover {
+  text-decoration: underline;
+}
 </style>

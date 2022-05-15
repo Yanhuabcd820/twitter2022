@@ -5,11 +5,11 @@
       <img src="../assets/images/logo.png" alt="" />
     </div>
     <div class="nav-btn-group">
-      <router-link to="/mainPage" class="nav-btn">
+      <router-link to="/tweets" class="nav-btn">
         <div class="nav-btn-img nav-btn-home-img"></div>
         <h5>首頁</h5>
       </router-link>
-      <router-link to="/user" class="nav-btn">
+      <router-link to="/user/1" class="nav-btn">
         <div class="nav-btn-img nav-btn-user-img"></div>
         <h5>個人資料</h5>
       </router-link>

@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <form @submit.prevent.stop='handleSubmit'>
+    <form @submit.prevent.stop="handleSubmit">
       <div class="logo">
-        <img src="./../assets/icons/logo@2x.png" alt="">
+        <img src="./../assets/icons/logo@2x.png" alt="" />
       </div>
       <div class="title">
         <h3>登入 Alphitter</h3>
@@ -17,7 +17,7 @@
           required
           autofocus
           v-model="account"
-        >
+        />
       </div>
       <div class="form-label-group">
         <label for="password">密碼</label>
@@ -29,7 +29,7 @@
           required
           autofocus
           v-model="password"
-        >
+        />
       </div>
       <button type="submit" class="confirm-btn" :disabled="isProcessing">
         <p>登入</p>
@@ -46,40 +46,41 @@
 <style lang="css" src="./../assets/css/LoginRegist.css" scoped></style>
 
 <script>
-import authorizationAPI from './../apis/authorization'
+import authorizationAPI from "./../apis/authorization";
 //import { Toast } from './../utils/helpers'
 
 export default {
-  data(){
+  data() {
     return {
-      account: '',
-      password: '',
-      isProcessing: false
-    }
+      account: "",
+      password: "",
+      isProcessing: false,
+    };
   },
   methods: {
-    handleSubmit () {
+    handleSubmit() {
       // 暫時，避免錯誤
-      if(this.account === 'root@example.com' || this.account === 'root') {
-        console.log('you are admin')
-        return
+      if (this.account === "root@example.com" || this.account === "root") {
+        console.log("you are admin");
+        return;
       }
-      authorizationAPI.signIn({
-        account: this.account,
-        password: this.password
-      }).then(response => {
-        console.log(response)
-        // 取得 API 請求後的資料
-        const { data } = response
-        // 將 token 存放在 localStorage 內
-        localStorage.setItem('token', data.data.token)
-        //vuex: setting current user
-        this.$store.commit('setCurrentUser',data.data.user)
-        // 成功登入後轉址到餐廳首頁
-        this.$router.push('/mainPage')
-      })
+      authorizationAPI
+        .signIn({
+          account: this.account,
+          password: this.password,
+        })
+        .then((response) => {
+          console.log(response);
+          // 取得 API 請求後的資料
+          const { data } = response;
+          // 將 token 存放在 localStorage 內
+          localStorage.setItem("token", data.data.token);
+          //vuex: setting current user
+          this.$store.commit("setCurrentUser", data.data.user);
+          // 成功登入後轉址到餐廳首頁
+          this.$router.push("/tweets");
+        });
     },
-    
-  }
-}
+  },
+};
 </script>

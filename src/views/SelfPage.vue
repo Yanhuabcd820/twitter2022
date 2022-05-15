@@ -149,7 +149,7 @@ export default {
     async fetchTweets(userId){
       try {
         const response = await userAPI.getUserTweets(userId)
-        console.log('fetch tweets response', response)
+        //console.log('fetch tweets response', response)
         this.tweets = [...response.data.data.tweets]
       } catch (error) {
         console.log('error', error)

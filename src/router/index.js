@@ -59,7 +59,7 @@ const routes = [
     component: () => import('../views/SelfPage.vue')
   },
   {
-    path: '/SelfPage/reply',
+    path: '/user/:id/reply',
     name: 'SelfPage/reply',
     component: () => import('../views/SelfPageReply.vue')
   },

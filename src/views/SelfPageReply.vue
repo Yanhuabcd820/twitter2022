@@ -13,14 +13,12 @@
           </div>
           <div class="tweet-content">
             <div class="tweet-name-group">
-              <p class="tweet-name"><b>Apple</b></p>
-              <p class="tweet-account fz14">@apple・3 小時</p>
+              <p class="tweet-name"><b>{{user.name}}</b></p>
+              <p class="tweet-account fz14">@{{user.account}}・{{reply.createdAt | fromNow}}</p>
             </div>
             <div class="tweet-text">
               <p>
-                Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis
-                ullamco fdfsdfscillum dolor. Voluptate exercitation incididunt
-                aliquip deserunt reprehenderit elit laborum.
+                {{reply.comment}}
               </p>
             </div>
             <div class="tweet-count">
@@ -52,8 +50,12 @@ import userInfo from "../components/userInfo";
 import userInfoOther from "../components/userInfoOther";
 import userTitle from "../components/userTitle";
 import navTabs from "../components/navTabs";
+import userAPI from './../apis/user'
+import { mapState } from 'vuex'
+import { fromNowFilter } from './../utils/mixins'
+import { Toast } from './../utils/helpers'
 
-
+/*
 const dummyUser = {
   "id": 1,
   "account": "heyjohn",
@@ -96,7 +98,7 @@ const dummyData = {
     }
   ]
 }
-
+*/
 
 export default {
   name: "mainPage",
@@ -114,7 +116,6 @@ export default {
         id: -1,
         account: "",
         name: "",
-        email: "",
         role: "",
         introduction: "",
         avatar: "",
@@ -122,23 +123,54 @@ export default {
         followingCount: -1,
         followerCount: -1,
         isFollowing: false,
-        createdAt: "",
-        updatedAt: ""
       },
       replies: [],
       isMe: true
     };
   },
   methods: {
-    fetchData(){
-      const {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt} = dummyUser
-      this.user = {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt}
-      this.replies = [...dummyData.replies]
+    async fetchUser(userId){
+      try {
+        const response = await userAPI.getUser(userId)
+        const {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt} = response.data.data.user
+        this.user = {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt}
+      } catch (error) {
+        console.log('error', error)
+      }
+    },    
+    async fetchUserReplies(userId){
+      try {
+        const response = await userAPI.getUserReplies(userId)
+        console.log(response)
+        this.replies = [...response.data.data.replies]
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    isThisMe(paramsId){
+      this.isMe = this.currentUser.id == paramsId   // 驗證是不是我
     }
   },
+  computed: {
+    ...mapState(['currentUser'])
+  },
   created(){
-    this.fetchData()
-  }
+    // 用token取得資料，取得後看role，是user或是admin，如果不是use，就跳出提醒，回到登入頁
+    const twitterToken = localStorage.getItem('token')
+    //console.log(twitterToken)
+    if (!twitterToken){
+      Toast.fire({
+        icon: 'warning',
+        title: '請登入'
+      })
+      this.$router.push("/login");
+    }
+    const { id: userId } = this.$route.params
+    this.fetchUser(userId)
+    this.fetchUserReplies(userId)
+    this.isThisMe(userId)  
+  },
+  mixins: [fromNowFilter]
 };
 </script>
 

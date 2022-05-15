@@ -138,9 +138,9 @@ export default {
     async fetchUser(userId){
       try {
         const response = await userAPI.getUser(userId)
-        //console.log('response', response)
+        console.log('response in selfPage', response)
         // dummyUser 對應 response.data.user
-        const {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt} = response.data.user
+        const {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt} = response.data.data.user
         this.user = {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt}
         //console.log('user',this.user)
       } catch (error) {
@@ -159,9 +159,9 @@ export default {
       this.tweets = [...dummyTweets.tweets]
     },
     isThisMe(paramsId){
-      //console.log('params', paramsId)
-      //console.log('vuex',this.currentUser.id)
-      //console.log(this.isMe)
+      console.log('params', paramsId)
+      console.log('vuex',this.currentUser.id)
+      console.log(this.isMe)
       this.isMe = this.currentUser.id == paramsId   // 驗證是不是我
     }
   },  

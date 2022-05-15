@@ -22,8 +22,8 @@
           {{initialUser.introduction}} 
         </p>
         <div class="user-follow">
-          <router-link to="/SelfPage/Following"><p class="fz14 udline">{{initialUser.followingCount}}個跟隨中</p></router-link>
-          <router-link to="/SelfPage/Follower"><p class="fz14 udline">{{initialUser.followerCount}}位跟隨者</p></router-link>
+          <router-link :to="{ name: '/SelfPage/Following', params: { id: initialUser.id }}"><p class="fz14 udline">{{initialUser.followingCount}}個跟隨中</p></router-link>
+          <router-link :to="{ name: '/SelfPage/Follower', params: { id: initialUser.id }}"><p class="fz14 udline">{{initialUser.followerCount}}位跟隨者</p></router-link>
         </div>
       </div>
     </div>

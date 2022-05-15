@@ -69,12 +69,12 @@ const routes = [
     component: () => import('../views/SelfPageLikes.vue')
   },
   {
-    path: '/SelfPage/Follower',
+    path: '/user/:id/follower',
     name: '/SelfPage/Follower',
     component: () => import('../views/SelfPageFollower.vue')
   },
   {
-    path: '/SelfPage/Following',
+    path: '/user/:id/following',
     name: '/SelfPage/Following',
     component: () => import('../views/SelfPageFollowing.vue')
   },

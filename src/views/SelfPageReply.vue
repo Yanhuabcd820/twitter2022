@@ -3,7 +3,7 @@
     <navigation />
     <div class="main">
       <userTitle :userName="user.name" :tweetNum="2"/>
-      <userInfo :user="user" v-if="isMe"/>
+      <userInfo :initial-user="user" v-if="isMe"/>
       <userInfoOther v-else/>
       <navTabs />
       <div class="tweet-wrap">

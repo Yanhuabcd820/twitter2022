@@ -12,7 +12,7 @@ export default {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
-  getUserTweets ( userId ) { // not work
+  getUserTweets ( userId ) { 
     return apiHelper.get(`/api/users/${userId}/tweets`, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })

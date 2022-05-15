@@ -4,6 +4,7 @@
     <div class="tweet-list">
       <div class="tweet-list-title">
         <h4>推文清單</h4>
+        <button @click="testToast">toast</button>
       </div>
       <div class="tweet-list-warp">   
         <div class="tweet-list-card" v-for="tweet in tweets" :key="tweet.id">
@@ -39,6 +40,7 @@ import InfiniteLoading from 'vue-infinite-loading';
 import { fromNowFilter } from './../utils/mixins'
 import axios from 'axios';
 //import tweetAPI from './../apis/tweets'
+import Swal from 'sweetalert2'
 
 const getToken = () => localStorage.getItem('token')
 
@@ -72,12 +74,33 @@ export default {
         console.log('error',error)
       }
     },
+    testToast(){
+      Swal.fire({
+        title: '請重複確認',
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        icon: 'info',
+        customClass: {
+          container: 'container-class',
+          title: 'title-Class'
+        }
+      })
+    }
   },
   mixins: [fromNowFilter]
 };
 </script>
 
 <style lang="css" src="@/assets/css/adminTweetList.css" scoped></style>
-<style scoped>
-  
+<style>
+.swal2-container{
+  direction: rtl !important;
+}
+.swal2-popup{
+  grid-template-columns: 1fr 1fr !important;
+}
+.swal2-title{
+  text-align: left !important;
+}
 </style>

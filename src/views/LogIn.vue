@@ -68,7 +68,7 @@ export default {
         console.log("you are admin");
         Toast.fire({
           icon: 'warning',
-          title: '管理者帳號',
+          title: '管理者帳號'
         })
         return;
       }

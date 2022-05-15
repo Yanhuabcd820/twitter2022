@@ -5,16 +5,16 @@
       <div class="tweet-list-title">
         <h4>推文清單</h4>
       </div>
-      <div class="tweet-list-warp">
-        <div class="tweet-list-card">
+      <div class="tweet-list-warp">   
+        <div class="tweet-list-card" v-for="tweet in tweets" :key="tweet.id">
           <div class="tweet-list-avatar">
-            <img src="../assets/images/avatar_default.png" alt="" />
+            <img :src="tweet.User.avatar" alt="" />
           </div>
           <div class="tweet-list-content">
             <div class="tweet-list-title">
               <div class="tweet-list-name-group">
-                <p class="tweet-list-name"><b>Apple</b></p>
-                <p class="tweet-list-account fz14">@apple・3 小時</p>
+                <p class="tweet-list-name"><b>{{tweet.User.name}}</b></p>
+                <p class="tweet-list-account fz14">@{{tweet.User.account}}・{{tweet.createdAt | fromNow}} 小時</p>
               </div>
               <div class="tweet-list-delete">
                 <img src="../assets/images/tweet-list-delete.png" alt="" />
@@ -22,9 +22,7 @@
             </div>
             <div class="tweet-list-text">
               <p>
-                Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis
-                ullamco fdfsdfscillum dolor. Voluptate exercitation incididunt
-                aliquip deserunt reprehenderit elit laborum.
+                {{tweet.description}}
               </p>
             </div>
           </div>
@@ -35,31 +33,43 @@
 </template>
 <script>
 import navigationAdmin from "../components/navAdmin";
+//import InfiniteLoading from 'vue-infinite-loading';
+//import {v4 as uuidv4} from 'uuid'
+import { fromNowFilter } from './../utils/mixins'
+
+import tweetAPI from './../apis/tweets'
+
 
 export default {
   name: "adminTweetList",
   components: {
     navigationAdmin,
+    //InfiniteLoading
   },
   data() {
     return {
-      tweets: []
+      tweets: [],
     };
   },
   methods: {
-    fetchTweets(){
-      // 串接api得到回應
-
-      // 抓取回應錯誤
-
-      // this.tweets = dummyData.tweets
-      
-    }
+    async fetchTweets(){
+      try {
+        const response = await tweetAPI.getTweets()
+        console.log('response', response)
+        this.tweets = response.data.data.tweets
+      } catch (error) {
+        console.log('error',error)
+      }
+    },
   },
   created(){
     this.fetchTweets()
-  }
+  },
+  mixins: [fromNowFilter]
 };
 </script>
 
 <style lang="css" src="@/assets/css/adminTweetList.css" scoped></style>
+<style scoped>
+  
+</style>

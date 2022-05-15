@@ -38,6 +38,7 @@
 
 .tweet-list-content {
   flex-shrink: 1;
+  width: 100%;
 }
 
 .tweet-list-title {

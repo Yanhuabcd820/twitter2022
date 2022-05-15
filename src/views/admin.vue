@@ -44,6 +44,8 @@
 <style lang="css" src="./../assets/css/LoginRegist.css" scoped></style>
 
 <script>
+import { Toast } from './../utils/helpers'
+
 export default {
   data() {
     return {
@@ -56,9 +58,18 @@ export default {
       
       if (this.account !== "root") {
         console.log("you are not admin");
+
+        Toast.fire({
+          icon: 'warning',
+          title: '請確認您輸入了正確的帳號密碼'
+        })
+
         return;
       }
-
+      Toast.fire({
+        icon: 'success',
+        title: '成功登入'
+      })
       // 把帳號密碼連API
 
       // 取得 API 請求後的資料

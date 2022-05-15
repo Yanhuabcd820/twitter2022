@@ -29,75 +29,6 @@
             </div>
           </div>
         </div>
-        <div class="tweet-list-card">
-          <div class="tweet-list-avatar">
-            <img src="../assets/images/avatar_default.png" alt="" />
-          </div>
-          <div class="tweet-list-content">
-            <div class="tweet-list-title">
-              <div class="tweet-list-name-group">
-                <p class="tweet-list-name"><b>Apple</b></p>
-                <p class="tweet-list-account fz14">@apple・3 小時</p>
-              </div>
-              <div class="tweet-list-delete">
-                <img src="../assets/images/tweet-list-delete.png" alt="" />
-              </div>
-            </div>
-            <div class="tweet-list-text">
-              <p>
-                Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis
-                ullamco fdfsdfscillum dolor. Voluptate exercitation incididunt
-                aliquip deserunt reprehenderit elit laborum.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="tweet-list-card">
-          <div class="tweet-list-avatar">
-            <img src="../assets/images/avatar_default.png" alt="" />
-          </div>
-          <div class="tweet-list-content">
-            <div class="tweet-list-title">
-              <div class="tweet-list-name-group">
-                <p class="tweet-list-name"><b>Apple</b></p>
-                <p class="tweet-list-account fz14">@apple・3 小時</p>
-              </div>
-              <div class="tweet-list-delete">
-                <img src="../assets/images/tweet-list-delete.png" alt="" />
-              </div>
-            </div>
-            <div class="tweet-list-text">
-              <p>
-                Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis
-                ullamco fdfsdfscillum dolor. Voluptate exercitation incididunt
-                aliquip deserunt reprehenderit elit laborum.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="tweet-list-card">
-          <div class="tweet-list-avatar">
-            <img src="../assets/images/avatar_default.png" alt="" />
-          </div>
-          <div class="tweet-list-content">
-            <div class="tweet-list-title">
-              <div class="tweet-list-name-group">
-                <p class="tweet-list-name"><b>Apple</b></p>
-                <p class="tweet-list-account fz14">@apple・3 小時</p>
-              </div>
-              <div class="tweet-list-delete">
-                <img src="../assets/images/tweet-list-delete.png" alt="" />
-              </div>
-            </div>
-            <div class="tweet-list-text">
-              <p>
-                Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis
-                ullamco fdfsdfscillum dolor. Voluptate exercitation incididunt
-                aliquip deserunt reprehenderit elit laborum.
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -111,9 +42,23 @@ export default {
     navigationAdmin,
   },
   data() {
-    return {};
+    return {
+      tweets: []
+    };
   },
-  methods: {},
+  methods: {
+    fetchTweets(){
+      // 串接api得到回應
+
+      // 抓取回應錯誤
+
+      // this.tweets = dummyData.tweets
+      
+    }
+  },
+  created(){
+    this.fetchTweets()
+  }
 };
 </script>
 

@@ -47,6 +47,7 @@
 import navigation from "../components/nav";
 import followTop from "../components/followTop";
 import userInfo from "../components/userInfo";
+import userInfoOther from "../components/userInfoOther";
 import userTitle from "../components/userTitle";
 import navTabs from "../components/navTabs";
 import { fromNowFilter } from './../utils/mixins'
@@ -110,7 +111,8 @@ export default {
     followTop,
     userInfo,
     userTitle,
-    navTabs
+    navTabs,
+    userInfoOther,
   },
   data() {
     return {

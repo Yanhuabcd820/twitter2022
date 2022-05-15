@@ -4,7 +4,7 @@
     <div class="main">
       <userTitle :userName="user.name" :tweetNum="tweets.length"/>
       <userInfo :initial-user="user" v-if="isMe"/>
-      <userInfoOther v-else/>
+      <userInfoOther :initial-user="user" v-else/>
       <navTabs :userId="$route.params.id"/>
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="tweet in tweets" :key="tweet.id">

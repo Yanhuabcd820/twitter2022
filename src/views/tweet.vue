@@ -23,7 +23,7 @@
                 <b>{{ tweet.User.name }}</b>
               </p>
               <p class="reply-account fz14">
-                @{{ tweet.User.account }}・{{ tweet.createdAt }}
+                @{{ tweet.User.account }}・{{ tweet.createdAt | fromNow }}
               </p>
             </div>
           </div>

@@ -84,7 +84,13 @@ export default {
     navigation,
   },
   data() {
-    return {};
+    return {
+      account: "",
+      name: "",
+      email: "",
+      password: "",
+      passwordCheck: "",
+    };
   },
   methods: {},
 };

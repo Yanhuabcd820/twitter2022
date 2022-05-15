@@ -13,7 +13,7 @@
       </div>
       <div class="post">
         <div class="post-inner">
-          <router-link to="/" class="post-avatar">
+          <router-link to="/user/1" class="post-avatar">
             <img :src="user.avatar" alt="" />
           </router-link>
         </div>

@@ -39,18 +39,20 @@ img {
   flex-direction: column;
   width: 356px;
   background-color: #F5F8FA;
-  border-bottom: 2px #657786 solid;
+  /*border-bottom: 2px #657786 solid;*/
   padding: 2px 10.55px;
   margin-bottom: 32px;
   box-sizing: border-box;
+  position: relative;
 }
-
+/*.form-label-group:hover {
+  border-bottom: 2px #50B5FF solid;
+}*/
 label {
   font-size: 14px;
   line-height: 22px;
   color: #696974;
 }
-
 input {
   font-size: 16px;
   line-height: 26px;
@@ -58,12 +60,34 @@ input {
   background-color: #F5F8FA;
   outline: none;
 }
-
+.input-bottomline {
+  width: 356px;
+  height: 2px;
+  background-color: #657786;
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+}
+input:focus ~ .input-bottomline{
+  background-color: #50B5FF;
+}
+.form-label-group:hover >.input-bottomline{
+  background-color: #50B5FF;
+}
+.inputBottomLineWarn {
+  background-color: #FC5A5A;
+}
 ::placeholder {
   /* CSS 3 標準 */
   color: #B5B5BE;
 }
-
+.input-warning{
+  position: absolute;
+  font-size: 12px;
+  top: 100%;
+  left: 0px;
+  color: #FC5A5A;
+}
 .confirm-btn {
   background-color: #FF6600;
   width: 356px;

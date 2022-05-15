@@ -18,6 +18,8 @@
           autofocus
           v-model="account"
         />
+        <div class="input-bottomline" :class="{inputBottomLineWarn: !isAccountExist}"></div>
+        <div class="input-warning" v-if="!isAccountExist">帳號不存在</div>
       </div>
       <div class="form-label-group">
         <label for="password">密碼</label>
@@ -30,6 +32,7 @@
           autofocus
           v-model="password"
         />
+        <div class="input-bottomline"></div>
       </div>
       <button type="submit" class="confirm-btn" :disabled="isProcessing">
         <p>登入</p>
@@ -55,6 +58,7 @@ export default {
       account: "",
       password: "",
       isProcessing: false,
+      isAccountExist: true
     };
   },
   methods: {
@@ -87,7 +91,11 @@ export default {
             icon: 'success',
             title: '成功登入'
           })
-        });
+        })
+        .catch ((error)=>{
+          console.log(error)
+          this.isAccountExist = false
+        })
     },
   },
 };

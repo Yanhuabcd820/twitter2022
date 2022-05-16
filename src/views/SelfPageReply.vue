@@ -179,6 +179,16 @@ export default {
     this.fetchUserReplies(userId)
     this.isThisMe(userId)  
   },
+  watch: {
+    '$route.params.id': {
+      handler: function(userId){
+        this.fetchUser(userId)
+        this.fetchTweets(userId)
+        this.isThisMe(userId)
+      },
+      immediate: true,
+    }
+  },
   mixins: [fromNowFilter]
 };
 </script>

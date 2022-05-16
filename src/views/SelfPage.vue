@@ -136,9 +136,10 @@ export default {
     async fetchUser(userId){
       try {
         const response = await userAPI.getUser(userId)
-        //console.log('response in selfPage', response)
+        console.log('response in selfPage', response)
         // dummyUser 對應 response.data.user
-        const {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt} = response.data.data.user
+        const {id,account,name,email,role, introduction, avatar,cover,isFollowing,createdAt,updatedAt} = response.data.data.user
+        const {followingCount,followerCount} = response.data.data
         this.user = {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt}
         //console.log('user',this.user)
       } catch (error) {
@@ -185,8 +186,10 @@ export default {
   },
   watch: {
     '$route.params.id': {
-      handler: function(id){
-        this.fetchUser(id)
+      handler: function(userId){
+        this.fetchUser(userId)
+        this.fetchTweets(userId)
+        this.isThisMe(userId)
       },
       immediate: true,
     }

@@ -96,7 +96,7 @@ export default {
   watch: {
     initialUser() {
       this.user = this.initialUser;
-    },
+    }
   },
 };
 </script>

@@ -17,7 +17,7 @@ form {
   margin-top: 69px;
   display: flex;
   justify-content: center;
-}
+}w
 
 img {
   width: 50px;
@@ -45,6 +45,7 @@ img {
   box-sizing: border-box;
   position: relative;
 }
+
 /*.form-label-group:hover {
   border-bottom: 2px #50B5FF solid;
 }*/
@@ -53,6 +54,7 @@ label {
   line-height: 22px;
   color: #696974;
 }
+
 input {
   font-size: 16px;
   line-height: 26px;
@@ -60,6 +62,7 @@ input {
   background-color: #F5F8FA;
   outline: none;
 }
+
 .input-bottomline {
   width: 356px;
   height: 2px;
@@ -68,26 +71,32 @@ input {
   bottom: 0px;
   left: 0;
 }
-input:focus ~ .input-bottomline{
+
+input:focus~.input-bottomline {
   background-color: #50B5FF;
 }
-.form-label-group:hover >.input-bottomline{
+
+.form-label-group:hover>.input-bottomline {
   background-color: #50B5FF;
 }
+
 .inputBottomLineWarn {
   background-color: #FC5A5A;
 }
+
 ::placeholder {
   /* CSS 3 標準 */
   color: #B5B5BE;
 }
-.input-warning{
+
+.input-warning {
   position: absolute;
   font-size: 12px;
   top: 100%;
   left: 0px;
   color: #FC5A5A;
 }
+
 .confirm-btn {
   background-color: #FF6600;
   width: 356px;
@@ -115,7 +124,7 @@ nav {
 
 nav p.login-btn {
   color: var(--primary-color);
-  text-decoration: underline;
+  /* text-decoration: underline; */
 
 }
 
@@ -125,4 +134,18 @@ nav>* {
 
 nav:last-child {
   margin-right: 15px;
+}
+
+
+/* 修改chrom內建顏色 */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #F5F8FA inset !important;
+}
+
+a {
+  color: var(--primary-color);
+  border-bottom: 1px solid var(--primary-color);
 }

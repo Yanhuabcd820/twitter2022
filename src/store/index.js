@@ -33,7 +33,11 @@ export default new Vuex.Store({
   actions: {
     async fetchCurrentUser({ commit }) {
       try {
-
+        const token = localStorage.getItem('token')
+        // 假如沒有token，就中斷
+        if(!token){
+          return
+        }
         // 呼叫 usersAPI.getCurrentUser() 方法，並將 response 顯示出來
         const response = await userAPI.getUser(1)  // 現在暫時都把user1當成登入的使用者資料
         //console.log('store vuex',response)

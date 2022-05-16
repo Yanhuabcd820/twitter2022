@@ -8,7 +8,6 @@ export default {
     })
   },
   signUp({account, password, confirmPassword, name, email}){
-    console.log('api',{account, password, confirmPassword, name, email})
     return apiHelper.post('/api/users', {
       account,
       password,

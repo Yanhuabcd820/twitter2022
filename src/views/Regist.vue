@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <form @click.stop.prevent="handleSubmit">
+    <form @submit.stop.prevent="handleSubmit">
       <div class="logo">
         <img src="./../assets/icons/logo@2x.png" alt="" />
       </div>
@@ -16,8 +16,9 @@
           placeholder="請輸入帳號"
           required
           autofocus
-          v-model="account"
+          v-model="user.account"
         />
+        <div class="input-bottomline"></div>
       </div>
       <div class="form-label-group">
         <label for="name">名稱</label>
@@ -28,8 +29,9 @@
           placeholder="請輸入使用者名稱"
           required
           autofocus
-          v-model="name"
+          v-model="user.name"
         />
+        <div class="input-bottomline"></div>
       </div>
       <div class="form-label-group">
         <label for="email">Email</label>
@@ -40,8 +42,9 @@
           placeholder="請輸入Email"
           required
           autofocus
-          v-model="email"
+          v-model="user.email"
         />
+        <div class="input-bottomline"></div>
       </div>
       <div class="form-label-group">
         <label for="password">密碼</label>
@@ -52,20 +55,22 @@
           placeholder="請設定密碼"
           required
           autofocus
-          v-model="password"
+          v-model="user.password"
         />
+        <div class="input-bottomline"></div>
       </div>
       <div class="form-label-group">
         <label for="passwordCheck">密碼確認</label>
         <input
-          id="passwordCheck"
-          name="passwordCheck"
+          id="checkPassword"
+          name="checkPassword"
           type="password"
           placeholder="請再次輸入密碼"
           required
           autofocus
-          v-model="passwordCheck"
+          v-model="user.confirmPassword"
         />
+        <div class="input-bottomline"></div>
       </div>
       <button class="confirm-btn" type="submit">
         <p>註冊</p>
@@ -85,25 +90,55 @@ nav {
 </style>
 
 <script>
+import authorizationAPI from "./../apis/authorization";
+import { Toast } from './../utils/helpers'
+
 export default {
   data() {
     return {
-      account: "",
-      name: "",
-      email: "",
-      password: "",
-      passwordCheck: "",
+      user: {
+        account: "",
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      },
     };
   },
   methods: {
-    handleSubmit() {
-      const data = JSON.stringify({
-        name: this.name,
-        email: this.email,
-        password: this.password,
-        passwordCheck: this.passwordCheck,
-      });
-      console.log("data", data);
+    async handleSubmit() {
+      try {
+        console.log(this.user)
+        if (this.user.account === "root") {
+          console.log("you are admin");
+          Toast.fire({
+            icon: 'warning',
+            title: '管理者帳號'
+          })
+          return;
+        }
+      // const jsonfile = JSON.stringify({
+      //   account: this.user.account,
+      //   password: this.user.password,
+      //   confirmPassword: this.user.confirmPassword,
+      //   name: this.user.name,
+      //   email: this.user.email
+      // })
+        const response = await authorizationAPI
+        .signUp(this.user)
+        console.log('signup',response)
+        Toast.fire({
+          icon: 'success',
+          title: '成功註冊'
+        })
+        this.$router.push("/login"); // 註冊後跳到登入頁面
+      } catch (error) {
+        console.log(error)
+        Toast.fire({
+          icon: 'warning',
+          title: '註冊失敗'
+        })
+      }
     },
   },
 };

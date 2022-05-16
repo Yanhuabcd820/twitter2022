@@ -2,11 +2,11 @@
   <div>
     <div class="user-block">
       <div class="user-cover">
-        <img :src="initialUser.cover" alt="">
+        <img :src="user.cover" alt="">
       </div>
       <div class="avatar-block">
         <div class="user-avatar">
-          <img :src="initialUser.avatar" alt="">
+          <img :src="user.avatar" alt="">
         </div>
         <div class="tools">
           <div class="icon"><img src="../assets/images/mail.png" alt=""></div>
@@ -16,15 +16,15 @@
       </div>
       <div class="user-info">
         <div class="user-account">
-          <h5>{{initialUser.name}}</h5>
-          <p class="fz14">@{{initialUser.account}}</p>
+          <h5>{{user.name}}</h5>
+          <p class="fz14">@{{user.account}}</p>
         </div>
         <p class="user-des fz14">
-          {{initialUser.introduction}}  
+          {{user.introduction}}  
         </p>
         <div class="user-follow">
-          <router-link to="/SelfPage/Following"><p class="fz14 udline">{{initialUser.followingCount}}個跟隨中</p></router-link>
-          <router-link to="/SelfPage/Follower"><p class="fz14 udline">{{initialUser.followerCount}}位跟隨者</p></router-link>
+          <router-link to="/SelfPage/Following"><p class="fz14 udline">{{user.followingCount}}個跟隨中</p></router-link>
+          <router-link to="/SelfPage/Follower"><p class="fz14 udline">{{user.followerCount}}位跟隨者</p></router-link>
         </div>
       </div>
     </div>
@@ -36,9 +36,27 @@ export default {
   props: {
     initialUser: {
       type: Object,
-      required: true
+      required: true,
+    },
+  },
+  data(){
+    return{
+      user:{}
     }
   },
+  methods:{
+    fetchUser(){
+      this.user = { ...this.initialUser }
+    }
+  },
+  created() {
+    this.fetchUser();
+  },
+  watch: {
+    initialUser() {
+      this.user = this.initialUser;
+    },
+  }
 }
 </script>
 

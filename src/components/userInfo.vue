@@ -83,11 +83,11 @@ export default {
       this.user.cover = cover;
     },
     fetchUser() {
-      console.log(1);
+      //console.log(1);
       this.user = { ...this.user, ...this.initialUser };
-      console.log("initial-user in userInfo", this.initialUser.account);
-      console.log("user", this.user.account);
-      console.log(2);
+      //console.log("initial-user in userInfo", this.initialUser.account);
+      //console.log("user", this.user.account);
+      //console.log(2);
     },
   },
   created() {

@@ -126,7 +126,7 @@ import navigation from "../components/nav";
 import followTop from "../components/followTop";
 import popupTweet from "../components/popupTweet";
 import popupReply from "../components/popupReply";
-import tweetsApi from "../apis/tweets";
+import tweetsApi from "./../apis/tweets";
 import userApi from "../apis/user";
 
 export default {
@@ -271,7 +271,9 @@ export default {
     async afterCreateTweet(payload) {
       try {
         const { tweetDescription } = payload;
-        const data = await tweetsApi.postTweets({ tweetDescription });
+        console.log("tweetDescription", tweetDescription);
+        const { data } = await tweetsApi.postTweets({ tweetDescription });
+        console.log("data", data);
         const tweetId = data.data.data.tweet.id;
         this.tweets.unshift({
           description: tweetDescription,

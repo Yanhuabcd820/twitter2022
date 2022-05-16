@@ -22,11 +22,11 @@
       推文
     </div>
     <div class="nav-btn-group-bottom">
-      <div class="nav-btn-group btn-bottom">
-        <a href="#" class="nav-btn">
+      <div class="nav-btn-group btn-bottom" @click="logOut">
+        <router-link to="/login" class="nav-btn">
           <div class="nav-btn-img nav-btn-left-img"></div>
           <h5>登出</h5>
-        </a>
+        </router-link>
       </div>
     </div>
   </div>
@@ -55,6 +55,9 @@ export default {
 
       console.log("closePopupTweet", this.isClickPopupTweet);
     },
+    logOut(){
+      localStorage.removeItem('token')
+    }
   },
 };
 </script>

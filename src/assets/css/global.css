@@ -34,7 +34,7 @@
 }
 
 .swal2-popup {
-  grid-template-columns: 1fr 1fr !important;
+  grid-template-columns: 1fr auto !important;
 }
 
 .swal2-title {

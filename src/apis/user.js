@@ -32,6 +32,11 @@ export default {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
+  getUserFollowings ( userId ) { 
+    return apiHelper.get(`/api/users/${userId}/followings`, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
+  },
   addLike({ tweetId }) {
     return apiHelper.post(`/api/tweets/${tweetId
       }/like`, null, {

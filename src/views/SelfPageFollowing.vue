@@ -12,14 +12,14 @@
           <div class="tweet-content">
             <div class="tweet-title">
               <div class="tweet-name-group">
-                <p class="tweet-name"><b>{{followship.User.name}}</b></p>
+                <p class="tweet-name"><b>{{followship.name}}</b></p>
                 <div class="btn">正在跟隨</div>
               </div>
               
             </div>
             <div class="tweet-text">
               <p>
-                {{followship.User.introduction}}
+                {{followship.introduction}}
               </p>
             </div>
           </div>
@@ -36,6 +36,12 @@ import followTop from "../components/followTop";
 import userTitle from "../components/userTitle.vue"
 import navTabsFollow from "../components/navTabsFollow";
 
+import { fromNowFilter } from './../utils/mixins'
+import userAPI from './../apis/user'
+import { mapState } from 'vuex'
+import { Toast } from './../utils/helpers'
+
+/*
 const dummyUser = {
   "id": 1,
   "account": "heyjohn",
@@ -51,6 +57,7 @@ const dummyUser = {
   "createdAt": "2022-01-18T07:23:18.000Z",
   "updatedAt": "2022-01-18T07:23:18.000Z"
 }
+
 
 const dummyData = {
   "followships": [
@@ -74,9 +81,10 @@ const dummyData = {
     }
   ]
 }
+*/
 
 export default {
-  name: "mainPage",
+  name: "selfPageFollowing",
   components: {
     navigation,
     followTop,
@@ -93,15 +101,60 @@ export default {
     };
   },
   methods: {
-    fetchData(){
-      this.user.name = dummyUser.name
-      this.user.tweetNum = 2
-      this.followships = dummyData.followships
+    async fetchUser(userId){
+      try {
+        const response = await userAPI.getUser(userId)
+        //console.log('response in selfPage', response)
+        const {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt} = response.data.data.user
+        this.user = {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt}
+        //console.log('user',this.user)
+      } catch (error) {
+        console.log('error', error)
+      }
+    },
+    async fetchUserFollowing(userId){
+      try {
+        const response = await userAPI.getUserFollowings(userId)
+        //console.log('following', response)
+        this.followships = [...response.data.data.user]
+      } catch (error) {
+        console.log('error', error)
+      }
+    },
+    isThisMe(paramsId){
+      this.isMe = this.currentUser.id == paramsId   // 驗證是不是我
     }
   },
+  computed: {
+    ...mapState(['currentUser'])
+  },
   created(){
-    this.fetchData()
-  }
+    // 用token取得資料，取得後看role，是user或是admin，如果不是use，就跳出提醒，回到登入頁
+    const twitterToken = localStorage.getItem('token')
+    //console.log(twitterToken)
+    if (!twitterToken){
+      Toast.fire({
+        icon: 'warning',
+        title: '請登入'
+      })
+      this.$router.push("/login");
+    }
+    const { id: userId } = this.$route.params
+    this.fetchUser(userId)
+    this.fetchUserFollowing(userId)
+    this.isThisMe(userId)
+  },
+  watch: {
+    '$route.params.id': {
+      handler: function(userId){
+        this.fetchUser(userId)
+        this.fetchUserFollowing(userId)
+        this.isThisMe(userId)
+      },
+      immediate: true,
+    }
+  },
+  mixins: [fromNowFilter]
 };
 </script>
 
@@ -112,5 +165,8 @@ export default {
   width: 100%;
   display: flex;
   justify-content: space-between;
+}
+.tweet-wrap{
+  margin-top: 127px;
 }
 </style>

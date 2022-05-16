@@ -140,7 +140,7 @@ export default {
     '$route.params.id': {
       handler: function(userId){
         this.fetchUser(userId)
-        this.fetchTweets(userId)
+        this.fetchUserLikes(userId)
         this.isThisMe(userId)
       },
       immediate: true,

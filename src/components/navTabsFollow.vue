@@ -45,7 +45,9 @@ ul {
   align-items: center;
   border-top: 1px solid #E6ECF0;
   border-bottom: 1px solid #E6ECF0;
-  margin-top: 100px;
+  margin-top: 74px;
+  position:fixed;
+  background-color: #fff;
 }
 li {
   width: 130px;

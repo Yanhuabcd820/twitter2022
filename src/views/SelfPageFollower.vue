@@ -13,7 +13,7 @@
             <div class="tweet-title">
               <div class="tweet-name-group">
                 <p class="tweet-name">
-                  <b>{{followship.User.name}}</b>
+                  <b>{{followship.name}}</b>
                 </p>
                 <div class="btn">正在跟隨</div>
               </div>
@@ -21,7 +21,7 @@
             </div>
             <div class="tweet-text">
               <p>
-                {{followship.User.introduction}}
+                {{followship.introduction}}
               </p>
             </div>
           </div>
@@ -43,49 +43,8 @@ import userAPI from './../apis/user'
 import { mapState } from 'vuex'
 import { Toast } from './../utils/helpers'
 
-/*
-const dummyUser = {
-  "id": 1,
-  "account": "heyjohn",
-  "name": "John Doe",
-  "email": "root@example.com",
-  "role": "admin",
-  "introduction": "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.",
-  "avatar": "../assets/images/AvatarBigger.png",
-  "cover": "../assets/images/cover.png",
-  "followingCount": 34,
-  "followerCount": 59,
-  "isFollowing": true,
-  "createdAt": "2022-01-18T07:23:18.000Z",
-  "updatedAt": "2022-01-18T07:23:18.000Z"
-}
-
-const dummyData = {
-    "followships": [
-      {
-        "User": {
-          "id": 2,
-          "name": "Apple",
-          "avatar": "https://via.placeholder.com/300",
-          "introduction": "I'm pretty."
-        },
-        "isFollowing": true
-      },
-      {
-        "User": {
-          "id": 3,
-          "name": "Orange",
-          "avatar": "https://via.placeholder.com/300",
-          "introduction": "I'm pretty."
-        },
-        "isFollowing": false
-      }
-    ]
-  }
-  */
-
 export default {
-  name: "mainPage",
+  name: "selfPageFollower",
   components: {
     navigation,
     followTop,
@@ -106,7 +65,6 @@ export default {
       try {
         const response = await userAPI.getUser(userId)
         //console.log('response in selfPage', response)
-        // dummyUser 對應 response.data.user
         const {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt} = response.data.data.user
         this.user = {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt}
         //console.log('user',this.user)
@@ -116,10 +74,9 @@ export default {
     },
     async fetchUserFollower(userId){
       try {
-        //const response = await userAPI.getUserFollowers(userId)
-        console.log(userId)
-        //this.followships = dummyData.followships
-
+        const response = await userAPI.getUserFollowers(userId)
+        //console.log(response)
+        this.followships = [...response.data.data.user]
       } catch (error) {
         console.log('error', error)
       }
@@ -147,6 +104,16 @@ export default {
     this.fetchUserFollower(userId)
     this.isThisMe(userId)
   },
+  watch: {
+    '$route.params.id': {
+      handler: function(userId){
+        this.fetchUser(userId)
+        this.fetchUserFollower(userId)
+        this.isThisMe(userId)
+      },
+      immediate: true,
+    }
+  },
   mixins: [fromNowFilter]
 };
 </script>
@@ -157,6 +124,9 @@ export default {
 .tweet-name-group {
   display: flex;
   justify-content: space-between;
+}
+.tweet-wrap{
+  margin-top: 127px;
 }
 
 </style>

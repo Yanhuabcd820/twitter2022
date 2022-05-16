@@ -119,18 +119,18 @@ export default {
         }
         const response = await authorizationAPI
         .signUp({
-          account: this.account, 
-          password: this.password, 
-          confirmPassword: this.confirmPassword, 
-          name: this.name, 
-          email: this.email
+          account: this.user.account, 
+          password: this.user.password, 
+          confirmPassword: this.user.confirmPassword, 
+          name: this.user.name, 
+          email: this.user.email
         })
         console.log('signup',response)
         Toast.fire({
           icon: 'success',
           title: '註冊成功'
         })
-        //this.$router.push("/login"); // 註冊後跳到登入頁面
+        this.$router.push("/login"); // 註冊後跳到登入頁面
       } catch (error) {
         console.log(error)
         Toast.fire({

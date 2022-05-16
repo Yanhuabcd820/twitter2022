@@ -146,6 +146,12 @@ export default {
         const response = await userAPI.getUserReplies(userId)
         //console.log(response)
         this.replies = [...response.data.data.replies]
+        if(this.replies.length<1){
+          Toast.fire({
+            icon: 'info',
+            title: '目前沒有回覆的內容'
+          })
+        }
       } catch (error) {
         console.log(error)
       }

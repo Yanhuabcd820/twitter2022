@@ -55,55 +55,6 @@ import userAPI from './../apis/user'
 import { mapState } from 'vuex'
 import { Toast } from './../utils/helpers'
 
-/*
-const dummyUser = {
-  "id": 1,
-  "account": "heyjohn",
-  "name": "John Doe",
-  "email": "root@example.com",
-  "role": "admin",
-  "introduction": "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.",
-  "avatar": "../assets/images/AvatarBigger.png",
-  "cover": "../assets/images/cover.png",
-  "followingCount": 34,
-  "followerCount": 59,
-  "isFollowing": true,
-  "createdAt": "2022-01-18T07:23:18.000Z",
-  "updatedAt": "2022-01-18T07:23:18.000Z"
-}
-
-const dummyData = {
-  "user": {
-    "id": 1,
-    "account": "user1",
-    "name": "root",
-    "avatar": "https://via.placeholder.com/300",
-  },
-  "likes": [
-    {
-      "tweet_id": 2,
-      "Tweet": {
-        "user_id": 2,
-        "description": "I love you!",
-        "User": {
-          "account": "apple"
-        }
-      }
-    },
-    {
-      "tweet_id": 3,
-      "Tweet": {
-        "user_id": 4,
-        "description": "I like you!",
-        "User": {
-          "account": "orange"
-        }
-      }
-    }
-  ]
-}
-*/
-
 export default {
   name: "mainPageLikes",
   components: {
@@ -153,6 +104,12 @@ export default {
         const response = await userAPI.getUserLikes(userId)
         console.log('like res', response)
         this.likes = [...response.data.data.tweets]
+        if(this.likes.length<1){
+          Toast.fire({
+            icon: 'info',
+            title: '目前沒有喜歡的內容'
+          })
+        }
       } catch (error) {
         console.log('error', error)
       }

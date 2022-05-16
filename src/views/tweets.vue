@@ -122,12 +122,12 @@ const dummyUser = {
 
 import { fromNowFilter } from "./../utils/mixins";
 import { Toast } from "./../utils/helpers";
-import navigation from "../components/nav";
-import followTop from "../components/followTop";
-import popupTweet from "../components/popupTweet";
-import popupReply from "../components/popupReply";
+import navigation from "./../components/nav";
+import followTop from "./../components/followTop";
+import popupTweet from "./../components/popupTweet";
+import popupReply from "./../components/popupReply";
 import tweetsApi from "./../apis/tweets";
-import userApi from "../apis/user";
+import userApi from "./../apis/user";
 
 export default {
   name: "mainPage",
@@ -147,6 +147,7 @@ export default {
       // whichPopupReply: -1,
       tweet: {},
       tweetPopup: {},
+      TweetsRepliesNum: {},
     };
   },
   methods: {
@@ -156,11 +157,86 @@ export default {
         const responesTweets = await tweetsApi.getTweets();
         const { tweets } = responesTweets.data.data;
         this.tweets = tweets;
-        console.log(this.tweets);
+        // console.log(this.tweets);
       } catch (error) {
         Toast.fire({
           icon: "error",
           title: "無法取得tweets資料，請稍後再試",
+        });
+      }
+    },
+    // async featchTweetsReplies() {
+    //   try {
+    //     // 取得tweets資料
+    //     const responesTweets = await tweetsApi.getTweetsReply();
+    //     const { tweets } = responesTweets.data.data;
+    //     this.tweets = tweets;
+    //     // console.log(this.tweets);
+    //   } catch (error) {
+    //     Toast.fire({
+    //       icon: "error",
+    //       title: "無法取得tweets資料，請稍後再試",
+    //     });
+    //   }
+    // },
+    async afterCreateTweet(payload) {
+      try {
+        const { description } = payload;
+        const data = await tweetsApi.postTweets({ description });
+        if (data.data.status !== "Success") {
+          throw new Error(data.message);
+        }
+        const tweetId = data.data.data.tweet.id;
+        this.tweets.unshift({
+          description,
+          id: tweetId,
+          User: {
+            id: this.user.id,
+            account: this.user.account,
+            name: this.user.name,
+            avatar: this.user.avatar,
+          },
+          createdAt: new Date(),
+          totalLikes: 0,
+        });
+        /*關掉PopupTweet*/
+        this.isClickPopupTweet = false;
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法新增此筆tweet",
+        });
+      }
+    },
+    async afterCreateReply(payload) {
+      try {
+        const { comment, tweetId } = payload;
+        const data = await tweetsApi.postTweetsReply({
+          comment,
+          tweetId,
+        });
+        if (data.data.status !== "Success") {
+          throw new Error(data.message);
+        }
+        console.log("data", data);
+        this.replies.unshift({
+          comment,
+          id: tweetId,
+          User: {
+            id: this.user.id,
+            account: this.user.account,
+            name: this.user.name,
+            avatar: this.user.avatar,
+          },
+          createdAt: new Date(),
+        });
+
+        // 成功的話則轉址到 `/tweets/:id`
+        this.$router.push({ name: "tweet", params: { id: tweetId } });
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法新增此筆tweetReply",
         });
       }
     },
@@ -213,90 +289,6 @@ export default {
       }
     },
 
-    async afterCreateReply(payload) {
-      try {
-        console.log("payload00", payload);
-        const { replyComment, tweetId } = payload;
-        console.log("replyComment", replyComment);
-        console.log("tweetId", tweetId);
-        const { data } = await tweetsApi.postTweetsReply({
-          replyComment,
-          tweetId,
-        });
-
-        console.log("replyComment", replyComment);
-        console.log("data", data);
-        // // const tweetId = data.data.data.tweet.id;
-        // this.replies.unshift({
-        //   description: replyComment,
-        //   id: tweetId,
-        //   User: {
-        //     id: this.user.id,
-        //     account: this.user.account,
-        //     name: this.user.name,
-        //     avatar: this.user.avatar,
-        //   },
-        //   createdAt: new Date(),
-        //   totalLikes: 0,
-        // });
-
-        // /*關掉PopupTweet*/
-        // this.isClickPopupTweet = false;
-        // // 成功的話則轉址到 `/tweets/:id`
-        // this.$router.push({ name: "tweet", params: { id: tweetId } });
-
-        // const { replyText, replyId } = payload;
-        // console.log("payload", payload);
-        // this.replies.unshift({
-        //   id: replyId,
-        //   comment: replyText,
-        //   User: {
-        //     id: this.user.id,
-        //     account: this.user.account,
-        //     name: this.user.name,
-        //     avatar: this.user.avatar,
-        //   },
-        //   createdAt: new Date(),
-        //   totalLikes: 0,
-        // });
-        // /*關掉PopupTweet*/
-        // this.closePopupReply();
-      } catch (error) {
-        Toast.fire({
-          icon: "error",
-          title: "無法新增此筆tweetReply",
-        });
-      }
-    },
-    async afterCreateTweet(payload) {
-      try {
-        const { tweetDescription } = payload;
-        console.log("tweetDescription", tweetDescription);
-        const { data } = await tweetsApi.postTweets({ tweetDescription });
-        console.log("data", data);
-        const tweetId = data.data.data.tweet.id;
-        this.tweets.unshift({
-          description: tweetDescription,
-          id: tweetId,
-          User: {
-            id: this.user.id,
-            account: this.user.account,
-            name: this.user.name,
-            avatar: this.user.avatar,
-          },
-          createdAt: new Date(),
-          totalLikes: 0,
-        });
-
-        /*關掉PopupTweet*/
-        this.isClickPopupTweet = false;
-      } catch (error) {
-        Toast.fire({
-          icon: "error",
-          title: "無法新增此筆tweet",
-        });
-      }
-    },
     openPopupTweet() {
       //將彈跳視窗打開
       this.isClickPopupTweet = true;

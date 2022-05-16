@@ -98,7 +98,7 @@ export default {
       }
       this.$emit("after-create-reply", {
         tweetId: this.tweet.id,
-        replyComment: this.popupText,
+        comment: this.popupText,
       });
     },
   },

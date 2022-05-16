@@ -67,7 +67,7 @@ export default {
         return;
       }
       this.$emit("after-create-tweet", {
-        tweetDescription: this.popupText,
+        description: this.popupText,
       });
     },
   },

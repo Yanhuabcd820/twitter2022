@@ -65,7 +65,7 @@ a.nav-btn {
 }
 
 .nav-btn:hover .nav-btn-home-img,
-.nav-btn.active .nav-btn-home-img {
+.nav-btn.router-link-exact-active .nav-btn-home-img {
   background: url(../images/nav-home-active.png) no-repeat center center;
 }
 
@@ -74,7 +74,7 @@ a.nav-btn {
 }
 
 .nav-btn:hover .nav-btn-user-img,
-.nav-btn.active .nav-btn-user-img {
+.nav-btn.router-link-exact-active .nav-btn-user-img {
   background: url(../images/nav-user-active.png) no-repeat center center;
 }
 
@@ -83,7 +83,7 @@ a.nav-btn {
 }
 
 .nav-btn:hover .nav-btn-setting-img,
-.nav-btn.active .nav-btn-setting-img {
+.nav-btn.router-link-exact-active .nav-btn-setting-img {
   background: url(../images/nav-setting-active.png) no-repeat center center;
 }
 
@@ -103,6 +103,6 @@ a.nav-btn {
 }
 
 .nav-btn:hover h5,
-.nav-btn.active h5 {
+.nav-btn.router-link-exact-active h5 {
   color: var(--main-color);
 }

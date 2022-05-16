@@ -65,7 +65,7 @@
 }
 
 .nav-admin-btn:hover .nav-admin-btn-home-img,
-.nav-admin-btn.active .nav-admin-btn-home-img {
+.nav-admin-btn.router-link-exact-active .nav-admin-btn-home-img {
   background: url(../images/nav-home-active.png) no-repeat center center;
 }
 
@@ -74,7 +74,7 @@
 }
 
 .nav-admin-btn:hover .nav-admin-btn-user-img,
-.nav-admin-btn.active .nav-admin-btn-user-img {
+.nav-admin-btn.router-link-exact-active .nav-admin-btn-user-img {
   background: url(../images/nav-user-active.png) no-repeat center center;
 }
 
@@ -95,6 +95,6 @@
 }
 
 .nav-admin-btn:hover h5,
-.nav-admin-btn.active h5 {
+.nav-admin-btn.router-link-exact-active h5 {
   color: var(--main-color);
 }

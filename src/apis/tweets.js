@@ -10,27 +10,32 @@ export default {
     })
   },
 
-  postTweets({ tweetDescription }) {
-    return apiHelper.post(`/api/tweets`, { tweetDescription }, {
+  postTweets({ description }) {
+    return apiHelper.post('/api/tweets', { description }, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
 
-  postTweetsReply({ replyComment, tweetId }) {
-    return apiHelper.post(`/api/tweets/${tweetId}/replies`, { replyComment }, {
+  // getTweetsReply({ tweetId }) {
+  //   return apiHelper.post(`/api/tweets/${tweetId}/replies`, { tweetId }, {
+  //     headers: { Authorization: `Bearer ${getToken()}` }
+  //   })
+  // },
+  getTweetReplies(tweetId) {
+    return apiHelper.get(`/api/tweets/${tweetId}/replies`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`
+      }
+    })
+  },
+  postTweetsReply({ comment, tweetId }) {
+    return apiHelper.post(`/api/tweets/${tweetId}/replies`, { comment, tweetId }, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
 
   getTweet(tweetId) {
     return apiHelper.get(`/api/tweets/${tweetId}`, {
-      headers: {
-        Authorization: `Bearer ${getToken()}`
-      }
-    })
-  },
-  getTweetReplies(tweetId) {
-    return apiHelper.get(`/api/tweets/${tweetId}/replies`, {
       headers: {
         Authorization: `Bearer ${getToken()}`
       }

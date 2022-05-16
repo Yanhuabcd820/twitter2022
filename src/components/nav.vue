@@ -1,9 +1,9 @@
 <template>
   <div class="nav">
     <popupTweet v-if="isClickPopupTweet" @close-PopupTweet="closePopupTweet" />
-    <div class="logo">
+    <router-link to="/tweets" class="logo">
       <img src="../assets/images/logo.png" alt="" />
-    </div>
+    </router-link>
     <div class="nav-btn-group">
       <router-link to="/tweets" class="nav-btn">
         <div class="nav-btn-img nav-btn-home-img"></div>
@@ -22,11 +22,11 @@
       推文
     </div>
     <div class="nav-btn-group-bottom">
-      <div class="nav-btn-group btn-bottom">
-        <a href="#" class="nav-btn">
+      <div class="nav-btn-group btn-bottom" @click="logOut">
+        <router-link to="/login" class="nav-btn">
           <div class="nav-btn-img nav-btn-left-img"></div>
           <h5>登出</h5>
-        </a>
+        </router-link>
       </div>
     </div>
   </div>
@@ -55,6 +55,9 @@ export default {
 
       console.log("closePopupTweet", this.isClickPopupTweet);
     },
+    logOut(){
+      localStorage.removeItem('token')
+    }
   },
 };
 </script>

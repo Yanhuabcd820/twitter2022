@@ -1,9 +1,9 @@
 <template>
   <div class="nav">
     <popupTweet v-if="isClickPopupTweet" @close-PopupTweet="closePopupTweet" />
-    <div class="logo">
+    <router-link to="/tweets" class="logo">
       <img src="../assets/images/logo.png" alt="" />
-    </div>
+    </router-link>
     <div class="nav-btn-group">
       <router-link to="/tweets" class="nav-btn">
         <div class="nav-btn-img nav-btn-home-img"></div>

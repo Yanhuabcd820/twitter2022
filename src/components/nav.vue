@@ -46,18 +46,17 @@ export default {
   },
   methods: {
     openPopupTweet() {
-      console.log(this.isClickPopupTweet);
-      this.isClickPopupTweet = true;
+      this.$emit("after-open-tweet", {
+        isClickPopupTweet: true,
+      });
     },
     closePopupTweet(payload) {
       const { isClickPopupTweet } = payload;
       this.isClickPopupTweet = isClickPopupTweet;
-
-      console.log("closePopupTweet", this.isClickPopupTweet);
     },
-    logOut(){
-      localStorage.removeItem('token')
-    }
+    logOut() {
+      localStorage.removeItem("token");
+    },
   },
 };
 </script>

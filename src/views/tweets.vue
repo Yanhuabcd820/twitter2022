@@ -5,8 +5,9 @@
       @close-PopupTweet="closePopupTweet"
       @after-create-tweet="afterCreateTweet"
       :user="user"
+      @after-open-tweet="afterOpenTweet"
     />
-    <navigation />
+    <navigation @after-open-tweet="afterOpenTweet" />
     <div class="main">
       <div class="user-title">
         <h4>首頁</h4>
@@ -67,7 +68,11 @@
                 <div class="tweet-reply-img">
                   <img src="../assets/images/tweet-reply.png" alt="" />
                 </div>
-                <p class="fz14"><b>13</b></p>
+                <p class="fz14">
+                  <b>
+                    <b>{{ tweet.totalReplies }}</b></b
+                  >
+                </p>
               </div>
               <div
                 class="tweet-like"
@@ -120,6 +125,7 @@ const dummyUser = {
   },
 };
 
+// import { mapState } from "vuex";
 import { fromNowFilter } from "./../utils/mixins";
 import { Toast } from "./../utils/helpers";
 import navigation from "./../components/nav";
@@ -137,9 +143,13 @@ export default {
     popupTweet,
     popupReply,
   },
+  // computed: {
+  //   ...mapState(["currentUser"]),
+  // },
   data() {
     return {
       user: dummyUser.user,
+      // currentUser: {},
       tweets: [],
       replies: [],
       isClickPopupTweet: false,
@@ -151,6 +161,20 @@ export default {
     };
   },
   methods: {
+    // async featchCurrentUser() {
+    //   try {
+    //     // 取得tweets資料
+    //     const currentUser = await tweetsApi.getCurrentUser();
+    //     // const { tweets } = responesTweets.data.data;
+    //     // this.tweets = tweets;
+    //     console.log(currentUser);
+    //   } catch (error) {
+    //     Toast.fire({
+    //       icon: "error",
+    //       title: "無法取得tweets資料，請稍後再試",
+    //     });
+    //   }
+    // },
     async featchTweets() {
       try {
         // 取得tweets資料
@@ -198,6 +222,7 @@ export default {
           },
           createdAt: new Date(),
           totalLikes: 0,
+          totalReplies: 0,
         });
         /*關掉PopupTweet*/
         this.isClickPopupTweet = false;
@@ -288,7 +313,14 @@ export default {
         });
       }
     },
+    afterOpenTweet(payload) {
+      //將彈跳視窗打開
 
+      console.log(payload);
+      const { isClickPopupTweet } = payload;
+      console.log(isClickPopupTweet);
+      this.isClickPopupTweet = isClickPopupTweet;
+    },
     openPopupTweet() {
       //將彈跳視窗打開
       this.isClickPopupTweet = true;
@@ -309,6 +341,7 @@ export default {
     },
   },
   created() {
+    // this.featchCurrentUser();
     this.featchTweets();
   },
   mixins: [fromNowFilter],

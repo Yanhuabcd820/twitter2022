@@ -1,5 +1,11 @@
 <template>
   <div class="wrap">
+    <popupTweet
+      v-if="isClickPopupTweet"
+      @close-PopupTweet="closePopupTweet"
+      @after-create-tweet="afterCreateTweet"
+      :user="user"
+    />
     <popupReplyList
       v-if="isClickPopupReplyList"
       @close-PopupReplyList="closePopupReplyList"
@@ -10,7 +16,7 @@
     <!-- <popupReplyList /> -->
     <!-- <popupReplyList />
     <popupReply /> -->
-    <navigation />
+    <navigation @after-open-tweet="afterOpenTweet" />
     <div class="reply-wrap">
       <router-link to="/tweets" class="reply-title">
         <div class="reply-forward">
@@ -31,24 +37,22 @@
               <p class="reply-name">
                 <b>{{ tweet.User.name }}</b>
               </p>
-              <p class="reply-account fz14">
-                @{{ tweet.User.account }}・{{ tweet.createdAt | fromNow }}
-              </p>
+              <p class="reply-account fz14">@{{ tweet.User.account }}</p>
             </div>
           </router-link>
 
           <div class="reply-text">
             {{ tweet.description }}
           </div>
-          <p class="fz14 reply-time">{{ tweet.updatedAt }}</p>
+          <p class="fz14 reply-time">{{ tweet.createdAt | ampm }}</p>
           <!-- <p class="fz14 reply-time">上午 10:05・2021年11月10日</p> -->
         </div>
         <div class="reply-count">
           <div class="reply-num">
-            <!-- <span>{{ replies.length }}</span> 回覆 -->
+            <span>{{ replies.length }}</span> 回覆
           </div>
           <div class="like-num">
-            <!-- <span> {{ tweet.LikedUsers.length }}</span> 喜歡次數 -->
+            <span> {{ tweet.LikedUsers.length }}</span> 喜歡次數
           </div>
         </div>
         <div class="reply-count-btn">
@@ -109,7 +113,7 @@
                   <img src="../assets/images/tweet-like.png" alt="" />
                 </div>
                 <p class="fz14">
-                  <!-- <b>{{ reply.LikedUsers.length }}</b> -->
+                  <b>{{ reply.LikedUsers.length }}</b>
                 </p>
               </div>
             </div>
@@ -142,6 +146,7 @@ import { fromNowFilter } from "./../utils/mixins";
 import { Toast } from "./../utils/helpers";
 import navigation from "./../components/nav";
 import followTop from "./../components/followTop";
+import popupTweet from "./../components/popupTweet";
 import popupReplyList from "./../components/popupReplyList";
 import tweetsApi from "./../apis/tweets";
 import userApi from "./../apis/user";
@@ -150,47 +155,30 @@ export default {
   components: {
     navigation,
     followTop,
+    popupTweet,
     popupReplyList,
   },
   data() {
     return {
+      isClickPopupTweet: false,
       isClickPopupReplyList: false,
-      tweet: {},
+      tweet: {
+        User: {
+          id: 0,
+        },
+        LikedUsers: [],
+      },
       replies: {},
       user: dummyUser.user,
+      tweets: [],
     };
   },
   methods: {
-    async addLike(tweetId) {
-      try {
-        const dataLike = await userApi.addLike({ tweetId });
-        // if (dataLike.data.status !== "Success") {
-        //   throw new Error(dataLike.data.message);
-        // }
-        console.log(dataLike);
-        this.tweet.isLiked = true;
-        // this.tweets = this.tweets.map((tweet) => {
-        //   if (tweet.id === tweetId) {
-        //     return {
-        //       ...tweet,
-        //       isLiked: true,
-        //     };
-        //   }
-        //   return tweet;
-        // } );
-      } catch (error) {
-        Toast.fire({
-          icon: "error",
-          title: "無法like此筆tweet，請稍後再試",
-        });
-      }
-    },
     async fetchTweet(tweetId) {
       try {
         const { data } = await tweetsApi.getTweet(tweetId);
         const { tweet } = data.data;
         this.tweet = tweet;
-        console.log("this.tweet", this.tweet);
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -203,8 +191,6 @@ export default {
         const { data } = await tweetsApi.getTweetReplies(tweetId);
         const { replies } = data.data;
         this.replies = replies;
-
-        console.log("replies", replies);
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -212,23 +198,36 @@ export default {
         });
       }
     },
-    //     afterCreateReplyList(payload) {
-    //   const { tweetText, tweetId } = payload;
-    //   console.log("payload", payload);
-    //   this.replies.unshift({
-    //     id: tweetId,
-    //     comment: tweetText,
-    //     User: {
-    //       id: this.user.id,
-    //       account: this.user.account,
-    //       name: this.user.name,
-    //       avatar: this.user.avatar,
-    //     },
-    //     createdAt: new Date(),
-    //   });
-    //   /*關掉PopupTweet*/
-    //   this.isClickPopupTweet = false;
-    // },
+    async afterCreateTweet(payload) {
+      try {
+        const { description } = payload;
+        const data = await tweetsApi.postTweets({ description });
+        if (data.data.status !== "Success") {
+          throw new Error(data.message);
+        }
+        const tweetId = data.data.data.tweet.id;
+        this.tweets.unshift({
+          description,
+          id: tweetId,
+          User: {
+            id: this.user.id,
+            account: this.user.account,
+            name: this.user.name,
+            avatar: this.user.avatar,
+          },
+          createdAt: new Date(),
+          totalLikes: 0,
+          totalReplies: 0,
+        });
+
+        this.$router.push("/tweets");
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法新增此筆tweet",
+        });
+      }
+    },
     async afterCreateReplyList(payload) {
       try {
         const { comment, tweetId } = payload;
@@ -236,11 +235,9 @@ export default {
           comment,
           tweetId,
         });
-        // if (data.data.status !== "Success") {
-        //   throw new Error(data.message);
-        // }
-        console.log("data", data);
-        console.log("replies", this.replies);
+        if (data.data.status !== "Success") {
+          throw new Error(data.message);
+        }
         this.replies.unshift({
           comment,
           tweetId,
@@ -250,6 +247,11 @@ export default {
             name: this.user.name,
             avatar: this.user.avatar,
           },
+          LikedUsers: [
+            {
+              id: 0,
+            },
+          ],
           createdAt: new Date(),
         });
 
@@ -264,7 +266,23 @@ export default {
         });
       }
     },
-
+    async addLike(tweetId) {
+      try {
+        const dataLike = await userApi.addLike({ tweetId });
+        if (dataLike.data.status !== "Success") {
+          throw new Error(dataLike.data.message);
+        }
+        this.tweet.isLiked = true;
+        this.tweet.LikedUsers.push({
+          id: 0,
+        });
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法like此筆tweet，請稍後再試",
+        });
+      }
+    },
     // async unLike(tweetId) {
     //   try {
     //     const dataUnLike = await userApi.unLike({ tweetId });
@@ -289,14 +307,27 @@ export default {
     //     });
     //   }
     // },
+    afterOpenTweet(payload) {
+      //將彈跳視窗打開
+      const { isClickPopupTweet } = payload;
+      this.isClickPopupTweet = isClickPopupTweet;
+    },
+    openPopupTweet() {
+      //將彈跳視窗打開
+
+      this.isClickPopupTweet = true;
+    },
+    closePopupTweet(payloadPopup) {
+      //將彈跳視窗關閉
+      const { isClickPopupTweet } = payloadPopup;
+      this.isClickPopupTweet = isClickPopupTweet;
+    },
     openPopupReplyList() {
-      console.log(this.isClickPopupReplyList);
       this.isClickPopupReplyList = true;
     },
     closePopupReplyList(payload) {
       const { isClickPopupReplyList } = payload;
       this.isClickPopupReplyList = isClickPopupReplyList;
-      // console.log("closePopupReplyList", this.isClickPopupReplyList);
     },
   },
   created() {

@@ -14,14 +14,16 @@ form {
 }
 
 .logo {
-  margin-top: 69px;
-  display: flex;
-  justify-content: center;
-}w
-
-img {
   width: 50px;
-  height: 50px;
+  margin-top: 69px;
+  margin: 69px auto 0 auto;
+  /* display: flex;
+  justify-content: center; */
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
 }
 
 .title {
@@ -136,14 +138,6 @@ nav:last-child {
   margin-right: 15px;
 }
 
-
-/* 修改chrom內建顏色 */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 30px #F5F8FA inset !important;
-}
 
 a {
   color: var(--primary-color);

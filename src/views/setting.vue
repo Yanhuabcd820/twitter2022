@@ -19,6 +19,7 @@
               autofocus
               v-model="account"
             />
+            <div class="input-bottomline"></div>
           </div>
           <div class="form-label-group">
             <label for="name">名稱</label>
@@ -31,6 +32,7 @@
               autofocus
               v-model="name"
             />
+            <div class="input-bottomline"></div>
           </div>
           <div class="form-label-group">
             <label for="email">Email</label>
@@ -43,6 +45,7 @@
               autofocus
               v-model="email"
             />
+            <div class="input-bottomline"></div>
           </div>
           <div class="form-label-group">
             <label for="password">密碼</label>
@@ -55,6 +58,7 @@
               autofocus
               v-model="password"
             />
+            <div class="input-bottomline"></div>
           </div>
           <div class="form-label-group">
             <label for="passwordCheck">密碼再確認</label>
@@ -67,6 +71,7 @@
               autofocus
               v-model="passwordCheck"
             />
+            <div class="input-bottomline"></div>
           </div>
           <div class="btn setting-save active">
             <p>儲存</p>

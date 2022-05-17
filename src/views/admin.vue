@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <form action="" @click.stop.prevent="handleSubmit">
+    <form action="" @submit.stop.prevent="handleSubmit">
       <div class="logo">
         <img src="./../assets/icons/logo@2x.png" alt="" />
       </div>

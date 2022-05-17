@@ -1,4 +1,5 @@
 import { apiHelper } from "../utils/helpers";
+const getToken = () => localStorage.getItem('token')
 
 export default {
   signIn({account, password}){
@@ -14,6 +15,19 @@ export default {
       confirmPassword,
       name,
       email
+    })
+  },
+  updateUser(userId,{name,account,email,password,introduction,avatar,cover}){
+    return apiHelper.put(`/api/users/${userId}`, {
+      name,
+      account,
+      email,
+      password,
+      introduction,
+      avatar,
+      cover
+    },{
+      headers: { Authorization: `Bearer ${getToken()}` }
     })
   }
 }

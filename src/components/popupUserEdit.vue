@@ -85,6 +85,12 @@
   </div>
 </template>
 <script>
+
+import authorizationAPI from "./../apis/authorization";
+
+import { mapState } from 'vuex'
+import { Toast } from './../utils/helpers'
+
 export default {
   name: "popupUserEdit",
   props: {
@@ -102,6 +108,8 @@ export default {
         introduction: this.initialUser.introduction,
       },
       temp: this.initialUser.introduction,
+      coverFile:{},
+      avatarFile:{}
     };
   },
   methods: {
@@ -124,6 +132,7 @@ export default {
         // 否則產生預覽圖
         const imageURL = window.URL.createObjectURL(files[0]);
         this.user.cover = imageURL;
+        this.coverFile = files[0]
       }
     },
     handleAvatarChange(e) {
@@ -136,22 +145,47 @@ export default {
         // 否則產生預覽圖
         const imageURL = window.URL.createObjectURL(files[0]);
         this.user.avatar = imageURL;
+        this.avatarFile = files[0]
       }
     },
-    handleSubmit() {
-      this.$emit("after-edit-info", {
-        avatar: this.user.avatar,
-        cover: this.user.cover,
-      });
-      console.log(this.avatar, this.cover);
-      this.$emit("close-PopupTweet", {
-        isClickPopupTweet: false,
-      });
+    async handleSubmit() {
+      try {
+        console.log(this.user);
+
+        const response = await authorizationAPI
+        .updateUser(this.currentUser.id,{
+          name: this.currentUser.name,
+          account: this.currentUser.account,
+          email: this.currentUser.account,
+          password: '12345678',
+          introduction: this.user.introduction,
+          avatar: this.avatarFile,
+          cover: this.coverFile
+        })
+        console.log(response)
+
+        this.$emit("after-edit-info", {
+          avatar: this.user.avatar,
+          cover: this.user.cover,
+        });
+        this.$emit("close-PopupTweet", {
+          isClickPopupTweet: false,
+        });
+        Toast.fire({
+          icon: 'success',
+          title: '儲存成功'
+        })
+      } catch (error) {
+        console.log('error', error)
+      }
     },
     clearCover() {
       this.user.cover = "https://dummyimage.com/600x400/000/fff.jpg&text=++";
     },
   },
+  computed: {
+    ...mapState(['currentUser'])
+  }
 };
 </script>
 

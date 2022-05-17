@@ -5,9 +5,8 @@
       <div class="setting-title">
         <h4>帳戶設定</h4>
       </div>
-
       <div class="container">
-        <form action="">
+        <form action="" @submit.stop.prevent="handleSubmit">
           <div class="form-label-group">
             <label for="account">帳號</label>
             <input
@@ -19,6 +18,7 @@
               autofocus
               v-model="account"
             />
+            <div class="input-bottomline"></div>
           </div>
           <div class="form-label-group">
             <label for="name">名稱</label>
@@ -31,6 +31,7 @@
               autofocus
               v-model="name"
             />
+            <div class="input-bottomline"></div>
           </div>
           <div class="form-label-group">
             <label for="email">Email</label>
@@ -43,6 +44,7 @@
               autofocus
               v-model="email"
             />
+            <div class="input-bottomline"></div>
           </div>
           <div class="form-label-group">
             <label for="password">密碼</label>
@@ -55,6 +57,7 @@
               autofocus
               v-model="password"
             />
+            <div class="input-bottomline"></div>
           </div>
           <div class="form-label-group">
             <label for="passwordCheck">密碼再確認</label>
@@ -67,10 +70,11 @@
               autofocus
               v-model="passwordCheck"
             />
+            <div class="input-bottomline"></div>
           </div>
-          <div class="btn setting-save active">
+          <button class="btn setting-save active" type="submit">
             <p>儲存</p>
-          </div>
+          </button>
         </form>
       </div>
     </div>
@@ -78,6 +82,11 @@
 </template>
 <script>
 import navigation from "../components/nav";
+import authorizationAPI from "./../apis/authorization";
+
+import { mapState } from 'vuex'
+import { Toast } from './../utils/helpers'
+
 export default {
   name: "setting",
   components: {
@@ -92,7 +101,48 @@ export default {
       passwordCheck: "",
     };
   },
-  methods: {},
+  computed: {
+    ...mapState(['currentUser'])
+  },
+  methods: {
+    fetchData (){
+      this.account = this.currentUser.account
+      this.name = this.currentUser.name
+      this.email = this.currentUser.email
+    },
+    async handleSubmit(){
+      try {
+        // 確認密碼跟確認密碼的部分，必須一樣而且要有內容才會執行
+        if (!this.password||this.password !== this.passwordCheck){
+          Toast.fire({
+            icon: 'warning',
+            title: '密碼沒輸入，或者密碼跟再確認密碼不同'
+          })
+          return
+        }
+      // 串API
+        const response = await authorizationAPI
+        .updateUser(this.currentUser.id,{
+          name: this.name,
+          account: this.account,
+          email: this.account,
+          password: this.password,
+          introduction: this.currentUser.introduction,
+          avatar: this.currentUser.avatar,
+          cover: this.currentUser.cover
+        })
+        console.log(response)
+      } catch (error) {
+        Toast.fire({
+          icon: 'warning',
+          title: '發生錯誤'
+        })
+      }
+    }
+  },
+  created(){
+    this.fetchData()
+  }
 };
 </script>
 

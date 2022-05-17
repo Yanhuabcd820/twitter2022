@@ -48,11 +48,5 @@ export default {
       }/unlike`, null, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
-  },
-  // deleteLike({ tweetId }) {
-  //   return apiHelper.delete(`/api/tweets/${tweetId
-  //     }/unlike`, {
-  //     headers: { Authorization: `Bearer ${getToken()}` }
-  //   })
-  // }
+  }
 }

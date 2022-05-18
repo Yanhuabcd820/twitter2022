@@ -19,7 +19,7 @@
           v-model="account"
         />
         <div class="input-bottomline" :class="{inputBottomLineWarn: !isAccountExist}"></div>
-        <div class="input-warning" v-if="!isAccountExist">帳號不存在</div>
+        <div class="input-warning" v-if="!isAccountExist">帳號不存在或是密碼錯誤</div>
       </div>
       <div class="form-label-group">
         <label for="password">密碼</label>
@@ -62,41 +62,43 @@ export default {
     };
   },
   methods: {
-    handleSubmit() {
-      // 暫時，避免錯誤
-      if (this.account === "root@example.com" || this.account === "root") {
-        console.log("you are admin");
-        Toast.fire({
-          icon: 'warning',
-          title: '管理者帳號'
-        })
-        return;
-      }
-      authorizationAPI
+    async handleSubmit() {
+      try {
+        if (this.account === "root@example.com" || this.account === "root") {
+          console.log("you are admin");
+          Toast.fire({
+            icon: 'warning',
+            title: '管理者帳號'
+          })
+          return;
+        }
+        const response = await authorizationAPI
         .signIn({
           account: this.account,
           password: this.password,
         })
-        .then((response) => {
-          console.log(response);
-          // 取得 API 請求後的資料
-          const { data } = response;
-          // 將 token 存放在 localStorage 內
-          console.log('data in login',data)
-          localStorage.setItem("token", data.data.token);
-          //vuex: setting current user
-          this.$store.commit("setCurrentUser", data.data.user);
-          // 成功登入後轉址到餐廳首頁
-          this.$router.push("/tweets");
-          Toast.fire({
-            icon: 'success',
-            title: '成功登入'
-          })
+        //console.log('response in login', response)
+        // 取得 API 請求後的資料
+        const { data } = response;
+        // 將 token 存放在 localStorage 內
+        //console.log('data in login',data)
+        localStorage.setItem("token", data.data.token);
+        //vuex: setting current user
+        this.$store.commit("setCurrentUser", data.data.user);
+        // 成功登入後轉址到餐廳首頁
+        this.$router.push("/tweets");
+        Toast.fire({
+          icon: 'success',
+          title: '成功登入'
         })
-        .catch ((error)=>{
-          console.log(error)
-          this.isAccountExist = false
+      } catch (error) {
+        console.log(error)
+        Toast.fire({
+          icon: 'error',
+          title: '登入失敗'
         })
+        this.isAccountExist = false          
+      } 
     },
   },
 };

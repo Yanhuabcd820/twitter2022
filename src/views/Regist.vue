@@ -60,7 +60,7 @@
         <div class="input-bottomline"></div>
       </div>
       <div class="form-label-group">
-        <label for="passwordCheck">密碼確認</label>
+        <label for="checkPassword">密碼確認</label>
         <input
           id="checkPassword"
           name="checkPassword"
@@ -68,7 +68,7 @@
           placeholder="請再次輸入密碼"
           required
           autofocus
-          v-model="user.confirmPassword"
+          v-model="user.checkPassword"
         />
         <div class="input-bottomline"></div>
       </div>
@@ -101,7 +101,7 @@ export default {
         name: "",
         email: "",
         password: "",
-        confirmPassword: "",
+        checkPassword: "",
       },
     };
   },
@@ -117,15 +117,15 @@ export default {
           })
           return;
         }
-        const response = await authorizationAPI
+        await authorizationAPI
         .signUp({
           account: this.user.account, 
           password: this.user.password, 
-          confirmPassword: this.user.confirmPassword, 
+          checkPassword: this.user.checkPassword, 
           name: this.user.name, 
           email: this.user.email
         })
-        console.log('signup',response)
+        //console.log('signup',response)
         Toast.fire({
           icon: 'success',
           title: '註冊成功'

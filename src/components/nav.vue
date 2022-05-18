@@ -56,6 +56,16 @@ export default {
     },
     logOut() {
       localStorage.removeItem("token");
+      //this.$store.commit("setCurrentUser", {
+      //  id:-1, 
+      //  name:'', 
+      //  account:'', 
+      //  email:'', 
+      //  avatar:'', 
+      //  cover:'', 
+      //  introduction:'', 
+      //  role:''
+      //});
     },
   },
 };

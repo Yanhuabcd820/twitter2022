@@ -8,11 +8,11 @@ export default {
       password
     })
   },
-  signUp({account, password, confirmPassword, name, email}){
+  signUp({account, password, checkPassword, name, email}){
     return apiHelper.post('/api/users', {
       account,
       password,
-      confirmPassword,
+      checkPassword,
       name,
       email
     })
@@ -29,5 +29,10 @@ export default {
     },{
       headers: { Authorization: `Bearer ${getToken()}` }
     })
-  }
+  },
+  getCurrentUser() {  
+    return apiHelper.get(`/api/get_current_user`, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
+  },
 }

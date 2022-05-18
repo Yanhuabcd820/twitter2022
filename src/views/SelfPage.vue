@@ -9,7 +9,7 @@
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="tweet in tweets" :key="tweet.id">
           <div class="tweet-avatar">
-            <img src="../assets/images/avatar_default.png" alt="" />
+            <img :src="tweet.avatar | emptyImage" alt="" />
           </div>
           <div class="tweet-content">
             <div class="tweet-name-group">
@@ -57,7 +57,7 @@ import userInfo from "../components/userInfo";
 import userInfoOther from "../components/userInfoOther";
 import userTitle from "../components/userTitle";
 import navTabs from "../components/navTabs";
-import { fromNowFilter } from "./../utils/mixins";
+import { fromNowFilter, emptyImageFilter } from "./../utils/mixins";
 import userAPI from "./../apis/user";
 import { mapState } from "vuex";
 import { Toast } from "./../utils/helpers";
@@ -184,7 +184,7 @@ export default {
       immediate: true,
     },
   },
-  mixins: [fromNowFilter],
+  mixins: [fromNowFilter, emptyImageFilter],
 };
 </script>
 

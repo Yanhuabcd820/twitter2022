@@ -63,7 +63,6 @@ export default {
   },
   methods: {
     async handleSubmit() {
-      
       try {
         if (this.account === "root@example.com" || this.account === "root") {
           console.log("you are admin");

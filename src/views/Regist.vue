@@ -117,7 +117,7 @@ export default {
           })
           return;
         }
-        const response = await authorizationAPI
+        await authorizationAPI
         .signUp({
           account: this.user.account, 
           password: this.user.password, 
@@ -125,7 +125,7 @@ export default {
           name: this.user.name, 
           email: this.user.email
         })
-        console.log('signup',response)
+        //console.log('signup',response)
         Toast.fire({
           icon: 'success',
           title: '註冊成功'

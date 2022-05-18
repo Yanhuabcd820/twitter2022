@@ -63,49 +63,6 @@ import { mapState } from "vuex";
 import { Toast } from "./../utils/helpers";
 // 要得到使用者info、使用者自己的推文、推計追蹤者的資料
 // 使用者info丟進去component，使用者自己的推文直接render
-/*
-const dummyUser = {
-  "id": 1,
-  "account": "heyjohn",
-  "name": "John Doe",
-  "email": "root@example.com",
-  "role": "admin",
-  "introduction": "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.",
-  "avatar": "https://cdn.hk01.com/di/media/images/dw/20200804/367368833650003968.jpeg/WZNYUVhEOnTmxwVbLcUyZLqMQJKiBeb8nWt9dZ1rfXU?v=w1920",
-  "cover": "https://scontent.frmq2-2.fna.fbcdn.net/v/t31.18172-8/21752675_1819087734773580_6613367383358618796_o.jpg?_nc_cat=104&ccb=1-6&_nc_sid=19026a&_nc_ohc=i9AuuAiYA3AAX-J3HnU&_nc_ht=scontent.frmq2-2.fna&oh=00_AT-Cz6zvSyiHcugn54znkPIhWKWYKa1Wzxa0bCXjVR5zfQ&oe=62A46C73",
-  "followingCount": 34,
-  "followerCount": 59,
-  "isFollowing": true,
-  "createdAt": "2022-01-18T07:23:18.000Z",
-  "updatedAt": "2022-01-18T07:23:18.000Z"
-}
-
-const dummyTweets = 
-{
-  "user": {
-    "id": 1,
-    "account": "user1",
-    "name": "root",
-    "avatar": "https://via.placeholder.com/300",
-  },
-  "tweets": [
-    {
-      "id": 2,
-      "description": "yes, shekl kmsdfmld",
-      "createdAt": "2022-04-29T09:50:34.000Z",
-      "replyCount": 13,
-      "likeCount": 76
-    },
-    {
-      "id": 3,
-      "description": "no, ndic kmsdfmld",
-      "createdAt": "2022-05-31T09:50:34.000Z",
-      "replyCount": 3,
-      "likeCount": 2
-    }
-  ]
-}
-*/
 
 export default {
   name: "selfPage",

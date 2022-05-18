@@ -3,7 +3,7 @@
     <navigation :userId="currentUser.id"/>
     <div class="main">
       <userTitle :userName="user.name"/>
-      <navTabsFollow :userId="$route.params.id"/>
+      <navTabsFollow :userId="currentUser.id"/>
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="followship in followships" :key="followship.id">
           <div class="tweet-avatar">

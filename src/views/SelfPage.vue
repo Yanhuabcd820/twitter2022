@@ -5,7 +5,7 @@
       <userTitle :userName="user.name" :tweetNum="tweets.length" />
       <userInfo :initial-user="user" v-if="isMe" />
       <userInfoOther :initial-user="user" v-else />
-      <navTabs :userId="$route.params.id" />
+      <navTabs :userId="currentUser.id" />
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="tweet in tweets" :key="tweet.id">
           <div class="tweet-avatar">
@@ -161,7 +161,6 @@ export default {
   created() {
     // 用token取得資料，取得後看role，是user或是admin，如果不是use，就跳出提醒，回到登入頁
     const twitterToken = localStorage.getItem("token");
-    //console.log(twitterToken)
     if (!twitterToken) {
       Toast.fire({
         icon: "warning",
@@ -169,6 +168,7 @@ export default {
       });
       this.$router.push("/login");
     }
+    console.log('2')
     const { id: userId } = this.$route.params;
     this.fetchUser(userId);
     this.fetchTweets(userId);

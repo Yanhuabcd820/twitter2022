@@ -52,7 +52,7 @@
             <span>{{ replies.length }}</span> 回覆
           </div>
           <div class="like-num">
-            <span> {{ tweet.LikedUsers.length }}</span> 喜歡次數
+            <span> {{ tweet.totalLikes }}</span> 喜歡次數
           </div>
         </div>
         <div class="reply-count-btn">
@@ -166,7 +166,7 @@ export default {
         User: {
           id: 0,
         },
-        LikedUsers: [],
+        totalLikes: 0,
       },
       replies: {},
       user: dummyUser.user,
@@ -257,8 +257,6 @@ export default {
 
         /*關掉PopupTweet*/
         this.isClickPopupReplyList = false;
-        // 成功的話則轉址到 `/tweets/:id`
-        // this.$router.push({ name: "tweet", params: { id: tweetId } });
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -273,9 +271,22 @@ export default {
           throw new Error(dataLike.data.message);
         }
         this.tweet.isLiked = true;
-        this.tweet.LikedUsers.push({
-          id: 0,
+        this.tweet.totalLikes = this.tweet.totalLikes + 1;
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法like此筆tweet，請稍後再試",
         });
+      }
+    },
+    async unLike(tweetId) {
+      try {
+        const dataLike = await userApi.unLike({ tweetId });
+        if (dataLike.data.status !== "Success") {
+          throw new Error(dataLike.data.message);
+        }
+        this.tweet.isLiked = false;
+        this.tweet.totalLikes = this.tweet.totalLikes - 1;
       } catch (error) {
         Toast.fire({
           icon: "error",

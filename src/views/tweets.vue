@@ -7,14 +7,14 @@
       :user="user"
       @after-open-tweet="afterOpenTweet"
     />
-    <navigation @after-open-tweet="afterOpenTweet" />
+    <navigation @after-open-tweet="afterOpenTweet" :userId="currentUser.id"/>
     <div class="main">
       <div class="user-title">
         <h4>首頁</h4>
       </div>
       <div class="post">
         <div class="post-inner">
-          <router-link to="/user/1" class="post-avatar">
+          <router-link :to="{ name: 'SelfPage', params: { id: user.id }}" class="post-avatar">
             <img :src="user.avatar" alt="" />
           </router-link>
         </div>

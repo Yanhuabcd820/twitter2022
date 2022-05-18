@@ -1,6 +1,6 @@
 <template>
   <div class="wrap">
-    <navigation />
+    <navigation :userId="currentUser.id"/>
     <div class="main">
       <userTitle :userName="user.name" :tweetNum="2"/>
       <userInfo :initial-user="user" v-if="isMe"/>

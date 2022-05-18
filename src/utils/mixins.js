@@ -1,4 +1,5 @@
 import moment from 'moment'
+moment.locale('zh-tw');
 
 export const fromNowFilter = {
   filters: {
@@ -12,16 +13,6 @@ export const fromNowFilter = {
   }
 }
 
-// export const ampmFilter = {
-//   filters: {
-//     fromNow(datetime) {
-//       return datetime ? moment(datetime).fromNow() : '-'
-//     },
-//     ampm(datetime) {
-//       return datetime ? moment(datetime).format(' Ahh:mm ・ YYYY年MM月DD日') : '-'
-//     },
-//   }
-// }
 
 export const emptyImageFilter = {
   filters: {

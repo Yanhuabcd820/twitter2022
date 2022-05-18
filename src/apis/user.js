@@ -7,27 +7,27 @@ export default {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
-  getUserTweets ( userId ) { 
+  getUserTweets(userId) {
     return apiHelper.get(`/api/users/${userId}/tweets`, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
-  getUserReplies ( userId ) { 
+  getUserReplies(userId) {
     return apiHelper.get(`/api/users/${userId}/replied_tweets`, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
-  getUserLikes ( userId ) { 
+  getUserLikes(userId) {
     return apiHelper.get(`/api/users/${userId}/likes`, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
-  getUserFollowers ( userId ) { 
+  getUserFollowers(userId) {
     return apiHelper.get(`/api/users/${userId}/followers`, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
-  getUserFollowings ( userId ) { 
+  getUserFollowings(userId) {
     return apiHelper.get(`/api/users/${userId}/followings`, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
@@ -41,6 +41,12 @@ export default {
   unLike({ tweetId }) {
     return apiHelper.post(`/api/tweets/${tweetId
       }/unlike`, null, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
+  },
+  getTop(userId) {
+    return apiHelper.get(`/api/users/${userId
+      }/top10`, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   }

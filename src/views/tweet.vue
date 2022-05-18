@@ -125,23 +125,23 @@
   </div>
 </template>
 <script>
-const dummyUser = {
-  status: "success",
-  user: {
-    id: 1,
-    account: "user1",
-    name: "user1",
-    email: "user1@example.com",
-    password: "$2a$10$DRteVVsafLSZdoetjOpfdeSYGf3t5SuswRL3sRrSvdGpS3ACmU5NG",
-    role: "user",
-    introduction: "Deleniti est id inventore.",
-    avatar: "https://loremflickr.com/320/240/people/?random=73.0908396968221",
-    cover:
-      "https://loremflickr.com/320/240/restaurant,food/?random=79.46570629965461",
-    createdAt: "2022-05-13T15:55:16.000Z",
-    updatedAt: "2022-05-13T15:55:16.000Z",
-  },
-};
+// const dummyUser = {
+//   status: "success",
+//   user: {
+//     id: 1,
+//     account: "user1",
+//     name: "user1",
+//     email: "user1@example.com",
+//     password: "$2a$10$DRteVVsafLSZdoetjOpfdeSYGf3t5SuswRL3sRrSvdGpS3ACmU5NG",
+//     role: "user",
+//     introduction: "Deleniti est id inventore.",
+//     avatar: "https://loremflickr.com/320/240/people/?random=73.0908396968221",
+//     cover:
+//       "https://loremflickr.com/320/240/restaurant,food/?random=79.46570629965461",
+//     createdAt: "2022-05-13T15:55:16.000Z",
+//     updatedAt: "2022-05-13T15:55:16.000Z",
+//   },
+// };
 import { fromNowFilter } from "./../utils/mixins";
 import { Toast } from "./../utils/helpers";
 import navigation from "./../components/nav";
@@ -150,6 +150,8 @@ import popupTweet from "./../components/popupTweet";
 import popupReplyList from "./../components/popupReplyList";
 import tweetsApi from "./../apis/tweets";
 import userApi from "./../apis/user";
+import { mapState } from "vuex";
+
 export default {
   name: "tweet",
   components: {
@@ -160,8 +162,8 @@ export default {
   },
   data() {
     return {
-      isClickPopupTweet: false,
-      isClickPopupReplyList: false,
+      user: {},
+      tweets: [],
       tweet: {
         User: {
           id: 0,
@@ -169,8 +171,8 @@ export default {
         totalLikes: 0,
       },
       replies: {},
-      user: dummyUser.user,
-      tweets: [],
+      isClickPopupTweet: false,
+      isClickPopupReplyList: false,
     };
   },
   methods: {
@@ -247,11 +249,7 @@ export default {
             name: this.user.name,
             avatar: this.user.avatar,
           },
-          LikedUsers: [
-            {
-              id: 0,
-            },
-          ],
+          LikedUsers: [],
           createdAt: new Date(),
         });
 
@@ -294,30 +292,7 @@ export default {
         });
       }
     },
-    // async unLike(tweetId) {
-    //   try {
-    //     const dataUnLike = await userApi.unLike({ tweetId });
 
-    //     if (dataUnLike.data.status !== "Success") {
-    //       throw new Error(dataUnLike.data.message);
-    //     }
-    //     this.tweets = this.tweets.map((tweet) => {
-    //       if (tweet.id === tweetId) {
-    //         return {
-    //           ...tweet,
-    //           isLiked: false,
-    //           totalLikes: tweet.totalLikes - 1,
-    //         };
-    //       }
-    //       return tweet;
-    //     });
-    //   } catch (error) {
-    //     Toast.fire({
-    //       icon: "error",
-    //       title: "無法unlike此筆tweet，請稍後再試",
-    //     });
-    //   }
-    // },
     afterOpenTweet(payload) {
       //將彈跳視窗打開
       const { isClickPopupTweet } = payload;
@@ -345,6 +320,10 @@ export default {
     const { id: tweetId } = this.$route.params;
     this.fetchTweet(tweetId);
     this.fetchTweetReplies(tweetId);
+    this.user = this.currentUser;
+  },
+  computed: {
+    ...mapState(["currentUser"]),
   },
   mixins: [fromNowFilter],
 };

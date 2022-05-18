@@ -9,7 +9,7 @@
         <div class="nav-btn-img nav-btn-home-img"></div>
         <h5>首頁</h5>
       </router-link>
-      <router-link to="/user/1" class="nav-btn">
+      <router-link :to="{ name: 'SelfPage', params: { id: userId }}" class="nav-btn">
         <div class="nav-btn-img nav-btn-user-img"></div>
         <h5>個人資料</h5>
       </router-link>
@@ -38,6 +38,12 @@ export default {
   name: "navigation",
   components: {
     popupTweet,
+  },
+  props: {
+    userId: {
+      type: Number,
+      required: true
+    }
   },
   data() {
     return {

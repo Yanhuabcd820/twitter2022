@@ -7,14 +7,14 @@
       :user="user"
       @after-open-tweet="afterOpenTweet"
     />
-    <navigation @after-open-tweet="afterOpenTweet" />
+    <navigation @after-open-tweet="afterOpenTweet" :userId="currentUser.id"/>
     <div class="main">
       <div class="user-title">
         <h4>首頁</h4>
       </div>
       <div class="post">
         <div class="post-inner">
-          <router-link to="/user/1" class="post-avatar">
+          <router-link :to="{ name: 'SelfPage', params: { id: user.id }}" class="post-avatar">
             <img :src="user.avatar" alt="" />
           </router-link>
         </div>
@@ -293,7 +293,16 @@ export default {
     },
   },
   created() {
-    // this.featchCurrentUser();
+    // 用token取得資料，取得後看role，是user或是admin，如果不是use，就跳出提醒，回到登入頁
+    const twitterToken = localStorage.getItem("token");
+    //console.log(twitterToken)
+    if (!twitterToken) {
+      Toast.fire({
+        icon: "warning",
+        title: "請登入",
+      });
+      this.$router.push("/login");
+    }
     this.featchTweets();
     this.user = this.currentUser
   },

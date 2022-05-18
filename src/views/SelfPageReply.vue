@@ -1,11 +1,11 @@
 <template>
   <div class="wrap">
-    <navigation />
+    <navigation :userId="currentUser.id"/>
     <div class="main">
       <userTitle :userName="user.name" :tweetNum="2"/>
       <userInfo :initial-user="user" v-if="isMe"/>
       <userInfoOther :initial-user="user" v-else/>
-      <navTabs :userId="$route.params.id"/>
+      <navTabs :userId="currentUser.id" />
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="reply in replies" :key="reply.id">
           <div class="tweet-avatar">

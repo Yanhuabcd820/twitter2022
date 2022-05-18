@@ -8,11 +8,11 @@
     />
     <div class="user-block">
       <div class="user-cover">
-        <img :src="user.cover" alt="" />
+        <img :src="user.cover | emptyImage" alt="" />
       </div>
       <div class="avatar-block">
         <div class="user-avatar">
-          <img :src="user.avatar" alt="" />
+          <img :src="user.avatar | emptyImage" alt="" />
         </div>
         <div class="user-edit" @click.prevent.stop="openPopupTweet">
           編輯個人資料
@@ -37,6 +37,8 @@
 
 <script>
 import popupUserEdit from "../components/popupUserEdit";
+import { emptyImageFilter } from "./../utils/mixins";
+
 
 export default {
   props: {
@@ -98,6 +100,7 @@ export default {
       this.user = this.initialUser;
     }
   },
+  mixins: [emptyImageFilter],
 };
 </script>
 

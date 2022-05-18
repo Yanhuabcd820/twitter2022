@@ -2,11 +2,11 @@
   <div>
     <div class="user-block">
       <div class="user-cover">
-        <img :src="user.cover" alt="">
+        <img :src="user.cover | emptyImage" alt="">
       </div>
       <div class="avatar-block">
         <div class="user-avatar">
-          <img :src="user.avatar" alt="">
+          <img :src="user.avatar | emptyImage" alt="">
         </div>
         <div class="tools">
           <div class="icon"><img src="../assets/images/mail.png" alt=""></div>
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { emptyImageFilter } from "./../utils/mixins";
 export default {
   props: {
     initialUser: {
@@ -56,7 +57,8 @@ export default {
     initialUser() {
       this.user = this.initialUser;
     },
-  }
+  },
+  mixins: [emptyImageFilter],
 }
 </script>
 

@@ -342,6 +342,18 @@ export default {
     },
   },
   created() {
+
+    // 用token取得資料，取得後看role，是user或是admin，如果不是use，就跳出提醒，回到登入頁
+    const twitterToken = localStorage.getItem("token");
+    //console.log(twitterToken)
+    if (!twitterToken) {
+      Toast.fire({
+        icon: "warning",
+        title: "請登入",
+      });
+      this.$router.push("/login");
+    }
+
     const { id: tweetId } = this.$route.params;
     this.fetchTweet(tweetId);
     this.fetchTweetReplies(tweetId);

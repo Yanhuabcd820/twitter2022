@@ -107,25 +107,6 @@
   </div>
 </template>
 <script>
-//const dummyUser = {
-//  status: "success",
-//  user: {
-//    id: 1,
-//    account: "user1",
-//    name: "user1",
-//    email: "user1@example.com",
-//    password: "333",
-//    role: "user",
-//    introduction: "Deleniti est id inventore.",
-//    avatar: "https://loremflickr.com/320/240///people/?random=73.0908396968221",
-//    cover:
-//      "https://loremflickr.com/320/240/restaurant,//food/?random=79.46570629965461",
-//    createdAt: "2022-05-13T15:55:16.000Z",
-//    updatedAt: "2022-05-13T15:55:16.000Z",
-//  },
-//};
-
-// import { mapState } from "vuex";
 import { fromNowFilter } from "./../utils/mixins";
 import { Toast } from "./../utils/helpers";
 import navigation from "./../components/nav";
@@ -145,9 +126,6 @@ export default {
     popupTweet,
     popupReply,
   },
-  // computed: {
-  //   ...mapState(["currentUser"]),
-  // },
   data() {
     return {
       user: {},
@@ -163,20 +141,6 @@ export default {
     };
   },
   methods: {
-    // async featchCurrentUser() {
-    //   try {
-    //     // 取得tweets資料
-    //     const currentUser = await tweetsApi.getCurrentUser();
-    //     // const { tweets } = responesTweets.data.data;
-    //     // this.tweets = tweets;
-    //     console.log(currentUser);
-    //   } catch (error) {
-    //     Toast.fire({
-    //       icon: "error",
-    //       title: "無法取得tweets資料，請稍後再試",
-    //     });
-    //   }
-    // },
     async featchTweets() {
       try {
         // 取得tweets資料
@@ -191,20 +155,6 @@ export default {
         });
       }
     },
-    // async featchTweetsReplies() {
-    //   try {
-    //     // 取得tweets資料
-    //     const responesTweets = await tweetsApi.getTweetsReply();
-    //     const { tweets } = responesTweets.data.data;
-    //     this.tweets = tweets;
-    //     // console.log(this.tweets);
-    //   } catch (error) {
-    //     Toast.fire({
-    //       icon: "error",
-    //       title: "無法取得tweets資料，請稍後再試",
-    //     });
-    //   }
-    // },
     async afterCreateTweet(payload) {
       try {
         const { description } = payload;

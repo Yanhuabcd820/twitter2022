@@ -16,11 +16,6 @@ export default {
     })
   },
 
-  // getTweetsReply({ tweetId }) {
-  //   return apiHelper.post(`/api/tweets/${tweetId}/replies`, { tweetId }, {
-  //     headers: { Authorization: `Bearer ${getToken()}` }
-  //   })
-  // },
   getTweetReplies(tweetId) {
     return apiHelper.get(`/api/tweets/${tweetId}/replies`, {
       headers: {

@@ -103,7 +103,7 @@
         </div>
       </div>
     </div>
-    <followTop />
+    <followTop :userId="user.id" />
   </div>
 </template>
 <script>
@@ -117,9 +117,8 @@ import tweetsApi from "./../apis/tweets";
 import userApi from "./../apis/user";
 import { mapState } from "vuex";
 
-
 export default {
-  name: "mainPage",
+  name: "tweets",
   components: {
     navigation,
     followTop,
@@ -128,13 +127,13 @@ export default {
   },
   data() {
     return {
-      user: {},
-      // currentUser: {},
+      user: {
+        id: 0,
+      },
       tweets: [],
       replies: [],
       isClickPopupTweet: false,
       isClickPopupReplyTweet: false,
-      // whichPopupReply: -1,
       tweet: {},
       tweetPopup: {},
       TweetsRepliesNum: {},
@@ -170,7 +169,7 @@ export default {
             id: this.user.id,
             account: this.user.account,
             name: this.user.name,
-            avatar: this.user.avatar ,
+            avatar: this.user.avatar,
           },
           createdAt: new Date(),
           totalLikes: 0,
@@ -267,8 +266,6 @@ export default {
     },
     afterOpenTweet(payload) {
       //將彈跳視窗打開
-
-      console.log(payload);
       const { isClickPopupTweet } = payload;
       console.log(isClickPopupTweet);
       this.isClickPopupTweet = isClickPopupTweet;
@@ -304,7 +301,7 @@ export default {
       this.$router.push("/login");
     }
     this.featchTweets();
-    this.user = this.currentUser
+    this.user = this.currentUser;
   },
   computed: {
     ...mapState(["currentUser"]),

@@ -3,7 +3,7 @@
     <div class="overlay" @click.stop.prevent="closePopupTweet"></div>
     <div class="popupTweet">
 
-      <form action="">
+      <form action="" @submit.stop.prevent="handleSubmit" enctype="multipart/form-data">
 
         <div class="header">
           <div class="popupTweet-colse">
@@ -15,9 +15,9 @@
             </div>
           </div>
           <h5>編輯個人資料</h5>
-          <div class="header-btn btn" @click.stop.prevent="handleSubmit">
+          <button class="header-btn btn" type="submit">
             儲存
-          </div>
+          </button>
         </div>
         <div class="popupTweet-cover">
           <img :src="user.cover" alt="" />
@@ -29,6 +29,7 @@
                   type="file"
                   accept="image/*"
                   style="display: none"
+                  name="cover"
                   @change="handleCoverChange"
                 />
                 <img src="../assets/images/cover-edit.png" />
@@ -47,6 +48,7 @@
               <label class="avatar-edit">
                 <input
                   type="file"
+                  name="avatar"
                   accept="image/*"
                   style="display: none"
                   @change="handleAvatarChange"
@@ -154,21 +156,32 @@ export default {
         this.avatarFile = files[0]
       }
     },
-    async handleSubmit() {
+    async handleSubmit(e) {
       try {
-        console.log(this.user);
+        // console.log(this.user);
 
+        const form = e.target
+        console.log(form)
+        const formData = new FormData(form)
+        console.log('formData',formData)
+        let test = []
+        for (let [name, value] of formData.entries()) {
+          console.log(name + ': ' + value)
+          test.push(value)
+        }
+        console.log(test)
+        // 順序是cover avatar name
         const response = await authorizationAPI
         .updateUser(this.currentUser.id,{
           name: this.currentUser.name,
           account: this.currentUser.account,
           email: this.currentUser.account,
-          password: '12345678',
+          password: '',
           introduction: this.user.introduction,
-          avatar: this.avatarFile,
-          cover: this.coverFile
+          avatar: test[1],
+          cover: test[0]
         })
-        console.log(response)
+        console.log("res",response)
 
         this.$emit("after-edit-info", {
           avatar: this.user.avatar,

@@ -115,7 +115,7 @@ export default {
         name: this.initialUser.name,
         introduction: this.initialUser.introduction,
       },
-      temp: this.initialUser.introduction,
+      temp: this.initialUser.introduction || '',
       coverFile:{},
       avatarFile:{}
     };
@@ -159,17 +159,16 @@ export default {
     async handleSubmit(e) {
       try {
         // console.log(this.user);
-
         const form = e.target
-        console.log(form)
+        //console.log(form)
         const formData = new FormData(form)
         console.log('formData',formData)
-        let test = []
+        //let test = []
         for (let [name, value] of formData.entries()) {
           console.log(name + ': ' + value)
-          test.push(value)
+          //test.push(value)
         }
-        console.log(test)
+        //console.log(test)
         // 順序是cover avatar name
         const response = await authorizationAPI
         .updateUser(this.currentUser.id,{
@@ -178,8 +177,8 @@ export default {
           email: this.currentUser.account,
           password: '',
           introduction: this.user.introduction,
-          avatar: test[1],
-          cover: test[0]
+          avatar: this.avatarFile,
+          cover: this.coverFile
         })
         console.log("res",response)
 

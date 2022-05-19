@@ -108,7 +108,7 @@ export default {
   methods: {
     async handleSubmit() {
       try {
-        console.log(this.user)
+        //console.log(this.user)
         if (this.user.account === "root") {
           console.log("you are admin");
           Toast.fire({
@@ -149,9 +149,23 @@ export default {
         })
         this.$router.push("/login"); // 註冊後跳到登入頁面
       } catch (error) {
-        console.log(error)
+        //console.log(error)
+        if (error.response.data.message === "Error: Account has already been taken."){
+          Toast.fire({
+            icon: 'error',
+            title: '帳號已有人用過'
+          })
+          return
+        }
+        if (error.response.data.message === "Error: Email has already been taken."){
+          Toast.fire({
+            icon: 'error',
+            title: 'Email已有人用過'
+          })
+          return
+        }
         Toast.fire({
-          icon: 'warning',
+          icon: 'error',
           title: '註冊失敗'
         })
       }

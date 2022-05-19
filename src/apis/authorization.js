@@ -27,7 +27,7 @@ export default {
       avatar,
       cover
     },{
-      headers: { Authorization: `Bearer ${getToken()}` }
+      headers: { Authorization: `Bearer ${getToken()}`, 'Content-Type': 'multipart/form-data' }
     })
   },
   getCurrentUser() {  

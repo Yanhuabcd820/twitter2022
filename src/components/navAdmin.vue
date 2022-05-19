@@ -15,14 +15,25 @@
     </div>
 
     <div class="nav-admin-btn-group-bottom">
-      <div class="nav-admin-btn-group btn-bottom">
-        <a href="#" class="nav-admin-btn">
+      <div class="nav-admin-btn-group btn-bottom" @click="logOut">
+        <router-link to="/admin" class="nav-admin-btn">
           <div class="nav-admin-btn-img nav-admin-btn-left-img"></div>
           <h5>登出</h5>
-        </a>
+        </router-link>
       </div>
     </div>
   </div>
 </template>
 
 <style lang="css" src="@/assets/css/navAdmin.css" scoped></style>
+
+<script>
+export default {
+  methods: {
+    logOut() {
+      localStorage.removeItem("token");
+    },
+  }
+
+}
+</script>

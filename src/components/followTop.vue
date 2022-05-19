@@ -5,16 +5,26 @@
     </div>
     <div class="followTop-wrap" v-for="top in tops" :key="top.is">
       <div class="followTop-card">
-        <div class="followTop-avatar">
-          <img :src="top.avatar" alt="" />
-        </div>
-        <div class="followTop-name-wrap">
+        <router-link
+          :to="{ name: 'SelfPage', params: { id: top.id } }"
+          class="followTop-avatar"
+        >
+          <img :src="top.avatar | emptyImage" alt="" />
+        </router-link>
+        <router-link
+          :to="{ name: 'SelfPage', params: { id: top.id } }"
+          class="followTop-name-wrap"
+        >
           <p class="followTop-name">
             <b>{{ top.name }}</b>
           </p>
           <p class="fz14 followTop-account">@{{ top.account }}</p>
-        </div>
-        <div class="followTop-btn-wrap" v-if="top.isFollowing">
+        </router-link>
+        <div
+          class="followTop-btn-wrap"
+          v-if="top.isFollowing"
+          @click.prevent.stop="unFollow(top.id)"
+        >
           <div class="btn active followTop-btn">正在跟隨</div>
         </div>
         <div
@@ -32,12 +42,11 @@
 import userApi from "./../apis/user";
 import followshipApi from "./../apis/followship";
 import { Toast } from "./../utils/helpers";
+import { emptyImageFilter } from "./../utils/mixins";
 export default {
   props: {
     userId: {
       type: Number,
-      required: true,
-      default: 0,
     },
   },
   data() {
@@ -81,10 +90,36 @@ export default {
         });
       }
     },
+
+    async unFollow(followingId) {
+      try {
+        console.log("id", followingId);
+        const dataUnFollow = await followshipApi.unFollow({ followingId });
+        console.log("dataUnFollow", dataUnFollow);
+        // if (dataUnFollow.data.status !== "Success") {
+        //   throw new Error(dataUnFollow.data.statusText);
+        // }
+        this.tops = this.tops.map((top) => {
+          if (top.id === followingId) {
+            return {
+              ...top,
+              isFollowing: false,
+            };
+          }
+          return top;
+        });
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法unFollow此人，請稍後再試",
+        });
+      }
+    },
   },
   created() {
     this.featchTop(this.userId);
   },
+  mixins: [emptyImageFilter],
 };
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="wrap">
-    <navigation :userId="currentUser.id"/>
+    <navigation :userId="currentUser.id" />
     <div class="main">
       <userTitle :userName="user.name" :tweetNum="tweets.length" />
       <userInfo :initial-user="user" v-if="isMe" />
@@ -47,7 +47,7 @@
         </div>
       </div>
     </div>
-    <followTop />
+    <followTop :userId="currentUser.id" />
   </div>
 </template>
 <script>
@@ -168,7 +168,7 @@ export default {
       });
       this.$router.push("/login");
     }
-    console.log('2')
+    console.log("2");
     const { id: userId } = this.$route.params;
     this.fetchUser(userId);
     this.fetchTweets(userId);

@@ -10,7 +10,7 @@
       <div class="popupTweet-text-wrap">
         <div class="popupTweet-text">
           <div class="popupTweet-avatar">
-            <img :src="user.avatar" alt="" />
+            <img :src="user.avatar | emptyImage" alt="" />
           </div>
           <textarea
             name="description"
@@ -40,6 +40,7 @@
   </div>
 </template>
 <script>
+import {  emptyImageFilter } from "./../utils/mixins";
 export default {
   name: "popupTweet",
   props: {
@@ -71,6 +72,7 @@ export default {
       });
     },
   },
+  mixins: [emptyImageFilter],
 };
 </script>
 

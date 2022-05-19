@@ -7,15 +7,18 @@
       :user="user"
       @after-open-tweet="afterOpenTweet"
     />
-    <navigation @after-open-tweet="afterOpenTweet" :userId="currentUser.id"/>
+    <navigation @after-open-tweet="afterOpenTweet" :userId="currentUser.id" />
     <div class="main">
       <div class="user-title">
         <h4>首頁</h4>
       </div>
       <div class="post">
         <div class="post-inner">
-          <router-link :to="{ name: 'SelfPage', params: { id: user.id }}" class="post-avatar">
-            <img :src="user.avatar" alt="" />
+          <router-link
+            :to="{ name: 'SelfPage', params: { id: user.id } }"
+            class="post-avatar"
+          >
+            <img :src="user.avatar | emptyImage" alt="" />
           </router-link>
         </div>
         <div class="post-inner-tweet" @click.prevent.stop="openPopupTweet">
@@ -38,7 +41,7 @@
             :to="{ name: 'SelfPage', params: { id: tweet.User.id } }"
             class="tweet-avatar"
           >
-            <img :src="tweet.User.avatar" alt="" />
+            <img :src="tweet.User.avatar | emptyImage" alt="" />
           </router-link>
           <router-link
             :to="{ name: 'tweet', params: { id: tweet.id } }"
@@ -103,11 +106,11 @@
         </div>
       </div>
     </div>
-    <followTop :userId="user.id" />
+    <followTop :userId="currentUser.id" />
   </div>
 </template>
 <script>
-import { fromNowFilter } from "./../utils/mixins";
+import { fromNowFilter, emptyImageFilter } from "./../utils/mixins";
 import { Toast } from "./../utils/helpers";
 import navigation from "./../components/nav";
 import followTop from "./../components/followTop";
@@ -306,7 +309,7 @@ export default {
   computed: {
     ...mapState(["currentUser"]),
   },
-  mixins: [fromNowFilter],
+  mixins: [fromNowFilter, emptyImageFilter],
 };
 </script>
 

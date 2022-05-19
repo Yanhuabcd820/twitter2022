@@ -14,7 +14,7 @@
         <div class="popupReply-user">
           <div class="popupReply-avatar">
             <div class="popupReply-avatar-img">
-              <img :src="tweet.User.avatar" alt="" />
+              <img :src="tweet.User.avatar | emptyImage" alt="" />
             </div>
           </div>
           <div class="popupReply-content">
@@ -39,7 +39,7 @@
         </div>
         <div class="popupReply-again-inner">
           <div class="popupReply-again-avatar">
-            <img :src="user.avatar" alt="" />
+            <img :src="user.avatar | emptyImage" alt="" />
           </div>
           <textarea
             name=""
@@ -69,7 +69,7 @@
 </template>
 <script>
 // import { v4 as uuidv4 } from "uuid";
-import { fromNowFilter } from "./../utils/mixins";
+import { fromNowFilter, emptyImageFilter } from "./../utils/mixins";
 export default {
   name: "popupReplyList",
   props: {
@@ -104,7 +104,7 @@ export default {
       });
     },
   },
-  mixins: [fromNowFilter],
+  mixins: [fromNowFilter, emptyImageFilter],
 };
 </script>
 

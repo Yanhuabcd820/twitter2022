@@ -1,6 +1,6 @@
 <template>
   <div class="wrap">
-    <navigation :userId="currentUser.id"/>
+    <navigation :userId="currentUser.id" />
     <div class="main">
       <userTitle :userName="user.name" :tweetNum="tweets.length" />
       <userInfo :initial-user="user" v-if="isMe" />
@@ -47,7 +47,9 @@
         </div>
       </div>
     </div>
-    <followTop :userId="currentUser.id"/>
+
+    <followTop :userId="currentUser.id" />
+
   </div>
 </template>
 <script>

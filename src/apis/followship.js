@@ -7,10 +7,10 @@ export default {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
-  // unFollow({ tweetId }) {
-  //   return apiHelper.post(`/api/tweets/${tweetId
-  //     }/unlike`, null, {
-  //     headers: { Authorization: `Bearer ${getToken()}` }
-  //   })
-  // },
+  unFollow({ followingId }) {
+    return apiHelper.delete(`/api/followships/${followingId}`, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
+  },
+  
 }

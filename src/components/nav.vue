@@ -9,7 +9,10 @@
         <div class="nav-btn-img nav-btn-home-img"></div>
         <h5>首頁</h5>
       </router-link>
-      <router-link :to="{ name: 'SelfPage', params: { id: userId }}" class="nav-btn">
+      <router-link
+        :to="{ name: 'SelfPage', params: { id: userId } }"
+        class="nav-btn"
+      >
         <div class="nav-btn-img nav-btn-user-img"></div>
         <h5>個人資料</h5>
       </router-link>
@@ -42,8 +45,8 @@ export default {
   props: {
     userId: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -63,13 +66,13 @@ export default {
     logOut() {
       localStorage.removeItem("token");
       //this.$store.commit("setCurrentUser", {
-      //  id:-1, 
-      //  name:'', 
-      //  account:'', 
-      //  email:'', 
-      //  avatar:'', 
-      //  cover:'', 
-      //  introduction:'', 
+      //  id:-1,
+      //  name:'',
+      //  account:'',
+      //  email:'',
+      //  avatar:'',
+      //  cover:'',
+      //  introduction:'',
       //  role:''
       //});
     },

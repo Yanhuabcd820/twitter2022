@@ -11,7 +11,7 @@
         <div class="popupReply-user">
           <div class="popupReply-avatar">
             <div class="popupReply-avatar-img">
-              <img :src="tweet.User.avatar" alt="" />
+              <img :src="tweet.User.avatar | emptyImage" alt="" />
             </div>
           </div>
           <div class="popupReply-content">
@@ -36,7 +36,7 @@
         </div>
         <div class="popupReply-again-inner">
           <div class="popupReply-again-avatar">
-            <img :src="user.avatar" alt="" />
+            <img :src="user.avatar | emptyImage" alt="" />
           </div>
           <textarea
             name=""
@@ -50,9 +50,7 @@
           <div class="post-text-num-warning" v-if="popupText.length >= 80">
             字數不可超過 80 字
           </div>
-          <div class="post-text-num-warning" v-if="popupText.length <= 0">
-            不得為空白
-          </div>
+          <div class="post-text-num-warning" v-if="noZero">不得為空白</div>
           <div
             class="btn popupReply-btn active"
             @click.prevent.stop="handleSubmit"
@@ -66,7 +64,7 @@
 </template>
 <script>
 // import { v4 as uuidv4 } from "uuid";
-import { fromNowFilter } from "./../utils/mixins";
+import { fromNowFilter, emptyImageFilter } from "./../utils/mixins";
 export default {
   name: "popupReply",
   props: {
@@ -82,7 +80,16 @@ export default {
   data() {
     return {
       popupText: "",
+      noZero: false,
     };
+  },
+  watch: {
+    popupText() {
+      console.log(this.popupText);
+      if (this.popupText) {
+        this.noZero = false;
+      }
+    },
   },
   methods: {
     closePopupReply() {
@@ -92,8 +99,8 @@ export default {
     },
 
     handleSubmit() {
-      console.log("handleSubmit22");
       if (!this.popupText.trim()) {
+        this.noZero = true;
         return;
       }
       this.$emit("after-create-reply", {
@@ -103,7 +110,7 @@ export default {
     },
   },
 
-  mixins: [fromNowFilter],
+  mixins: [fromNowFilter, emptyImageFilter],
 };
 </script>
 

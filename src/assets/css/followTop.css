@@ -20,7 +20,17 @@
 
 .followTop-avatar {
   width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
   margin-right: 8px;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.followTop-avatar>img {
+  width: 100%;
+  height: 100%;
 }
 
 .followTop-name-wrap {
@@ -34,6 +44,7 @@
 
 .followTop-btn-wrap {
   flex-grow: 1;
+  flex-shrink: 0;
   align-self: center;
   text-align: right;
 }

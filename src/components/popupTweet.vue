@@ -10,7 +10,7 @@
       <div class="popupTweet-text-wrap">
         <div class="popupTweet-text">
           <div class="popupTweet-avatar">
-            <img :src="user.avatar" alt="" />
+            <img :src="user.avatar | emptyImage" alt="" />
           </div>
           <textarea
             name="description"
@@ -24,9 +24,7 @@
           <div class="post-text-num-warning" v-if="popupText.length >= 140">
             字數不可超過 140 字
           </div>
-          <div class="post-text-num-warning" v-if="popupText.length <= 0">
-            不得為空白
-          </div>
+          <div class="post-text-num-warning" v-if="noZero">不得為空白</div>
           <div
             type="submit"
             class="btn popupTweet-btn active"
@@ -40,6 +38,7 @@
   </div>
 </template>
 <script>
+import { emptyImageFilter } from "./../utils/mixins";
 export default {
   name: "popupTweet",
   props: {
@@ -54,6 +53,13 @@ export default {
       noZero: false,
     };
   },
+  watch: {
+    popupText() {
+      if (this.popupText) {
+        this.noZero = false;
+      }
+    },
+  },
 
   methods: {
     closePopupTweet() {
@@ -64,6 +70,7 @@ export default {
 
     handleSubmit() {
       if (!this.popupText.trim()) {
+        this.noZero = true;
         return;
       }
       this.$emit("after-create-tweet", {
@@ -71,6 +78,7 @@ export default {
       });
     },
   },
+  mixins: [emptyImageFilter],
 };
 </script>
 

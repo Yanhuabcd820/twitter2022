@@ -16,7 +16,7 @@
     <!-- <popupReplyList /> -->
     <!-- <popupReplyList />
     <popupReply /> -->
-    <navigation @after-open-tweet="afterOpenTweet" />
+    <navigation @after-open-tweet="afterOpenTweet" :userId="currentUser.id" />
     <div class="reply-wrap">
       <router-link to="/tweets" class="reply-title">
         <div class="reply-forward">
@@ -31,7 +31,7 @@
             :to="{ name: 'SelfPage', params: { id: tweet.User.id } }"
           >
             <div class="reply-avatar">
-              <img :src="tweet.User.avatar" alt="" />
+              <img :src="tweet.User.avatar | emptyImage" alt="" />
             </div>
             <div class="reply-name-group">
               <p class="reply-name">
@@ -80,7 +80,7 @@
       <div class="reply-tweet-wrap">
         <div class="reply-tweet-card" v-for="reply in replies" :key="reply.id">
           <div class="reply-tweet-avatar">
-            <img :src="reply.User.avatar" alt="" />
+            <img :src="reply.User.avatar | emptyImage" alt="" />
           </div>
           <div class="reply-tweet-content">
             <div class="reply-tweet-name-group">
@@ -121,7 +121,7 @@
         </div>
       </div>
     </div>
-    <followTop />
+    <followTop :userId="currentUser.id" />
   </div>
 </template>
 <script>
@@ -142,7 +142,7 @@
 //     updatedAt: "2022-05-13T15:55:16.000Z",
 //   },
 // };
-import { fromNowFilter } from "./../utils/mixins";
+import { fromNowFilter, emptyImageFilter } from "./../utils/mixins";
 import { Toast } from "./../utils/helpers";
 import navigation from "./../components/nav";
 import followTop from "./../components/followTop";
@@ -317,7 +317,6 @@ export default {
     },
   },
   created() {
-
     // 用token取得資料，取得後看role，是user或是admin，如果不是use，就跳出提醒，回到登入頁
     const twitterToken = localStorage.getItem("token");
     //console.log(twitterToken)
@@ -337,7 +336,7 @@ export default {
   computed: {
     ...mapState(["currentUser"]),
   },
-  mixins: [fromNowFilter],
+  mixins: [fromNowFilter, emptyImageFilter],
 };
 </script>
 

@@ -6,21 +6,21 @@
         <h4>使用者列表</h4>
       </div>
       <div class="admin-users-cards-wrap">
-        <router-link to="/" class="admin-user-card">
+        <router-link to="/" class="admin-user-card" v-for="user in users" :key="user.id">
           <div class="admin-user-picture-wrap">
             <div class="admin-user-image">
-              <img src="../assets/images/admin-user-image.jpg" alt="" />
+              <img :src="user.cover" alt="" />
             </div>
             <div class="admin-user-avatar">
-              <img src="../assets/images/admin-user-avatar.jpg" alt="" />
+              <img :src="user.avatar" alt="" />
             </div>
           </div>
           <div class="admin-user-info">
             <div class="admin-user-name">
-              <p><b>John Doe</b></p>
+              <p><b>{{user.name}}</b></p>
             </div>
             <div class="admin-user-account">
-              <p class="fz14">@heyjohn</p>
+              <p class="fz14">@{{user.account}}</p>
             </div>
 
             <div class="admin-user-count">
@@ -28,199 +28,23 @@
                 <div class="admin-user-tweet-img">
                   <img src="../assets/images/admin-user-tweet.png" alt="" />
                 </div>
-                <p>1.5k</p>
+                <p>{{user.Tweets}}</p>
               </div>
               <div class="admin-user-like">
                 <div class="admin-user-like-img">
                   <img src="../assets/images/admin-user-like.png" alt="" />
                 </div>
-                <p>20K</p>
+                <p>{{user.Likes}}</p>
               </div>
             </div>
 
             <div class="admin-user-follow-count">
               <div class="admin-user-following">
-                <p class="fz14 num">34個</p>
+                <p class="fz14 num">{{user.Followings}}個</p>
                 <p class="fz14 word">跟隨中</p>
               </div>
               <div class="admin-user-follower">
-                <p class="fz14 num">59個</p>
-                <p class="fz14 word">跟隨者</p>
-              </div>
-            </div>
-          </div>
-        </router-link>
-        <router-link to="/" class="admin-user-card">
-          <div class="admin-user-picture-wrap">
-            <div class="admin-user-image">
-              <img src="../assets/images/admin-user-image.jpg" alt="" />
-            </div>
-            <div class="admin-user-avatar">
-              <img src="../assets/images/admin-user-avatar.jpg" alt="" />
-            </div>
-          </div>
-          <div class="admin-user-info">
-            <div class="admin-user-name">
-              <p><b>John Doe</b></p>
-            </div>
-            <div class="admin-user-account">
-              <p class="fz14">@heyjohn</p>
-            </div>
-
-            <div class="admin-user-count">
-              <div class="admin-user-tweet">
-                <div class="admin-user-tweet-img">
-                  <img src="../assets/images/admin-user-tweet.png" alt="" />
-                </div>
-                <p>1.5k</p>
-              </div>
-              <div class="admin-user-like">
-                <div class="admin-user-like-img">
-                  <img src="../assets/images/admin-user-like.png" alt="" />
-                </div>
-                <p>20K</p>
-              </div>
-            </div>
-
-            <div class="admin-user-follow-count">
-              <div class="admin-user-following">
-                <p class="fz14 num">34個</p>
-                <p class="fz14 word">跟隨中</p>
-              </div>
-              <div class="admin-user-follower">
-                <p class="fz14 num">59個</p>
-                <p class="fz14 word">跟隨者</p>
-              </div>
-            </div>
-          </div>
-        </router-link>
-        <router-link to="/" class="admin-user-card">
-          <div class="admin-user-picture-wrap">
-            <div class="admin-user-image">
-              <img src="../assets/images/admin-user-image.jpg" alt="" />
-            </div>
-            <div class="admin-user-avatar">
-              <img src="../assets/images/admin-user-avatar.jpg" alt="" />
-            </div>
-          </div>
-          <div class="admin-user-info">
-            <div class="admin-user-name">
-              <p><b>John Doe</b></p>
-            </div>
-            <div class="admin-user-account">
-              <p class="fz14">@heyjohn</p>
-            </div>
-
-            <div class="admin-user-count">
-              <div class="admin-user-tweet">
-                <div class="admin-user-tweet-img">
-                  <img src="../assets/images/admin-user-tweet.png" alt="" />
-                </div>
-                <p>1.5k</p>
-              </div>
-              <div class="admin-user-like">
-                <div class="admin-user-like-img">
-                  <img src="../assets/images/admin-user-like.png" alt="" />
-                </div>
-                <p>20K</p>
-              </div>
-            </div>
-
-            <div class="admin-user-follow-count">
-              <div class="admin-user-following">
-                <p class="fz14 num">34個</p>
-                <p class="fz14 word">跟隨中</p>
-              </div>
-              <div class="admin-user-follower">
-                <p class="fz14 num">59個</p>
-                <p class="fz14 word">跟隨者</p>
-              </div>
-            </div>
-          </div>
-        </router-link>
-        <router-link to="/" class="admin-user-card">
-          <div class="admin-user-picture-wrap">
-            <div class="admin-user-image">
-              <img src="../assets/images/admin-user-image.jpg" alt="" />
-            </div>
-            <div class="admin-user-avatar">
-              <img src="../assets/images/admin-user-avatar.jpg" alt="" />
-            </div>
-          </div>
-          <div class="admin-user-info">
-            <div class="admin-user-name">
-              <p><b>John Doe</b></p>
-            </div>
-            <div class="admin-user-account">
-              <p class="fz14">@heyjohn</p>
-            </div>
-
-            <div class="admin-user-count">
-              <div class="admin-user-tweet">
-                <div class="admin-user-tweet-img">
-                  <img src="../assets/images/admin-user-tweet.png" alt="" />
-                </div>
-                <p>1.5k</p>
-              </div>
-              <div class="admin-user-like">
-                <div class="admin-user-like-img">
-                  <img src="../assets/images/admin-user-like.png" alt="" />
-                </div>
-                <p>20K</p>
-              </div>
-            </div>
-
-            <div class="admin-user-follow-count">
-              <div class="admin-user-following">
-                <p class="fz14 num">34個</p>
-                <p class="fz14 word">跟隨中</p>
-              </div>
-              <div class="admin-user-follower">
-                <p class="fz14 num">59個</p>
-                <p class="fz14 word">跟隨者</p>
-              </div>
-            </div>
-          </div>
-        </router-link>
-        <router-link to="/" class="admin-user-card">
-          <div class="admin-user-picture-wrap">
-            <div class="admin-user-image">
-              <img src="../assets/images/admin-user-image.jpg" alt="" />
-            </div>
-            <div class="admin-user-avatar">
-              <img src="../assets/images/admin-user-avatar.jpg" alt="" />
-            </div>
-          </div>
-          <div class="admin-user-info">
-            <div class="admin-user-name">
-              <p><b>John Doe</b></p>
-            </div>
-            <div class="admin-user-account">
-              <p class="fz14">@heyjohn</p>
-            </div>
-
-            <div class="admin-user-count">
-              <div class="admin-user-tweet">
-                <div class="admin-user-tweet-img">
-                  <img src="../assets/images/admin-user-tweet.png" alt="" />
-                </div>
-                <p>1.5k</p>
-              </div>
-              <div class="admin-user-like">
-                <div class="admin-user-like-img">
-                  <img src="../assets/images/admin-user-like.png" alt="" />
-                </div>
-                <p>20K</p>
-              </div>
-            </div>
-
-            <div class="admin-user-follow-count">
-              <div class="admin-user-following">
-                <p class="fz14 num">34個</p>
-                <p class="fz14 word">跟隨中</p>
-              </div>
-              <div class="admin-user-follower">
-                <p class="fz14 num">59個</p>
+                <p class="fz14 num">{{user.Followers}}個</p>
                 <p class="fz14 word">跟隨者</p>
               </div>
             </div>
@@ -232,6 +56,8 @@
 </template>
 <script>
 import navigationAdmin from "../components/navAdmin";
+import adminAPI from "./../apis/admin";
+
 
 export default {
   name: "adminUsers",
@@ -244,12 +70,15 @@ export default {
     };
   },
   methods: {
-    fetchUsers(){
+    async fetchUsers(){
       // 串接api得到回應
-
-      // 抓取回應錯誤
-
-      // this.users = dummyData.users
+      try {
+        const response = await adminAPI.getUsersAdmin()
+        console.log('response', response)
+        this.users = response.data.data.data
+      } catch (error) {
+        console.log('error',error)
+      }
     }
   },
   created(){

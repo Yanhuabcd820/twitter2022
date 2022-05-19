@@ -47,7 +47,7 @@
         </div>
       </div>
     </div>
-    <followTop />
+    <followTop :userId="currentUser.id"/>
   </div>
 </template>
 <script>
@@ -65,7 +65,7 @@ import { Toast } from "./../utils/helpers";
 // 使用者info丟進去component，使用者自己的推文直接render
 
 export default {
-  name: "selfPage",
+  name: "SelfPage",
   components: {
     navigation,
     followTop,
@@ -100,7 +100,7 @@ export default {
     async fetchUser(userId) {
       try {
         const response = await userAPI.getUser(userId);
-        console.log("response in selfPage", response);
+        //console.log("response in selfPage", response);
         // dummyUser 對應 response.data.user
         const {
           id,
@@ -168,7 +168,6 @@ export default {
       });
       this.$router.push("/login");
     }
-    console.log('2')
     const { id: userId } = this.$route.params;
     this.fetchUser(userId);
     this.fetchTweets(userId);

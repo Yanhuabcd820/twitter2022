@@ -2,85 +2,91 @@
   <div class="popupTweet-wrap">
     <div class="overlay" @click.stop.prevent="closePopupTweet"></div>
     <div class="popupTweet">
-      <div class="header">
-        <div class="popupTweet-colse">
-          <div
-            class="popupTweet-colse-img"
-            @click.stop.prevent="closePopupTweet"
-          >
-            <img src="../assets/images/pop-up-cancle.png" alt="" />
+
+      <form action="">
+
+        <div class="header">
+          <div class="popupTweet-colse">
+            <div
+              class="popupTweet-colse-img"
+              @click.stop.prevent="closePopupTweet"
+            >
+              <img src="../assets/images/pop-up-cancle.png" alt="" />
+            </div>
+          </div>
+          <h5>編輯個人資料</h5>
+          <div class="header-btn btn" @click.stop.prevent="handleSubmit">
+            儲存
           </div>
         </div>
-        <h5>編輯個人資料</h5>
-        <div class="header-btn btn" @click.stop.prevent="handleSubmit">
-          儲存
-        </div>
-      </div>
-      <div class="popupTweet-cover">
-        <img :src="user.cover" alt="" />
-        <div class="cover-grayLayer"></div>
-        <div class="cover-edit">
-          <div class="cover-edit-tool">
-            <label>
-              <input
-                type="file"
-                accept="image/*"
-                style="display: none"
-                @change="handleCoverChange"
-              />
-              <img src="../assets/images/cover-edit.png" />
-            </label>
-          </div>
-          <div class="cover-edit-tool" @click="clearCover">
-            <img src="../assets/images/cover-cross.png" alt="" />
+        <div class="popupTweet-cover">
+          <img :src="user.cover" alt="" />
+          <div class="cover-grayLayer"></div>
+          <div class="cover-edit">
+            <div class="cover-edit-tool">
+              <label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  style="display: none"
+                  @change="handleCoverChange"
+                />
+                <img src="../assets/images/cover-edit.png" />
+              </label>
+            </div>
+            <div class="cover-edit-tool" @click="clearCover">
+              <img src="../assets/images/cover-cross.png" alt="" />
+            </div>
           </div>
         </div>
-      </div>
-      <div class="avatar-block">
-        <div>
-          <div class="avatar">
-            <div class="avatar-grayLayer"></div>
-            <img :src="user.avatar" alt="" />
-            <label class="avatar-edit">
-              <input
-                type="file"
-                accept="image/*"
-                style="display: none"
-                @change="handleAvatarChange"
-              />
-              <img src="../assets/images/cover-edit.png" alt="" />
-            </label>
+        <div class="avatar-block">
+          <div>
+            <div class="avatar">
+              <div class="avatar-grayLayer"></div>
+              <img :src="user.avatar" alt="" />
+              <label class="avatar-edit">
+                <input
+                  type="file"
+                  accept="image/*"
+                  style="display: none"
+                  @change="handleAvatarChange"
+                />
+                <img src="../assets/images/cover-edit.png" alt="" />
+              </label>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="popupTweet-text-wrap">
-        <div class="form-label-group">
-          <label for="name">名稱</label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            placeholder="請輸入名稱"
-            required
-            autofocus
-            v-model="user.name"
-          />
-          <div class="length">{{ user.name.length }}/50</div>
-        </div>
-        <div class="form-label-group" style="height: 147px">
-          <label for="introduction">自我介紹</label>
-          <div
-            class="textarea"
-            contenteditable="true"
-            id="introduction"
-            name="introduction"
-            @keydown="updateIntro"
-          >
-            {{ user.introduction }}
+        <div class="popupTweet-text-wrap">
+          <div class="form-label-group">
+            <label for="name">名稱</label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              placeholder="請輸入名稱"
+              required
+              autofocus
+              v-model="user.name"
+            />
+            <div class="length">{{ user.name.length }}/50</div>
           </div>
-          <div class="length">{{ temp.length }}/160</div>
+          <div class="form-label-group" style="height: 147px">
+            <label for="introduction">自我介紹</label>
+            <div
+              class="textarea"
+              contenteditable="true"
+              id="introduction"
+              name="introduction"
+              @keydown="updateIntro"
+            >
+              {{ user.introduction }}
+            </div>
+            <div class="length">{{ temp.length }}/160</div>
+          </div>
         </div>
-      </div>
+
+      </form>
+
     </div>
   </div>
 </template>

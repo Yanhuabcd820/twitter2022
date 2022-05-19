@@ -47,7 +47,7 @@
         </div>
       </div>
     </div>
-    <followTop />
+    <followTop :userId="currentUser.id"/>
   </div>
 </template>
 <script>

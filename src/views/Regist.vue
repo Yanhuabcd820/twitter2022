@@ -117,6 +117,23 @@ export default {
           })
           return;
         }
+
+        if (this.user.name.length >50) {
+          Toast.fire({
+            icon: 'warning',
+            title: '名字需於50字內'
+          })
+          return
+        }
+
+        if (this.user.password !== this.user.checkPassword) {
+          Toast.fire({
+            icon: 'warning',
+            title: '兩次輸入的密碼必須相同'
+          })
+          return
+        }
+
         await authorizationAPI
         .signUp({
           account: this.user.account, 

@@ -35,10 +35,4 @@ export default {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
-  signInAdmin({account, password}){
-    return apiHelper.post('/api/admin/users', {
-      account,
-      password
-    })
-  },
 }

@@ -45,7 +45,7 @@
 
 <script>
 import { Toast } from './../utils/helpers'
-import authorizationAPI from "./../apis/authorization";
+import adminAPI from "./../apis/admin";
 
 export default {
   data() {
@@ -64,11 +64,10 @@ export default {
             icon: 'warning',
             title: '請輸入管理員的帳密'
           })
-
           return;
         }
         // 把帳號密碼連API
-        const response = await authorizationAPI
+        const response = await adminAPI
         .signInAdmin({
           account: this.account,
           password: this.password,
@@ -83,9 +82,9 @@ export default {
           title: '成功登入'
         })
 
-
         //vuex: setting current user
         //this.$store.commit("setCurrentUser", data.data.user);
+
 
         // 成功登入後轉址到餐廳首頁
         this.$router.push('/admin/adminTweetList')

@@ -16,7 +16,7 @@
     <!-- <popupReplyList /> -->
     <!-- <popupReplyList />
     <popupReply /> -->
-    <navigation @after-open-tweet="afterOpenTweet" />
+    <navigation @after-open-tweet="afterOpenTweet" :userId="currentUser.id" />
     <div class="reply-wrap">
       <router-link to="/tweets" class="reply-title">
         <div class="reply-forward">

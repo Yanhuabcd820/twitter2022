@@ -53,9 +53,7 @@
           <div class="post-text-num-warning" v-if="popupText.length >= 80">
             字數不可超過 80 字
           </div>
-          <div class="post-text-num-warning" v-if="popupText.length <= 0">
-            不得為空白
-          </div>
+          <div class="post-text-num-warning" v-if="noZero">不得為空白</div>
           <div
             class="btn popupReply-btn active"
             @click.prevent.stop="handleSubmit"
@@ -85,8 +83,17 @@ export default {
   data() {
     return {
       popupText: "",
+      noZero: false,
     };
   },
+  watch: {
+    popupText() {
+      if (this.popupText) {
+        this.noZero = false;
+      }
+    },
+  },
+
   methods: {
     closePopupReplyList() {
       this.$emit("close-PopupReplyList", {
@@ -96,6 +103,7 @@ export default {
     handleSubmit() {
       console.log("handleSubmit33");
       if (!this.popupText.trim()) {
+        this.noZero = true;
         return;
       }
       this.$emit("after-create-reply-list", {

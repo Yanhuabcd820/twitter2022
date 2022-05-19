@@ -65,7 +65,7 @@ import { Toast } from "./../utils/helpers";
 // 使用者info丟進去component，使用者自己的推文直接render
 
 export default {
-  name: "selfPage",
+  name: "SelfPage",
   components: {
     navigation,
     followTop,

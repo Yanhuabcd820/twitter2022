@@ -31,12 +31,28 @@
 
 .swal2-container {
   direction: rtl !important;
+
 }
 
 .swal2-popup {
   grid-template-columns: 1fr auto !important;
+    width: 394px !important;
+    height: 96px !important;
 }
 
 .swal2-title {
   text-align: left !important;
+  font-size: 20px !important;
 }
+#swal2-title {
+  font-size: 20px !important;
+}
+
+/*
+.swal2-icon{
+  width: 56px !important;
+  height: 56px !important;
+  border: 2px solid #ffc542 !important;
+  font-weight: 700 !important;
+}
+*/

@@ -17,5 +17,10 @@ export default {
     return apiHelper.get(`/api/admin/tweets`, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
+  },
+  deleteTweetsAdmin(tweetId) {
+    return apiHelper.delete(`/api/admin/tweets/${tweetId}`, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
   }
 }

@@ -16,7 +16,7 @@
                 <p class="tweet-list-name"><b>{{tweet.User.name}}</b></p>
                 <p class="tweet-list-account fz14">@{{tweet.User.account}}・{{tweet.createdAt | fromNow}} 小時</p>
               </div>
-              <div class="tweet-list-delete">
+              <div class="tweet-list-delete" @click="deleteTweet(tweet.id)">
                 <img src="../assets/images/tweet-list-delete.png" alt="" />
               </div>
             </div>
@@ -36,6 +36,8 @@ import navigationAdmin from "../components/navAdmin";
 //import InfiniteLoading from 'vue-infinite-loading';
 import { fromNowFilter } from './../utils/mixins'
 import adminAPI from "./../apis/admin";
+import { Toast } from './../utils/helpers'
+
 
 export default {
   name: "adminTweetList",
@@ -52,12 +54,26 @@ export default {
     async fetchTweets(){
       try {
         const response = await adminAPI.getTweetsAdmin()
-        //console.log('response', response)
+        console.log('response', response)
         this.tweets = response.data.data.tweets
       } catch (error) {
         console.log('error',error)
       }
     },
+    async deleteTweet(tweetId){
+      try {
+        // api 
+        await adminAPI.deleteTweetsAdmin(tweetId)
+        // 畫面 render 
+        this.tweets = this.tweets.filter(tweet => tweet.id !== tweetId)
+        Toast.fire({
+          icon: 'success',
+          title: '成功刪除'
+        })
+      } catch (error) {
+        console.log('error',error)
+      }
+    }
   },
   created(){
     this.fetchTweets()

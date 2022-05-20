@@ -1,6 +1,13 @@
 <template>
   <div class="wrap setting-wrap">
-    <navigation :userId="currentUser.id" />
+    <popupTweet
+      v-if="isClickPopupTweet"
+      @close-PopupTweet="closePopupTweet"
+      @after-create-tweet="afterCreateTweet"
+      :user="user"
+      @after-open-tweet="afterOpenTweet"
+    />
+    <navigation @after-open-tweet="afterOpenTweet" :userId="currentUser.id" />
     <div class="setting">
       <div class="setting-title">
         <h4>帳戶設定</h4>
@@ -80,6 +87,8 @@
 </template>
 <script>
 import navigation from "../components/nav";
+import popupTweet from "./../components/popupTweet";
+import tweetsApi from "./../apis/tweets";
 import authorizationAPI from "./../apis/authorization";
 
 import { mapState } from "vuex";
@@ -89,6 +98,7 @@ export default {
   name: "setting",
   components: {
     navigation,
+    popupTweet,
   },
   data() {
     return {
@@ -100,6 +110,7 @@ export default {
       email: "",
       password: "",
       passwordCheck: "",
+      isClickPopupTweet: false,
     };
   },
   computed: {
@@ -150,6 +161,33 @@ export default {
           title: "發生錯誤",
         });
       }
+    },
+    async afterCreateTweet(payload) {
+      try {
+        const { description } = payload;
+        const data = await tweetsApi.postTweets({ description });
+        if (data.data.status !== "Success") {
+          throw new Error(data.message);
+        }
+        // 成功登入後轉址到餐廳首頁
+        this.$router.push("/tweets");
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法新增此筆tweet",
+        });
+      }
+    },
+    afterOpenTweet(payload) {
+      //將彈跳視窗打開
+      const { isClickPopupTweet } = payload;
+      console.log(isClickPopupTweet);
+      this.isClickPopupTweet = isClickPopupTweet;
+    },
+    closePopupTweet(payloadPopup) {
+      //將彈跳視窗關閉
+      const { isClickPopupTweet } = payloadPopup;
+      this.isClickPopupTweet = isClickPopupTweet;
     },
   },
   created() {

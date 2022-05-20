@@ -53,7 +53,6 @@
               name="password"
               type="password"
               placeholder="請設定密碼"
-              required
               autofocus
               v-model="password"
             />
@@ -66,7 +65,6 @@
               name="passwordCheck"
               type="password"
               placeholder="請再次輸入密碼"
-              required
               autofocus
               v-model="passwordCheck"
             />
@@ -113,13 +111,22 @@ export default {
     async handleSubmit(){
       try {
         // 確認密碼跟確認密碼的部分，必須一樣而且要有內容才會執行
-        if (!this.password||this.password !== this.passwordCheck){
+        if (this.password !== this.passwordCheck){
           Toast.fire({
             icon: 'warning',
             title: '密碼沒輸入，或者密碼跟再確認密碼不同'
           })
           return
         }
+
+        if (this.name.length > 50) {
+          Toast.fire({
+            icon: 'warning',
+            title: '名字不能超過50字'
+          })
+          return
+        }
+
       // 串API
         const response = await authorizationAPI
         .updateUser(this.currentUser.id,{

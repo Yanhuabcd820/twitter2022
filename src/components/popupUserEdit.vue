@@ -158,6 +158,29 @@ export default {
     },
     async handleSubmit(e) {
       try {
+
+        console.log(this.user.name.length)
+
+        if (this.user.name.length > 50 ){
+          Toast.fire({
+            icon: 'warning',
+            title: '名字不能超過50字'
+          })
+          return
+        }
+
+        console.log(this.temp.length)
+        if (this.temp.length > 160) {
+          Toast.fire({
+            icon: 'warning',
+            title: '自我介紹不能超過160字'
+          })
+          return          
+        }
+
+
+
+
         // console.log(this.user);
         const form = e.target
         //console.log(form)

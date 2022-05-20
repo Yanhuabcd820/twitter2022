@@ -44,14 +44,15 @@ import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
 export default {
   name: "popupTweet",
-  // props: {
-  //   user: {
-  //     type: Object,
-  //     required: true,
-  //   },
-  // },
+  props: {
+    // user: {
+    //   type: Object,
+    //   required: true,
+    // },
+  },
   data() {
     return {
+      tweets: [],
       popupText: "",
       noZero: false,
       isProcessing: false,
@@ -66,6 +67,21 @@ export default {
   },
 
   methods: {
+    async featchTweets() {
+      try {
+        // 取得tweets資料
+        console.log(123);
+        const responesTweets = await tweetsApi.getTweets();
+        const { tweets } = responesTweets.data.data;
+        this.tweets = tweets;
+        // console.log("tweets", this.tweets);
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法取得tweets資料，請稍後再試",
+        });
+      }
+    },
     closePopupTweet() {
       this.$emit("close-PopupTweet", {
         isClickPopupReplyTweet: false,
@@ -81,21 +97,23 @@ export default {
           this.noZero = true;
           return;
         }
-
-        const data = await tweetsApi.postTweets({ description });
-        console.log(data);
-        if (data.data.status !== "Success") {
-          throw new Error(data.message);
-        }
-
         const getPath = this.$route.path;
         console.log("getPath", getPath);
         if (getPath === "/tweets") {
-          
+          // 如果目前在tweets就要用傳送資料的方式新增tweet
+          this.$emit("after-create-tweet", {
+            description: this.popupText,
+          });
           this.$emit("close-PopupTweet", {
             isClickPopupReplyTweet: false,
           });
         } else {
+          // 如果目前在userPage或setting就直接在原地新增資料後轉址到tweets
+          const data = await tweetsApi.postTweets({ description });
+          console.log(data);
+          if (data.data.status !== "Success") {
+            throw new Error(data.message);
+          }
           // 成功登入後轉址到餐廳首頁
           this.$router.push("/tweets");
         }
@@ -106,6 +124,9 @@ export default {
         });
       }
     },
+  },
+  created() {
+    this.featchTweets();
   },
   mixins: [emptyImageFilter],
   computed: {

@@ -1,5 +1,12 @@
 <template>
   <div class="wrap">
+    <popupReply
+      v-if="isClickPopupReplyTweet"
+      @close-PopupReply="closePopupReply"
+      :tweet="tweetPopup"
+      :user="user"
+      @after-create-reply="afterCreateReply"
+    />
     <navigation :userId="currentUser.id" />
     <div class="main">
       <userTitle :userName="user.name" :tweetNum="tweets.length" />
@@ -30,20 +37,39 @@
               </p>
             </router-link>
             <div class="tweet-count">
-              <div class="tweet-reply">
+              <div
+                class="tweet-reply"
+                @click.prevent.stop="openPopupReply(tweet.id)"
+              >
                 <div class="tweet-reply-img">
                   <img src="../assets/images/tweet-reply.png" alt="" />
                 </div>
                 <p class="fz14">
-                  <b>{{ tweet.replyCount }}</b>
+                  <b>{{ tweet.Replies }}</b>
                 </p>
               </div>
-              <div class="tweet-like">
+              <div
+                class="tweet-like"
+                v-if="!tweet.isLiked"
+                @click.prevent.stop="addLike(tweet.id)"
+              >
                 <div class="tweet-like-img">
                   <img src="../assets/images/tweet-like.png" alt="" />
                 </div>
                 <p class="fz14">
-                  <b>{{ tweet.likeCount }}</b>
+                  <b>{{ tweet.Likes }}</b>
+                </p>
+              </div>
+              <div
+                class="tweet-like"
+                v-if="tweet.isLiked"
+                @click.prevent.stop="unLike(tweet.id)"
+              >
+                <div class="tweet-like-img">
+                  <img src="../assets/images/tweet-like-active.png" alt="" />
+                </div>
+                <p class="fz14">
+                  <b>{{ tweet.Likes }}</b>
                 </p>
               </div>
             </div>
@@ -62,8 +88,10 @@ import userInfo from "../components/userInfo";
 import userInfoOther from "../components/userInfoOther";
 import userTitle from "../components/userTitle";
 import navTabs from "../components/navTabs";
-import { fromNowFilter, emptyImageFilter } from "./../utils/mixins";
+import popupReply from "./../components/popupReply";
 import userAPI from "./../apis/user";
+import tweetsApi from "./../apis/tweets";
+import { fromNowFilter, emptyImageFilter } from "./../utils/mixins";
 import { mapState } from "vuex";
 import { Toast } from "./../utils/helpers";
 // 要得到使用者info、使用者自己的推文、推計追蹤者的資料
@@ -78,6 +106,7 @@ export default {
     userTitle,
     navTabs,
     userInfoOther,
+    popupReply,
   },
   data() {
     return {
@@ -99,9 +128,59 @@ export default {
       tweets: [],
       isMe: true,
       isClickPopupEditModal: false,
+      isClickPopupReplyTweet: false,
+      tweetPopup: {},
     };
   },
   methods: {
+    async addLike(tweetId) {
+      try {
+        const dataLike = await userAPI.addLike({ tweetId });
+        if (dataLike.data.status !== "Success") {
+          throw new Error(dataLike.data.message);
+        }
+        console.log("tweetId", tweetId);
+        this.tweets = this.tweets.map((tweet) => {
+          if (tweet.id === tweetId) {
+            return {
+              ...tweet,
+              isLiked: true,
+              Likes: tweet.Likes + 1,
+            };
+          }
+          return tweet;
+        });
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法like此筆tweet，請稍後再試",
+        });
+      }
+    },
+    async unLike(tweetId) {
+      try {
+        const dataUnLike = await userAPI.unLike({ tweetId });
+
+        if (dataUnLike.data.status !== "Success") {
+          throw new Error(dataUnLike.data.message);
+        }
+        this.tweets = this.tweets.map((tweet) => {
+          if (tweet.id === tweetId) {
+            return {
+              ...tweet,
+              isLiked: false,
+              Likes: tweet.Likes - 1,
+            };
+          }
+          return tweet;
+        });
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法unlike此筆tweet，請稍後再試",
+        });
+      }
+    },
     async fetchUser(userId) {
       try {
         const response = await userAPI.getUser(userId);
@@ -150,9 +229,36 @@ export default {
         console.log("error", error);
       }
     },
-    //fetchTweets(){
-    //  this.tweets = [...dummyTweets.tweets]
-    //},
+    openPopupReply(tweetId) {
+      this.tweetPopup = this.tweets.find((tweet) => tweet.id === tweetId);
+      this.isClickPopupReplyTweet = true;
+    },
+    closePopupReply(payloadPopupReply) {
+      const { isClickPopupReplyTweet } = payloadPopupReply;
+      this.isClickPopupReplyTweet = isClickPopupReplyTweet;
+    },
+
+    async afterCreateReply(payload) {
+      try {
+        const { comment, tweetId } = payload;
+        const data = await tweetsApi.postTweetsReply({
+          comment,
+          tweetId,
+        });
+        if (data.data.status !== "Success") {
+          throw new Error(data.message);
+        }
+
+        // 成功的話則轉址到 `/tweets/:id`
+        this.$router.push({ name: "tweet", params: { id: tweetId } });
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法新增此筆tweetReply",
+        });
+      }
+    },
+
     isThisMe(paramsId) {
       //console.log('params', paramsId)
       //console.log('vuex',this.currentUser.id)

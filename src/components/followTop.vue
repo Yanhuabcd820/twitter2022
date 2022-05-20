@@ -22,14 +22,14 @@
         </router-link>
         <div
           class="followTop-btn-wrap"
-          v-if="top.isFollowing"
+          v-if="top.isFollowed"
           @click.prevent.stop="unFollow(top.id)"
         >
           <div class="btn active followTop-btn">正在跟隨</div>
         </div>
         <div
           class="followTop-btn-wrap"
-          v-if="!top.isFollowing"
+          v-if="!top.isFollowed"
           @click.prevent.stop="addFollow(top.id)"
         >
           <div class="btn followTop-btn">跟隨</div>
@@ -78,7 +78,7 @@ export default {
           if (top.id === id) {
             return {
               ...top,
-              isFollowing: true,
+              isFollowed: true,
             };
           }
           return top;
@@ -103,7 +103,7 @@ export default {
           if (top.id === followingId) {
             return {
               ...top,
-              isFollowing: false,
+              isFollowed: false,
             };
           }
           return top;

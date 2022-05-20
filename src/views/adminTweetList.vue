@@ -22,7 +22,7 @@
             </div>
             <div class="tweet-list-text">
               <p>
-                {{tweet.description}}
+                {{tweet.description | partOfContents}}
               </p>
             </div>
           </div>
@@ -73,6 +73,11 @@ export default {
       } catch (error) {
         console.log('error',error)
       }
+    }
+  },
+  filters: {
+    partOfContents(text){
+      return text.length > 50 ? text.substr(0, 50)+'...' : text 
     }
   },
   created(){

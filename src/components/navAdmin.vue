@@ -28,10 +28,16 @@
 <style lang="css" src="@/assets/css/navAdmin.css" scoped></style>
 
 <script>
+import { Toast } from './../utils/helpers'
+
 export default {
   methods: {
     logOut() {
       localStorage.removeItem("token");
+      Toast.fire({
+        icon: 'success',
+        title: '成功登出'
+      })
     },
   }
 

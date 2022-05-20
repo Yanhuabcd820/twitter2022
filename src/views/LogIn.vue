@@ -72,9 +72,9 @@ export default {
         if (this.account === "root@example.com" || this.account === "root") {
           console.log("you are admin");
           Toast.fire({
-            icon: "warning",
-            title: "管理者帳號",
-          });
+            icon: 'warning',
+            title: '管理者帳號',
+          })
           return;
         }
         const response = await authorizationAPI.signIn({

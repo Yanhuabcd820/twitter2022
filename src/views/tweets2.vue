@@ -6,12 +6,6 @@
       @after-create-tweet="afterCreateTweet"
       :user="user"
     />
-    <!-- <popupTweet
-      v-if="isClickPopupTweet"
-      @close-PopupTweet="closePopupTweet"
-      @after-create-tweet="afterCreateTweet"
-      :user="user"
-    /> -->
     <navigation @after-open-tweet="afterOpenTweet" :userId="currentUser.id" />
     <div class="main">
       <div class="user-title">

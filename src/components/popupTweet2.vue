@@ -28,7 +28,7 @@
           <div
             type="submit"
             class="btn popupTweet-btn active"
-            @click.prevent.stop="createTweet(popupText)"
+            @click.prevent.stop="afterCreateTweet"
           >
             推文
           </div>
@@ -38,9 +38,7 @@
   </div>
 </template>
 <script>
-import tweetsApi from "./../apis/tweets";
 import { emptyImageFilter } from "./../utils/mixins";
-import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
 export default {
   name: "popupTweet",
@@ -72,33 +70,40 @@ export default {
       });
     },
 
-    async createTweet(description) {
-      try {
-        if (this.popupText.trim().length >= 140) {
-          return;
-        }
-        if (!this.popupText.trim()) {
-          this.noZero = true;
-          return;
-        }
+    handleSubmit() {
+      if (this.popupText.trim() >= 140) return;
+      if (!this.popupText.trim()) {
+        this.noZero = true;
+        return;
+      }
+      this.$emit("after-create-tweet", {
+        description: this.popupText,
+      });
+    },
 
+    async afterCreateTweet(payload) {
+      try {
+        const { description } = payload;
         const data = await tweetsApi.postTweets({ description });
-        console.log(data);
         if (data.data.status !== "Success") {
           throw new Error(data.message);
         }
-
-        const getPath = this.$route.path;
-        console.log("getPath", getPath);
-        if (getPath === "/tweets") {
-          
-          this.$emit("close-PopupTweet", {
-            isClickPopupReplyTweet: false,
-          });
-        } else {
-          // 成功登入後轉址到餐廳首頁
-          this.$router.push("/tweets");
-        }
+        const tweetId = data.data.data.tweet.id;
+        this.tweets.unshift({
+          description,
+          id: tweetId,
+          User: {
+            id: this.user.id,
+            account: this.user.account,
+            name: this.user.name,
+            avatar: this.user.avatar,
+          },
+          createdAt: new Date(),
+          totalLikes: 0,
+          totalReplies: 0,
+        });
+        /*關掉PopupTweet*/
+        this.isClickPopupTweet = false;
       } catch (error) {
         Toast.fire({
           icon: "error",

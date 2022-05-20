@@ -37,7 +37,6 @@
 
 <script>
 import popupTweet from "../components/popupTweet";
-
 export default {
   name: "navigation",
   components: {

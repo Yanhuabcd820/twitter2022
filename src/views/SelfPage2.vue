@@ -1,6 +1,20 @@
 <template>
   <div class="wrap">
-    <navigation :userId="currentUser.id" />
+    <popupReply
+      v-if="isClickPopupReplyTweet"
+      @close-PopupReply="closePopupReply"
+      :tweet="tweetPopup"
+      :user="user"
+      @after-create-reply="afterCreateReply"
+    />
+    <popupTweet
+      v-if="isClickPopupTweet"
+      @close-PopupTweet="closePopupTweet"
+      @after-create-tweet="afterCreateTweet"
+      :user="user"
+      @after-open-tweet="afterOpenTweet"
+    />
+    <navigation @after-open-tweet="afterOpenTweet" :userId="currentUser.id" />
     <div class="main">
       <userTitle :userName="user.name" :tweetNum="tweets.length" />
       <userInfo :initial-user="user" v-if="isMe" />
@@ -30,7 +44,10 @@
               </p>
             </router-link>
             <div class="tweet-count">
-              <div class="tweet-reply">
+              <div
+                class="tweet-reply"
+                @click.prevent.stop="openPopupReply(tweet.id)"
+              >
                 <div class="tweet-reply-img">
                   <img src="../assets/images/tweet-reply.png" alt="" />
                 </div>
@@ -62,8 +79,11 @@ import userInfo from "../components/userInfo";
 import userInfoOther from "../components/userInfoOther";
 import userTitle from "../components/userTitle";
 import navTabs from "../components/navTabs";
+import popupTweet from "./../components/popupTweet";
+import popupReply from "./../components/popupReply";
 import { fromNowFilter, emptyImageFilter } from "./../utils/mixins";
 import userAPI from "./../apis/user";
+import tweetsApi from "./../apis/tweets";
 import { mapState } from "vuex";
 import { Toast } from "./../utils/helpers";
 // 要得到使用者info、使用者自己的推文、推計追蹤者的資料
@@ -78,6 +98,8 @@ export default {
     userTitle,
     navTabs,
     userInfoOther,
+    popupTweet,
+    popupReply,
   },
   data() {
     return {
@@ -98,7 +120,10 @@ export default {
       },
       tweets: [],
       isMe: true,
+      isClickPopupTweet: false,
       isClickPopupEditModal: false,
+      isClickPopupReplyTweet: false,
+      tweetPopup: {},
     };
   },
   methods: {
@@ -158,6 +183,62 @@ export default {
       //console.log('vuex',this.currentUser.id)
       //console.log(this.isMe)
       this.isMe = this.currentUser.id == paramsId; // 驗證是不是我
+    },
+    openPopupReply(tweetId) {
+      this.tweetPopup = this.tweets.find((tweet) => tweet.id === tweetId);
+      this.isClickPopupReplyTweet = true;
+    },
+    closePopupReply(payloadPopupReply) {
+      const { isClickPopupReplyTweet } = payloadPopupReply;
+      this.isClickPopupReplyTweet = isClickPopupReplyTweet;
+    },
+    async afterCreateReply(payload) {
+      try {
+        const { comment, tweetId } = payload;
+        const data = await tweetsApi.postTweetsReply({
+          comment,
+          tweetId,
+        });
+        if (data.data.status !== "Success") {
+          throw new Error(data.message);
+        }
+
+        // 成功的話則轉址到 `/tweets/:id`
+        this.$router.push({ name: "tweet", params: { id: tweetId } });
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法新增此筆tweetReply",
+        });
+      }
+    },
+
+    afterOpenTweet(payload) {
+      //將彈跳視窗打開
+      const { isClickPopupTweet } = payload;
+      console.log(isClickPopupTweet);
+      this.isClickPopupTweet = isClickPopupTweet;
+    },
+    closePopupTweet(payloadPopup) {
+      //將彈跳視窗關閉
+      const { isClickPopupTweet } = payloadPopup;
+      this.isClickPopupTweet = isClickPopupTweet;
+    },
+    async afterCreateTweet(payload) {
+      try {
+        const { description } = payload;
+        const data = await tweetsApi.postTweets({ description });
+        if (data.data.status !== "Success") {
+          throw new Error(data.message);
+        }
+        // 成功登入後轉址到餐廳首頁
+        this.$router.push("/tweets");
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法新增此筆tweet",
+        });
+      }
     },
   },
   computed: {

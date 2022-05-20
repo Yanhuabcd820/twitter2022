@@ -6,21 +6,28 @@
         <h4>使用者列表</h4>
       </div>
       <div class="admin-users-cards-wrap">
-        <router-link to="/" class="admin-user-card" v-for="user in users" :key="user.id">
+        <router-link
+          to="/"
+          class="admin-user-card"
+          v-for="user in users"
+          :key="user.id"
+        >
           <div class="admin-user-picture-wrap">
             <div class="admin-user-image">
-              <img :src="user.cover" alt="" />
+              <img :src="user.cover | emptyImage" alt="" />
             </div>
             <div class="admin-user-avatar">
-              <img :src="user.avatar" alt="" />
+              <img :src="user.avatar | emptyImage" alt="" />
             </div>
           </div>
           <div class="admin-user-info">
             <div class="admin-user-name">
-              <p><b>{{user.name}}</b></p>
+              <p>
+                <b>{{ user.name }}</b>
+              </p>
             </div>
             <div class="admin-user-account">
-              <p class="fz14">@{{user.account}}</p>
+              <p class="fz14">@{{ user.account }}</p>
             </div>
 
             <div class="admin-user-count">
@@ -28,23 +35,23 @@
                 <div class="admin-user-tweet-img">
                   <img src="../assets/images/admin-user-tweet.png" alt="" />
                 </div>
-                <p>{{user.Tweets}}</p>
+                <p>{{ user.Tweets }}</p>
               </div>
               <div class="admin-user-like">
                 <div class="admin-user-like-img">
                   <img src="../assets/images/admin-user-like.png" alt="" />
                 </div>
-                <p>{{user.Likes}}</p>
+                <p>{{ user.Likes }}</p>
               </div>
             </div>
 
             <div class="admin-user-follow-count">
               <div class="admin-user-following">
-                <p class="fz14 num">{{user.Followings}}個</p>
+                <p class="fz14 num">{{ user.Followings }}個</p>
                 <p class="fz14 word">跟隨中</p>
               </div>
               <div class="admin-user-follower">
-                <p class="fz14 num">{{user.Followers}}個</p>
+                <p class="fz14 num">{{ user.Followers }}個</p>
                 <p class="fz14 word">跟隨者</p>
               </div>
             </div>
@@ -57,7 +64,7 @@
 <script>
 import navigationAdmin from "../components/navAdmin";
 import adminAPI from "./../apis/admin";
-
+import { emptyImageFilter } from "./../utils/mixins";
 
 export default {
   name: "adminUsers",
@@ -66,26 +73,27 @@ export default {
   },
   data() {
     return {
-      users: []
+      users: [],
     };
   },
   methods: {
-    async fetchUsers(){
+    async fetchUsers() {
       // 串接api得到回應
       try {
-        const response = await adminAPI.getUsersAdmin()
-        console.log('response', response)
+        const response = await adminAPI.getUsersAdmin();
+        console.log("response", response);
         //this.users = response.data.data.data
-        console.log('users', response.data.data.data)
-        this.users = response.data.data.data.sort((a,b)=>b.Likes - a.Likes)
+        console.log("users", response.data.data.data);
+        this.users = response.data.data.data.sort((a, b) => b.Likes - a.Likes);
       } catch (error) {
-        console.log('error',error)
+        console.log("error", error);
       }
-    }
+    },
   },
-  created(){
-    this.fetchUsers()
-  }
+  created() {
+    this.fetchUsers();
+  },
+  mixins: [emptyImageFilter],
 };
 </script>
 

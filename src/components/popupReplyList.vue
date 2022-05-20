@@ -101,7 +101,6 @@ export default {
       });
     },
     handleSubmit() {
-      console.log("handleSubmit33");
       if (!this.popupText.trim()) {
         this.noZero = true;
         return;

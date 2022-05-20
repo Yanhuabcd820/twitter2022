@@ -37,6 +37,94 @@
   grid-template-columns: 1fr auto !important;
 }
 
+.swal2-container.swal2-top-end>.swal2-popup,
+.swal2-container.swal2-top-right>.swal2-popup {
+  height: 96px;
+  display: flex !important;
+  justify-content: space-between !important;
+}
+
 .swal2-title {
   text-align: left !important;
+}
+
+.swal2-popup.swal2-toast .swal2-icon {
+  width: 56px !important;
+  height: 56px !important;
+}
+
+.swal2-icon.swal2-error {
+  border: 2px solid #f27474 !important;
+
+}
+
+.swal2-icon.swal2-error [class^=swal2-x-mark-line] {
+
+  height: 0.1em !important;
+}
+
+.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line] {
+  top: 27px !important;
+  width: 20px !important;
+}
+
+.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left] {
+  left: 18.5px !important;
+}
+
+.swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right] {
+  right: 18.5px !important;
+  transform: rotate(-45deg) !important;
+}
+
+.swal2-popup.swal2-toast .swal2-title {
+  align-self: center !important;
+  width: 200px;
+}
+
+.swal2-icon.swal2-success .swal2-success-ring {
+  position: absolute;
+  z-index: 2;
+  top: -0.25em;
+  left: -0.25em;
+  box-sizing: content-box;
+  width: 100%;
+  height: 100%;
+  /* border: 0.25em solid rgba(165,220,134,.3); */
+  border-radius: 50%;
+  display: none !important;
+}
+
+.swal2-popup.swal2-toast .swal2-success {
+  border: 2px solid #a5dc86 !important;
+}
+
+.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line] {
+  height: 0.1em !important;
+}
+
+.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line][class$=long] {
+  top: 28px !important;
+  right: 16px !important;
+  width: 17px !important;
+}
+
+.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line][class$=tip] {
+  top: 31px !important;
+  left: 18px !important;
+  width: 10px !important;
+}
+
+.swal2-success-circular-line-left {
+  background-color: transparent !important;
+}
+
+.swal2-success-circular-line-right {
+  background-color: transparent !important;
+
+}
+
+.swal2-success-fix {
+  background-color: transparent !important;
+
 }

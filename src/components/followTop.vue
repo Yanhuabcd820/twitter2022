@@ -20,19 +20,21 @@
           </p>
           <p class="fz14 followTop-account">@{{ top.account }}</p>
         </router-link>
-        <div
-          class="followTop-btn-wrap"
-          v-if="top.isFollowed"
-          @click.prevent.stop="unFollow(top.id)"
-        >
-          <div class="btn active followTop-btn">正在跟隨</div>
+        <div class="followTop-btn-wrap" v-if="top.isFollowed">
+          <div
+            class="btn active followTop-btn"
+            @click.prevent.stop="unFollow(top.id)"
+          >
+            正在跟隨
+          </div>
         </div>
-        <div
-          class="followTop-btn-wrap"
-          v-if="!top.isFollowed"
-          @click.prevent.stop="addFollow(top.id)"
-        >
-          <div class="btn followTop-btn">跟隨</div>
+        <div class="followTop-btn-wrap" v-if="!top.isFollowed">
+          <div
+            class="btn followTop-btn"
+            @click.prevent.stop="addFollow(top.id)"
+          >
+            跟隨
+          </div>
         </div>
       </div>
     </div>

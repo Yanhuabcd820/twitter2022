@@ -79,6 +79,7 @@ export default {
         Toast.fire({
           icon: "error",
           title: "無法取得tweets資料，請稍後再試",
+          timer: 9999999999,
         });
       }
     },

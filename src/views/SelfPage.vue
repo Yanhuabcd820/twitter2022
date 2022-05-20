@@ -221,6 +221,11 @@ export default {
       }
     },
     async fetchTweets(userId) {
+      const { id } = this.$route.params;
+      const getPath = this.$route.path;
+      console.log("getPath", getPath);
+      console.log("id", id);
+
       try {
         const response = await userAPI.getUserTweets(userId);
         //console.log('fetch tweets response', response)

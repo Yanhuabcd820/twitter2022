@@ -136,6 +136,10 @@ export default {
         //console.log('user',this.user)
       } catch (error) {
         console.log("error", error);
+        Toast.fire({
+          icon: "error",
+          title: "無此使用者",
+        });
       }
     },
     async fetchTweets(userId) {

@@ -18,6 +18,7 @@
           autofocus
           v-model="account"
         />
+        <div class="input-bottomline"></div>
       </div>
       <div class="form-label-group">
         <label for="password">密碼</label>
@@ -30,6 +31,7 @@
           autofocus
           v-model="password"
         />
+        <div class="input-bottomline"></div>
       </div>
       <button class="confirm-btn" type="submit">
         <p>登入</p>

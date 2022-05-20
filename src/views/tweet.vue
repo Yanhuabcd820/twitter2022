@@ -18,12 +18,12 @@
     <popupReply /> -->
     <navigation @after-open-tweet="afterOpenTweet" :userId="currentUser.id" />
     <div class="reply-wrap">
-      <router-link to="/tweets" class="reply-title">
+      <div class="reply-title" @click="$router.back()">
         <div class="reply-forward">
           <img src="../assets/images/forward.png" alt="" />
         </div>
         <h4>推文</h4>
-      </router-link>
+      </div>
       <div class="reply">
         <div class="reply-inner">
           <router-link

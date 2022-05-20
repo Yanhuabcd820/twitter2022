@@ -7,7 +7,7 @@
       :user="user"
       @after-open-tweet="afterOpenTweet"
     />
-    <navigation @after-open-tweet="afterOpenTweet" :userId="currentUser.id"  />
+    <navigation @after-open-tweet="afterOpenTweet" :userId="currentUser.id" />
     <div class="main">
       <div class="user-title">
         <h4>首頁</h4>
@@ -137,7 +137,6 @@ export default {
       replies: [],
       isClickPopupTweet: false,
       isClickPopupReplyTweet: false,
-      tweet: {},
       tweetPopup: {},
       TweetsRepliesNum: {},
     };

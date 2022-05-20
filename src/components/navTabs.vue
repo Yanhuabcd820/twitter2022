@@ -10,11 +10,11 @@
 
 <script>
 export default {
-  props:{
+  props: {
     userId: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -26,7 +26,7 @@ export default {
         },
         {
           id: 2,
-          title: "推文與回覆",
+          title: "回覆",
           path: `/user/${this.userId}/reply`,
         },
         {
@@ -36,7 +36,7 @@ export default {
         },
       ],
     };
-  }
+  },
 };
 </script>
 
@@ -47,6 +47,7 @@ ul {
   align-items: center;
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
+  margin-top: 16px;
 }
 li {
   width: 130px;
@@ -76,10 +77,10 @@ li > a.active::after {
   color: #657786;
   position: relative;
 }
-.router-link-exact-active{
+.router-link-exact-active {
   color: var(--main-color);
 }
-li .router-link-exact-active{
+li .router-link-exact-active {
   border-bottom: var(--main-color) 2px solid;
 }
 </style>

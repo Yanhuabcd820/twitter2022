@@ -122,6 +122,7 @@
 .tweet-text {
   margin-bottom: 8px;
   display: inline-block;
+  width: 100%;
 }
 
 .tweet-count {

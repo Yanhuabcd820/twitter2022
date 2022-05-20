@@ -1,10 +1,10 @@
 <template>
   <div class="wrap">
-    <navigation :userId="currentUser.id"/>
+    <navigation :userId="currentUser.id" />
     <div class="main">
-      <userTitle :userName="user.name" :tweetNum="2"/>
-      <userInfo :initial-user="user" v-if="isMe"/>
-      <userInfoOther :initial-user="user" v-else/>
+      <userTitle :userName="user.name" :tweetNum="2" />
+      <userInfo :initial-user="user" v-if="isMe" />
+      <userInfoOther :initial-user="user" v-else />
       <navTabs :userId="currentUser.id" />
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="reply in replies" :key="reply.id">
@@ -13,35 +13,25 @@
           </div>
           <div class="tweet-content">
             <div class="tweet-name-group">
-              <p class="tweet-name"><b>{{user.name}}</b></p>
-              <p class="tweet-account fz14">@{{user.account}}・{{reply.createdAt | fromNow}}</p>
-            </div>
-            <div class="tweet-text">
-              <p>
-                {{reply.comment}}
+              <p class="tweet-name">
+                <b>{{ user.name }}</b>
+              </p>
+              <p class="tweet-account fz14">
+                @{{ user.account }}・{{ reply.createdAt | fromNow }}
               </p>
             </div>
-            <!--
-            <div class="tweet-count">
-              <a href="#" class="tweet-reply">
-                <div class="tweet-reply-img">
-                  <img src="../assets/images/tweet-reply.png" alt="" />
-                </div>
-                <p class="fz14"><b>13</b></p>
-              </a>
-              <a href="#" class="tweet-like">
-                <div class="tweet-like-img">
-                  <img src="../assets/images/tweet-like.png" alt="" />
-                </div>
-                <p class="fz14"><b>76</b></p>
-              </a>
-            </div> 
-            -->
 
+            <router-link
+              :to="{ name: 'tweet', params: { id: reply.TweetId } }"
+              class="tweet-text"
+            >
+              <p>
+                {{ reply.comment }}
+              </p>
+            </router-link>
           </div>
         </div>
       </div>
-
     </div>
     <followTop />
   </div>
@@ -53,55 +43,10 @@ import userInfo from "../components/userInfo";
 import userInfoOther from "../components/userInfoOther";
 import userTitle from "../components/userTitle";
 import navTabs from "../components/navTabs";
-import userAPI from './../apis/user'
-import { mapState } from 'vuex'
-import { fromNowFilter } from './../utils/mixins'
-import { Toast } from './../utils/helpers'
-
-/*
-const dummyUser = {
-  "id": 1,
-  "account": "heyjohn",
-  "name": "John Doe",
-  "email": "root@example.com",
-  "role": "admin",
-  "introduction": "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.",
-  "avatar": "../assets/images/AvatarBigger.png",
-  "cover": "../assets/images/cover.png",
-  "followingCount": 34,
-  "followerCount": 59,
-  "isFollowing": true,
-  "createdAt": "2022-01-18T07:23:18.000Z",
-  "updatedAt": "2022-01-18T07:23:18.000Z"
-}
-
-const dummyData = {
-  "user": {
-    "id": 1,
-    "account": "user1",
-    "name": "root",
-    "avatar": "https://via.placeholder.com/300",
-  },
-  "replies": [
-    {
-      "user_id": 2,
-      "comment": "yes, shekl kmsdfmld",
-      "createdAt": "2022-04-29T09:50:34.000Z",
-      "User": {
-        "account": "apple"
-      }
-    },
-    {
-      "id": 3,
-      "description": "no, ndic kmsdfmld",
-      "createdAt": "2022-05-31T09:50:34.000Z",
-      "User": {
-        "account": "Linda"
-      }
-    }
-  ]
-}
-*/
+import userAPI from "./../apis/user";
+import { mapState } from "vuex";
+import { fromNowFilter } from "./../utils/mixins";
+import { Toast } from "./../utils/helpers";
 
 export default {
   name: "mainPage",
@@ -111,7 +56,7 @@ export default {
     userInfo,
     userTitle,
     navTabs,
-    userInfoOther
+    userInfoOther,
   },
   data() {
     return {
@@ -128,68 +73,98 @@ export default {
         isFollowing: false,
       },
       replies: [],
-      isMe: true
+      isMe: true,
     };
   },
   methods: {
-    async fetchUser(userId){
+    async fetchUser(userId) {
       try {
-        const response = await userAPI.getUser(userId)
-        const {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt} = response.data.data.user
-        this.user = {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt}
+        const response = await userAPI.getUser(userId);
+        //console.log("response in selfPage", response);
+        // dummyUser 對應 response.data.user
+        const {
+          id,
+          account,
+          name,
+          email,
+          role,
+          introduction,
+          avatar,
+          cover,
+          isFollowing,
+          createdAt,
+          updatedAt,
+        } = response.data.data.user;
+        const { followingCount, followerCount } = response.data.data;
+        this.user = {
+          id,
+          account,
+          name,
+          email,
+          role,
+          introduction,
+          avatar,
+          cover,
+          followingCount,
+          followerCount,
+          isFollowing,
+          createdAt,
+          updatedAt,
+        };
+        //console.log('user',this.user)
       } catch (error) {
-        console.log('error', error)
-      }
-    },    
-    async fetchUserReplies(userId){
-      try {
-        const response = await userAPI.getUserReplies(userId)
-        //console.log(response)
-        this.replies = [...response.data.data.replies]
-        if(this.replies.length<1){
-          Toast.fire({
-            icon: 'info',
-            title: '目前沒有回覆的內容'
-          })
-        }
-      } catch (error) {
-        console.log(error)
+        console.log("error", error);
       }
     },
-    isThisMe(paramsId){
-      this.isMe = this.currentUser.id == paramsId   // 驗證是不是我
-    }
+    async fetchUserReplies(userId) {
+      try {
+        const response = await userAPI.getUserReplies(userId);
+        //console.log(response)
+        this.replies = [...response.data.data.replies];
+        if (this.replies.length < 1) {
+          Toast.fire({
+            icon: "info",
+            title: "目前沒有回覆的內容",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    isThisMe(paramsId) {
+      this.isMe = this.currentUser.id == paramsId; // 驗證是不是我
+    },
   },
   computed: {
-    ...mapState(['currentUser'])
+    ...mapState(["currentUser"]),
   },
-  created(){
+  created() {
     // 用token取得資料，取得後看role，是user或是admin，如果不是use，就跳出提醒，回到登入頁
-    const twitterToken = localStorage.getItem('token')
+    const twitterToken = localStorage.getItem("token");
     //console.log(twitterToken)
-    if (!twitterToken){
+    if (!twitterToken) {
       Toast.fire({
-        icon: 'warning',
-        title: '請登入'
-      })
+        icon: "warning",
+        title: "請登入",
+      });
       this.$router.push("/login");
     }
-    const { id: userId } = this.$route.params
-    this.fetchUser(userId)
-    this.fetchUserReplies(userId)
-    this.isThisMe(userId)  
+    const { id: userId } = this.$route.params;
+    this.fetchUser(userId);
+    this.fetchUserReplies(userId);
+    this.isThisMe(userId);
   },
   watch: {
-    '$route.params.id': {
-      handler: function(userId){
-        this.fetchUser(userId)
-        this.fetchUserReplies(userId)
-        this.isThisMe(userId)
+    "$route.params.id": {
+      handler: function (userId) {
+        this.fetchUser(userId);
+        this.fetchUserReplies(userId);
+        this.isThisMe(userId);
       },
       immediate: true,
-    }
+    },
   },
-  mixins: [fromNowFilter]
+  mixins: [fromNowFilter],
 };
 </script>
 

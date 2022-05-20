@@ -11,16 +11,16 @@
         <div class="popupReply-user">
           <div class="popupReply-avatar">
             <div class="popupReply-avatar-img">
-              <img :src="tweet.User.avatar | emptyImage" alt="" />
+              <img :src="user.avatar | emptyImage" alt="" />
             </div>
           </div>
           <div class="popupReply-content">
             <div class="popupReply-name-group">
               <p class="popupReply-name">
-                <b>{{ tweet.User.name }}</b>
+                <b>{{ user.name }}</b>
               </p>
               <p class="popupReply-account fz14">
-                @{{ tweet.User.account }}・{{ tweet.createdAt | fromNow }}
+                @{{ user.account }}・{{ tweet.createdAt | fromNow }}
               </p>
             </div>
             <div class="popupReply-text">
@@ -28,9 +28,7 @@
                 {{ tweet.description }}
               </p>
 
-              <p class="reply-to fz14">
-                <span>回覆</span> @{{ tweet.User.name }}
-              </p>
+              <p class="reply-to fz14"><span>回覆</span> @{{ user.name }}</p>
             </div>
           </div>
         </div>
@@ -99,6 +97,7 @@ export default {
     },
 
     handleSubmit() {
+      console.log("XX");
       if (!this.popupText.trim()) {
         this.noZero = true;
         return;

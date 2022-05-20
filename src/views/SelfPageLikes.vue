@@ -1,10 +1,17 @@
 <template>
   <div class="wrap">
-    <navigation :userId="currentUser.id"/>
+    <popupReply
+      v-if="isClickPopupReplyTweet"
+      @close-PopupReply="closePopupReply"
+      :tweet="tweetPopup"
+      :user="user"
+      @after-create-reply="afterCreateReply"
+    />
+    <navigation :userId="currentUser.id" />
     <div class="main">
-      <userTitle :userName="user.name" :tweetNum="2"/>
-      <userInfo :initial-user="user" v-if="isMe"/>
-      <userInfoOther :initial-user="user" v-else/>
+      <userTitle :userName="user.name" :tweetNum="2" />
+      <userInfo :initial-user="user" v-if="isMe" />
+      <userInfoOther :initial-user="user" v-else />
       <navTabs :userId="currentUser.id" />
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="like in likes" :key="like.id">
@@ -13,32 +20,49 @@
           </div>
           <div class="tweet-content">
             <div class="tweet-name-group">
-              <p class="tweet-name"><b>{{like.Tweet.User.name}}</b></p>
-              <p class="tweet-account fz14">@{{like.Tweet.User.account}}・3 小時</p>
-            </div>
-            <div class="tweet-text">
-              <p>
-                {{like.Tweet.description}}
+              <router-link
+                :to="{ name: 'SelfPage', params: { id: like.Tweet.User.id } }"
+                class="tweet-name"
+              >
+                <b>{{ like.Tweet.User.name }}</b>
+              </router-link>
+              <p class="tweet-account fz14">
+                @{{ like.Tweet.User.account }}・3 小時
               </p>
             </div>
+
+            <router-link
+              :to="{ name: 'tweet', params: { id: like.TweetId } }"
+              class="tweet-text"
+            >
+              <p>
+                {{ like.Tweet.description }}
+              </p>
+            </router-link>
             <div class="tweet-count">
-              <a href="#" class="tweet-reply">
+              <div
+                class="tweet-reply"
+                @click.prevent.stop="openPopupReply(like.TweetId)"
+              >
                 <div class="tweet-reply-img">
                   <img src="../assets/images/tweet-reply.png" alt="" />
                 </div>
-                <p class="fz14"><b>{{like.replyCount}}</b></p>
-              </a>
-              <a href="#" class="tweet-like">
+                <p class="fz14">
+                  <b>{{ like.replyCount }}</b>
+                </p>
+              </div>
+              <div class="tweet-like">
                 <div class="tweet-like-img">
                   <img src="../assets/images/tweet-like.png" alt="" />
                 </div>
-                <p class="fz14"><b>{{like.likeCount}}</b></p>
-              </a>
+                <p class="fz14">
+                  <b>{{ like.likeCount }}</b>
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
     </div>
     <followTop />
   </div>
@@ -50,10 +74,12 @@ import userInfo from "../components/userInfo";
 import userInfoOther from "../components/userInfoOther";
 import userTitle from "../components/userTitle";
 import navTabs from "../components/navTabs";
-import { fromNowFilter } from './../utils/mixins'
-import userAPI from './../apis/user'
-import { mapState } from 'vuex'
-import { Toast } from './../utils/helpers'
+import popupReply from "./../components/popupReply";
+import userAPI from "./../apis/user";
+import tweetsApi from "./../apis/tweets";
+import { fromNowFilter } from "./../utils/mixins";
+import { mapState } from "vuex";
+import { Toast } from "./../utils/helpers";
 
 export default {
   name: "mainPageLikes",
@@ -64,6 +90,7 @@ export default {
     userTitle,
     navTabs,
     userInfoOther,
+    popupReply,
   },
   data() {
     return {
@@ -80,73 +107,131 @@ export default {
         followerCount: -1,
         isFollowing: false,
         createdAt: "",
-        updatedAt: ""
+        updatedAt: "",
       },
       likes: [],
-      isMe: true
+      tweetPopup: {},
+      isMe: true,
+      isClickPopupReplyTweet: false,
     };
   },
   methods: {
-    async fetchUser(userId){
+    async fetchUser(userId) {
       try {
-        const response = await userAPI.getUser(userId)
-        //console.log('response in selfPage', response)
+        const response = await userAPI.getUser(userId);
+        //console.log("response in selfPage", response);
         // dummyUser 對應 response.data.user
-        const {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt} = response.data.data.user
-        this.user = {id,account,name,email,role, introduction, avatar,cover,followingCount,followerCount,isFollowing,createdAt,updatedAt}
+        const {
+          id,
+          account,
+          name,
+          email,
+          role,
+          introduction,
+          avatar,
+          cover,
+          isFollowing,
+          createdAt,
+          updatedAt,
+        } = response.data.data.user;
+        const { followingCount, followerCount } = response.data.data;
+        this.user = {
+          id,
+          account,
+          name,
+          email,
+          role,
+          introduction,
+          avatar,
+          cover,
+          followingCount,
+          followerCount,
+          isFollowing,
+          createdAt,
+          updatedAt,
+        };
         //console.log('user',this.user)
       } catch (error) {
-        console.log('error', error)
+        console.log("error", error);
       }
     },
-    async fetchUserLikes(userId){
+    async fetchUserLikes(userId) {
       try {
-        const response = await userAPI.getUserLikes(userId)
-        console.log('like res', response)
-        this.likes = [...response.data.data.tweets]
-        if(this.likes.length<1){
+        const response = await userAPI.getUserLikes(userId);
+        console.log("like res", response);
+        this.likes = [...response.data.data.tweets];
+        if (this.likes.length < 1) {
           Toast.fire({
-            icon: 'info',
-            title: '目前沒有喜歡的內容'
-          })
+            icon: "info",
+            title: "目前沒有喜歡的內容",
+          });
         }
       } catch (error) {
-        console.log('error', error)
+        console.log("error", error);
       }
     },
-    isThisMe(paramsId){
-      this.isMe = this.currentUser.id == paramsId  
-    }
+    isThisMe(paramsId) {
+      this.isMe = this.currentUser.id == paramsId;
+    },
+
+    openPopupReply(tweetId) {
+      this.tweetPopup = this.likes.find((like) => like.id === tweetId);
+      this.isClickPopupReplyTweet = true;
+    },
+    closePopupReply(payloadPopupReply) {
+      const { isClickPopupReplyTweet } = payloadPopupReply;
+      this.isClickPopupReplyTweet = isClickPopupReplyTweet;
+    },
+    async afterCreateReply(payload) {
+      try {
+        const { comment, tweetId } = payload;
+        const data = await tweetsApi.postTweetsReply({
+          comment,
+          tweetId,
+        });
+        if (data.data.status !== "Success") {
+          throw new Error(data.message);
+        }
+
+        // 成功的話則轉址到 `/tweets/:id`
+        this.$router.push({ name: "tweet", params: { id: tweetId } });
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法新增此筆tweetReply",
+        });
+      }
+    },
   },
   computed: {
-    ...mapState(['currentUser'])
+    ...mapState(["currentUser"]),
   },
-  created(){
-    const twitterToken = localStorage.getItem('token')
+  created() {
+    const twitterToken = localStorage.getItem("token");
     //console.log(twitterToken)
-    if (!twitterToken){
+    if (!twitterToken) {
       Toast.fire({
-        icon: 'warning',
-        title: '請登入'
-      })
+        icon: "warning",
+        title: "請登入",
+      });
       this.$router.push("/login");
     }
-    const { id: userId } = this.$route.params
-    this.fetchUser(userId)
-    this.fetchUserLikes(userId)
-    this.isThisMe(userId)
+    const { id: userId } = this.$route.params;
+    this.fetchUser(userId);
+    this.fetchUserLikes(userId);
+    this.isThisMe(userId);
   },
   watch: {
-    '$route.params.id': {
-      handler: function(userId){
-        this.fetchUser(userId)
-        this.fetchUserLikes(userId)
-        this.isThisMe(userId)
+    "$route.params.id": {
+      handler: function (userId) {
+        this.fetchUser(userId);
+        this.fetchUserLikes(userId);
+        this.isThisMe(userId);
       },
       immediate: true,
-    }
+    },
   },
-  mixins: [fromNowFilter]
+  mixins: [fromNowFilter],
 };
 </script>
 

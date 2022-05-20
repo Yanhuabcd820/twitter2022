@@ -55,10 +55,10 @@ export default {
     };
   },
   methods: {
-    async featchTop(userId) {
+    async featchTop() {
       try {
         // 取得tweets資料
-        const Topdata = await userApi.getTop(userId);
+        const Topdata = await userApi.getTop();
         const { data } = Topdata;
         this.tops = data;
       } catch (error) {
@@ -117,7 +117,7 @@ export default {
     },
   },
   created() {
-    this.featchTop(this.userId);
+    this.featchTop();
   },
   mixins: [emptyImageFilter],
 };

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import NotFound from '../views/NotFound.vue'
 import LogIn from '../views/LogIn.vue'
 import store from '../store'
+import { Toast } from "./../utils/helpers";
 
 Vue.use(VueRouter)
 
@@ -95,6 +96,13 @@ const router = new VueRouter({
   // linkExactActiveClass: 'active',
   routes
 })
+
+if(!navigator.onLine){
+  Toast.fire({
+    icon: "warning",
+    title: "網路連線中斷",
+  });
+}
 
 router.beforeEach(async (to, from, next) => {
   // 使用 dispatch 呼叫 Vuex 內的 actions

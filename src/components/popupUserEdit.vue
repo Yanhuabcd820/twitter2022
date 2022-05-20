@@ -172,7 +172,7 @@ export default {
           })
           return          
         }
-        // console.log(this.user);
+        //console.log(this.user);
         //const form = e.target
         //console.log(form)
         //const formData = new FormData(form)

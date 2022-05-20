@@ -34,11 +34,8 @@
 <script>
 import navigationAdmin from "../components/navAdmin";
 //import InfiniteLoading from 'vue-infinite-loading';
-//import {v4 as uuidv4} from 'uuid'
 import { fromNowFilter } from './../utils/mixins'
-
-import tweetAPI from './../apis/tweets'
-
+import adminAPI from "./../apis/admin";
 
 export default {
   name: "adminTweetList",
@@ -54,8 +51,8 @@ export default {
   methods: {
     async fetchTweets(){
       try {
-        const response = await tweetAPI.getTweets()
-        console.log('response', response)
+        const response = await adminAPI.getTweetsAdmin()
+        //console.log('response', response)
         this.tweets = response.data.data.tweets
       } catch (error) {
         console.log('error',error)

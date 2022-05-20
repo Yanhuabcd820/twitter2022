@@ -83,7 +83,6 @@ export default {
   },
   watch: {
     popupText() {
-      console.log(this.popupText);
       if (this.popupText) {
         this.noZero = false;
       }
@@ -106,6 +105,7 @@ export default {
         comment: this.popupText,
       });
 
+      // const { id: userId } = this.$route.params;
       // const getPath = this.$route.path;
       // console.log("getPath", getPath);
 

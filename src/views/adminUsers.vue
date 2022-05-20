@@ -6,8 +6,7 @@
         <h4>使用者列表</h4>
       </div>
       <div class="admin-users-cards-wrap">
-        <router-link
-          to="/"
+        <div
           class="admin-user-card"
           v-for="user in users"
           :key="user.id"
@@ -56,7 +55,7 @@
               </div>
             </div>
           </div>
-        </router-link>
+        </div>
       </div>
     </div>
   </div>

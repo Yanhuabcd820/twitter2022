@@ -44,9 +44,8 @@ export default {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
-  getTop(userId) {
-    return apiHelper.get(`/api/users/${userId
-      }/top10`, {
+  getTop() {
+    return apiHelper.get(`/api/users/top10`, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   }

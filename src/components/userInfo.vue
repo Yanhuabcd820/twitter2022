@@ -27,8 +27,21 @@
           {{ initialUser.introduction }}
         </p>
         <div class="user-follow">
-          <router-link :to="{ name: '/SelfPage/Following', params: { id: initialUser.id }}"><p class="fz14 udline">{{initialUser.followingCount}}個跟隨中</p></router-link>
-          <router-link :to="{ name: '/SelfPage/Follower', params: { id: initialUser.id }}"><p class="fz14 udline">{{initialUser.followerCount}}位跟隨者</p></router-link>
+          <router-link
+            :to="{
+              name: '/SelfPage/Following',
+              params: { id: initialUser.id },
+            }"
+            ><p class="fz14 udline">
+              {{ initialUser.followingCount }}個跟隨中
+            </p></router-link
+          >
+          <router-link
+            :to="{ name: '/SelfPage/Follower', params: { id: initialUser.id } }"
+            ><p class="fz14 udline">
+              {{ initialUser.followerCount }}位跟隨者
+            </p></router-link
+          >
         </div>
       </div>
     </div>
@@ -38,7 +51,6 @@
 <script>
 import popupUserEdit from "../components/popupUserEdit";
 import { emptyImageFilter } from "./../utils/mixins";
-
 
 export default {
   props: {
@@ -98,7 +110,7 @@ export default {
   watch: {
     initialUser() {
       this.user = this.initialUser;
-    }
+    },
   },
   mixins: [emptyImageFilter],
 };
@@ -165,6 +177,9 @@ export default {
 .user-info {
   margin-left: 16px;
   margin-top: 16px;
+}
+.user-account {
+  padding-top: 8px;
 }
 .user-account p {
   color: var(--secondary-text-color);

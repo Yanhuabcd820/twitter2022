@@ -1,5 +1,12 @@
 <template>
   <div class="wrap">
+    <popupReply
+      v-if="isClickPopupReplyTweet"
+      @close-PopupReply="closePopupReply"
+      :tweet="tweetPopup"
+      :user="user"
+      @after-create-reply="afterCreateReply"
+    />
     <navigation :userId="currentUser.id" />
     <div class="main">
       <userTitle :userName="user.name" :tweetNum="tweets.length" />
@@ -20,28 +27,51 @@
                 @{{ user.account }}・{{ tweet.createdAt | fromNow }}
               </p>
             </div>
-            <div class="tweet-text">
+            <!-- <div class="tweet-text"> -->
+            <router-link
+              :to="{ name: 'tweet', params: { id: tweet.id } }"
+              class="tweet-text"
+            >
               <p>
                 {{ tweet.description }}
               </p>
-            </div>
+            </router-link>
             <div class="tweet-count">
-              <a href="#" class="tweet-reply">
+              <div
+                class="tweet-reply"
+                @click.prevent.stop="openPopupReply(tweet.id)"
+              >
                 <div class="tweet-reply-img">
                   <img src="../assets/images/tweet-reply.png" alt="" />
                 </div>
                 <p class="fz14">
                   <b>{{ tweet.replyCount }}</b>
                 </p>
-              </a>
-              <a href="#" class="tweet-like">
+              </div>
+              <div
+                class="tweet-like"
+                v-if="!tweet.isLiked"
+                @click.prevent.stop="addLike(tweet.id)"
+              >
                 <div class="tweet-like-img">
                   <img src="../assets/images/tweet-like.png" alt="" />
                 </div>
                 <p class="fz14">
                   <b>{{ tweet.likeCount }}</b>
                 </p>
-              </a>
+              </div>
+              <div
+                class="tweet-like"
+                v-if="tweet.isLiked"
+                @click.prevent.stop="unLike(tweet.id)"
+              >
+                <div class="tweet-like-img">
+                  <img src="../assets/images/tweet-like-active.png" alt="" />
+                </div>
+                <p class="fz14">
+                  <b>{{ tweet.likeCount }}</b>
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -49,7 +79,6 @@
     </div>
 
     <followTop :userId="currentUser.id" />
-
   </div>
 </template>
 <script>
@@ -59,8 +88,10 @@ import userInfo from "../components/userInfo";
 import userInfoOther from "../components/userInfoOther";
 import userTitle from "../components/userTitle";
 import navTabs from "../components/navTabs";
-import { fromNowFilter, emptyImageFilter } from "./../utils/mixins";
+import popupReply from "./../components/popupReply";
 import userAPI from "./../apis/user";
+import tweetsApi from "./../apis/tweets";
+import { fromNowFilter, emptyImageFilter } from "./../utils/mixins";
 import { mapState } from "vuex";
 import { Toast } from "./../utils/helpers";
 // 要得到使用者info、使用者自己的推文、推計追蹤者的資料
@@ -75,6 +106,7 @@ export default {
     userTitle,
     navTabs,
     userInfoOther,
+    popupReply,
   },
   data() {
     return {
@@ -94,8 +126,12 @@ export default {
         updatedAt: "",
       },
       tweets: [],
+      replies: [],
+      tweet: {},
       isMe: true,
       isClickPopupEditModal: false,
+      isClickPopupReplyTweet: false,
+      tweetPopup: {},
     };
   },
   methods: {
@@ -147,6 +183,7 @@ export default {
         const response = await userAPI.getUserTweets(userId);
         //console.log('fetch tweets response', response)
         this.tweets = [...response.data.data.tweets];
+        console.log("response", response);
       } catch (error) {
         console.log("error", error);
       }
@@ -159,6 +196,46 @@ export default {
       //console.log('vuex',this.currentUser.id)
       //console.log(this.isMe)
       this.isMe = this.currentUser.id == paramsId; // 驗證是不是我
+    },
+    openPopupReply(tweetId) {
+      this.tweetPopup = this.tweets.find((tweet) => tweet.id === tweetId);
+      this.isClickPopupReplyTweet = true;
+    },
+    closePopupReply(payloadPopupReply) {
+      const { isClickPopupReplyTweet } = payloadPopupReply;
+      this.isClickPopupReplyTweet = isClickPopupReplyTweet;
+    },
+    async afterCreateReply(payload) {
+      try {
+        const { comment, tweetId } = payload;
+        const data = await tweetsApi.postTweetsReply({
+          comment,
+          tweetId,
+        });
+        if (data.data.status !== "Success") {
+          throw new Error(data.message);
+        }
+        // console.log("data", data);
+        // this.replies.unshift({
+        //   comment,
+        //   id: tweetId,
+        //   User: {
+        //     id: this.user.id,
+        //     account: this.user.account,
+        //     name: this.user.name,
+        //     avatar: this.user.avatar,
+        //   },
+        //   createdAt: new Date(),
+        // });
+
+        // 成功的話則轉址到 `/tweets/:id`
+        this.$router.push({ name: "tweet", params: { id: tweetId } });
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法新增此筆tweetReply",
+        });
+      }
     },
   },
   computed: {

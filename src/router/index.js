@@ -33,17 +33,6 @@ const routes = [
     name: 'tweet',
     component: () => import('../views/tweet.vue')
   },
-  // {
-  //   path: '/reply',
-  //   name: 'replyPage',
-  //   component: () => import('../views/reply.vue')
-  // },
-  /*
-  {
-    path: '/:account',
-    name: 'userPage',
-    component: () => import('../views/SelfPage.vue')
-  },*/
   {
     path: '/user/:id',
     name: 'SelfPage',

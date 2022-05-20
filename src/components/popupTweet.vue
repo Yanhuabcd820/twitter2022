@@ -51,6 +51,7 @@ export default {
     return {
       popupText: "",
       noZero: false,
+      isProcessing: false,
     };
   },
   watch: {
@@ -69,6 +70,7 @@ export default {
     },
 
     handleSubmit() {
+      if (this.popupText.trim() >= 140) return;
       if (!this.popupText.trim()) {
         this.noZero = true;
         return;

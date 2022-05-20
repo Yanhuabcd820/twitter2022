@@ -70,10 +70,12 @@ export default {
     },
     async addFollow(id) {
       try {
-        const addFollow = await followshipApi.addFollow({ id });
-        console.log(addFollow);
-        const { data } = addFollow;
-        console.log(data);
+        //console.log('tops',this.tops)
+        await followshipApi.addFollow({ id });
+        //const addFollow = await followshipApi.addFollow({ id });
+        //console.log(addFollow);
+        //const { data } = addFollow;
+        //console.log(data);
         this.tops = this.tops.map((top) => {
           if (top.id === id) {
             return {
@@ -83,6 +85,8 @@ export default {
           }
           return top;
         });
+        //this.tops = this.tops.sort((a,b)=>b.Followers.length - a.Followers.length)
+        //console.log('tops',this.tops.map(el=>el.Followers.length))
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -93,9 +97,10 @@ export default {
 
     async unFollow(followingId) {
       try {
-        console.log("id", followingId);
-        const dataUnFollow = await followshipApi.unFollow({ followingId });
-        console.log("dataUnFollow", dataUnFollow);
+        //console.log("id", followingId);
+        await followshipApi.unFollow({ followingId });
+        //const dataUnFollow = await followshipApi.unFollow({ followingId });
+        //console.log("dataUnFollow", dataUnFollow);
         // if (dataUnFollow.data.status !== "Success") {
         //   throw new Error(dataUnFollow.data.statusText);
         // }

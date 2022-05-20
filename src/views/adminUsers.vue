@@ -82,7 +82,7 @@ export default {
         const response = await adminAPI.getUsersAdmin();
         //console.log("response", response);
         //this.users = response.data.data.data
-        console.log("users", response.data.data.data);
+        //console.log("users", response.data.data.data);
         this.users = response.data.data.data.sort((a, b) => b.Likes - a.Likes);
       } catch (error) {
         console.log("error", error);

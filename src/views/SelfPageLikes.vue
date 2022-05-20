@@ -14,29 +14,36 @@
       <userInfoOther :initial-user="user" v-else />
       <navTabs :userId="currentUser.id" />
       <div class="tweet-wrap">
-        <div class="tweet-card" v-for="like in likes" :key="like.id">
+        <div
+          class="tweet-card"
+          v-for="likedTweet in likedTweets"
+          :key="likedTweet.id"
+        >
           <div class="tweet-avatar">
             <img src="../assets/images/avatar_default.png" alt="" />
           </div>
           <div class="tweet-content">
             <div class="tweet-name-group">
               <router-link
-                :to="{ name: 'SelfPage', params: { id: like.Tweet.User.id } }"
+                :to="{
+                  name: 'SelfPage',
+                  params: { id: likedTweet.Tweet.User.id },
+                }"
                 class="tweet-name"
               >
-                <b>{{ like.Tweet.User.name }}</b>
+                <b>{{ likedTweet.Tweet.User.name }}</b>
               </router-link>
               <p class="tweet-account fz14">
-                @{{ like.Tweet.User.account }}・3 小時
+                @{{ likedTweet.Tweet.User.account }}・3 小時
               </p>
             </div>
 
             <router-link
-              :to="{ name: 'tweet', params: { id: like.TweetId } }"
+              :to="{ name: 'tweet', params: { id: likedTweet.TweetId } }"
               class="tweet-text"
             >
               <p>
-                {{ like.Tweet.description }}
+                {{ likedTweet.Tweet.description }}
               </p>
             </router-link>
             <div class="tweet-count">
@@ -48,7 +55,7 @@
                   <img src="../assets/images/tweet-reply.png" alt="" />
                 </div>
                 <p class="fz14">
-                  <b>{{ like.replyCount }}</b>
+                  <b>{{ likedTweet.ReplyCount }}</b>
                 </p>
               </div>
               <div class="tweet-like">
@@ -56,7 +63,7 @@
                   <img src="../assets/images/tweet-like.png" alt="" />
                 </div>
                 <p class="fz14">
-                  <b>{{ like.likeCount }}</b>
+                  <b>{{ likedTweet.LikeCount }}</b>
                 </p>
               </div>
             </div>
@@ -109,7 +116,7 @@ export default {
         createdAt: "",
         updatedAt: "",
       },
-      likes: [],
+      likedTweets: [],
       tweetPopup: {},
       isMe: true,
       isClickPopupReplyTweet: false,
@@ -157,10 +164,11 @@ export default {
     },
     async fetchUserLikes(userId) {
       try {
+        console.log("userId", userId);
         const response = await userAPI.getUserLikes(userId);
         console.log("like res", response);
-        this.likes = [...response.data.data.tweets];
-        if (this.likes.length < 1) {
+        this.likedTweets = [...response.data.data.likedTweets];
+        if (this.likedTweets.length < 1) {
           Toast.fire({
             icon: "info",
             title: "目前沒有喜歡的內容",

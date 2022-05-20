@@ -153,7 +153,6 @@ export default {
         const responesTweets = await tweetsApi.getTweets();
         const { tweets } = responesTweets.data.data;
         this.tweets = tweets;
-        // console.log(this.tweets);
       } catch (error) {
         Toast.fire({
           icon: "error",

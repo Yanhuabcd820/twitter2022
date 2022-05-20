@@ -97,7 +97,6 @@ export default {
     },
 
     handleSubmit() {
-      console.log("XX");
       if (!this.popupText.trim()) {
         this.noZero = true;
         return;
@@ -106,6 +105,25 @@ export default {
         tweetId: this.tweet.id,
         comment: this.popupText,
       });
+
+      // const getPath = this.$route.path;
+      // console.log("getPath", getPath);
+
+      // const tt = this.$route.params;
+
+      // if (getPath === `/user/${tt}/like`) {
+      //   console.log(111);
+      //   this.$emit("after-create-reply", {
+      //     tweetId: this.tweet.TweetId,
+      //     comment: this.popupText,
+      //   });
+      // } else {
+      //   console.log(222);
+      //   this.$emit("after-create-reply", {
+      //     tweetId: this.tweet.Id,
+      //     comment: this.popupText,
+      //   });
+      // }
     },
   },
 

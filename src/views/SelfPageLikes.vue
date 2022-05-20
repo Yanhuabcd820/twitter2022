@@ -175,7 +175,8 @@ export default {
     },
 
     openPopupReply(tweetId) {
-      this.tweetPopup = this.likes.find((like) => like.id === tweetId);
+      console.log(tweetId);
+      this.tweetPopup = this.likes.find((like) => like.TweetId === tweetId);
       this.isClickPopupReplyTweet = true;
     },
     closePopupReply(payloadPopupReply) {

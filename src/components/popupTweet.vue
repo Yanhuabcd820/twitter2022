@@ -10,7 +10,7 @@
       <div class="popupTweet-text-wrap">
         <div class="popupTweet-text">
           <div class="popupTweet-avatar">
-            <img :src="currentUser.avatar | emptyImage" alt="" />
+            <img :src="currentUser.avatar | emptyAvatar" alt="" />
           </div>
           <textarea
             name="description"

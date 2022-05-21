@@ -12,7 +12,7 @@
       <userTitle :userName="user.name" :tweetNum="2" />
       <userInfo :initial-user="user" v-if="isMe" />
       <userInfoOther :initial-user="user" v-else />
-      <navTabs :userId="$route.params.id" />
+      <navTabs :userId="Number($route.params.id)" />
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="tweet in tweets" :key="tweet.id">
           <div class="tweet-avatar">
@@ -231,7 +231,7 @@ export default {
         //console.log("userId", userId);
         const response = await userAPI.getUserLikes(userId);
 
-        console.log("like res", response);
+        //console.log("like res", response);
         this.tweets = [...response.data.data.tweets];
         if (this.tweets.length < 1) {
           Toast.fire({

@@ -59,9 +59,6 @@ export default {
     openPopupTweet() {
       console.log("open2");
       this.isClickPopupTweet = true;
-      // this.$emit("after-open-tweet", {
-      //   isClickPopupTweet: true,
-      // });
     },
     closePopupTweet(payload) {
       const { isClickPopupTweet } = payload;
@@ -73,16 +70,6 @@ export default {
         icon: 'success',
         title: '成功登出'
       })
-      //this.$store.commit("setCurrentUser", {
-      //  id:-1,
-      //  name:'',
-      //  account:'',
-      //  email:'',
-      //  avatar:'',
-      //  cover:'',
-      //  introduction:'',
-      //  role:''
-      //});
     },
   },
 };

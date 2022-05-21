@@ -120,7 +120,7 @@ input:focus~.input-bottomline {
 nav {
   margin-top: 22px;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   color: #f00;
 }
 

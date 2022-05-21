@@ -97,7 +97,7 @@ const router = new VueRouter({
   routes
 })
 
-if(!navigator.onLine){
+if (!navigator.onLine) {
   Toast.fire({
     icon: "warning",
     title: "網路連線中斷",

@@ -100,7 +100,7 @@ export default {
 .avatar-block {
   position: relative;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 .user-avatar {
   width: 140px;

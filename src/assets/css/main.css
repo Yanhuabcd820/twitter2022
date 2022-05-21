@@ -11,13 +11,13 @@
 }
 
 .user-title {
-  width: 624px;
+  width: 625px;
   padding: 24px;
   background-color: #fff;
   border-bottom: 1px solid var(--border-color);
-  position: fixed;
+  position: absolute;
   top: 0;
-  z-index: 5;
+  z-index: 2;
 }
 
 .post {
@@ -29,6 +29,8 @@
   color: var(--secondary-text-color);
   border-bottom: 10px solid var(--border-color);
   cursor: pointer;
+  z-index: 0;
+  position: relative;
 }
 
 .post-inner {
@@ -71,6 +73,8 @@
 .tweet-wrap {
   border-bottom: 1px solid var(--border-color);
   box-sizing: border-box;
+  z-index: 0;
+  position: relative;
 }
 
 .tweet-card {

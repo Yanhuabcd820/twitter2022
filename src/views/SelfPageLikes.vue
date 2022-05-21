@@ -14,11 +14,7 @@
       <userInfoOther :initial-user="user" v-else />
       <navTabs :userId="currentUser.id" />
       <div class="tweet-wrap">
-        <div
-          class="tweet-card"
-          v-for="likedTweet in likedTweets"
-          :key="likedTweet.id"
-        >
+        <div class="tweet-card" v-for="tweet in tweets" :key="tweet.id">
           <div class="tweet-avatar">
             <img :src="likedTweet.Tweet.User.avatar | emptyAvatar" alt="" />
           </div>
@@ -27,23 +23,23 @@
               <router-link
                 :to="{
                   name: 'SelfPage',
-                  params: { id: likedTweet.Tweet.User.id },
+                  params: { id: tweet.Tweet.User.id },
                 }"
                 class="tweet-name"
               >
-                <b>{{ likedTweet.Tweet.User.name }}</b>
+                <b>{{ tweet.Tweet.User.name }}</b>
               </router-link>
               <p class="tweet-account fz14">
-                @{{ likedTweet.Tweet.User.account }}・3 小時
+                @{{ tweet.Tweet.User.account }}・3 小時
               </p>
             </div>
 
             <router-link
-              :to="{ name: 'tweet', params: { id: likedTweet.TweetId } }"
+              :to="{ name: 'tweet', params: { id: tweet.TweetId } }"
               class="tweet-text"
             >
               <p>
-                {{ likedTweet.Tweet.description }}
+                {{ tweet.Tweet.description }}
               </p>
             </router-link>
             <div class="tweet-count">
@@ -55,15 +51,33 @@
                   <img src="../assets/images/tweet-reply.png" alt="" />
                 </div>
                 <p class="fz14">
-                  <b>{{ likedTweet.ReplyCount }}</b>
+                  <b>{{ tweet.ReplyCount }}</b>
                 </p>
               </div>
-              <div class="tweet-like">
+
+              <div
+                class="tweet-like"
+                v-if="tweet.isLiked"
+                @click.prevent.stop="unLike(tweet.TweetId)"
+              >
+                <div class="tweet-like-img">
+                  <img src="../assets/images/tweet-like-active.png" alt="" />
+                </div>
+                <p class="fz14">
+                  <b>{{ tweet.LikeCount }}</b>
+                </p>
+              </div>
+
+              <div
+                class="tweet-like"
+                v-if="!tweet.isLiked"
+                @click.prevent.stop="addLike(tweet.TweetId)"
+              >
                 <div class="tweet-like-img">
                   <img src="../assets/images/tweet-like.png" alt="" />
                 </div>
                 <p class="fz14">
-                  <b>{{ likedTweet.LikeCount }}</b>
+                  <b>{{ tweet.LikeCount }}</b>
                 </p>
               </div>
             </div>
@@ -116,13 +130,63 @@ export default {
         createdAt: "",
         updatedAt: "",
       },
-      likedTweets: [],
+      tweets: [],
       tweetPopup: {},
       isMe: true,
       isClickPopupReplyTweet: false,
     };
   },
   methods: {
+    async addLike(TweetId) {
+      try {
+        const dataLike = await userAPI.addLike({ TweetId });
+        if (dataLike.data.status !== "Success") {
+          throw new Error(dataLike.data.message);
+        }
+        console.log("TweetId", TweetId);
+        this.tweets = this.tweets.map((tweet) => {
+          if (tweet.TweetId === TweetId) {
+            return {
+              ...tweet,
+              isLiked: true,
+              LikeCount: tweet.LikeCount + 1,
+            };
+          }
+          return tweet;
+        });
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法like此筆tweet，請稍後再試",
+        });
+      }
+    },
+    async unLike(TweetId) {
+      console.log("TweetId", TweetId);
+      try {
+        console.log("TweetId", TweetId);
+        const dataUnLike = await userAPI.unLike({ TweetId });
+        console.log("dataUnLike", dataUnLike);
+        if (dataUnLike.data.status !== "Success") {
+          throw new Error(dataUnLike.data.message);
+        }
+        this.tweets = this.tweets.map((tweet) => {
+          if (tweet.TweetId === TweetId) {
+            return {
+              ...tweet,
+              isLiked: false,
+              LikeCount: tweet.LikeCount - 1,
+            };
+          }
+          return tweet;
+        });
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法unlike此筆tweet，請稍後再試",
+        });
+      }
+    },
     async fetchUser(userId) {
       try {
         const response = await userAPI.getUser(userId);
@@ -166,9 +230,15 @@ export default {
       try {
         //console.log("userId", userId);
         const response = await userAPI.getUserLikes(userId);
+
+        console.log("like res", response);
+        this.tweets = [...response.data.data.tweets];
+        if (this.tweets.length < 1) {
+
         //console.log("like res", response);
-        this.likedTweets = [...response.data.data.likedTweets];
-        if (this.likedTweets.length < 1) {
+        //this.likedTweets = [...response.data.data.likedTweets];
+        //if (this.likedTweets.length < 1) {
+
           Toast.fire({
             icon: "info",
             title: "目前沒有喜歡的內容",

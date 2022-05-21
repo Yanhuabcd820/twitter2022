@@ -101,7 +101,7 @@ export default {
         return;
       }
       this.$emit("after-create-reply", {
-        tweetId: this.tweet.id,
+        tweetId: this.tweet.TweetId,
         comment: this.popupText,
       });
     },

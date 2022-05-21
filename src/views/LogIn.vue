@@ -82,14 +82,14 @@ export default {
           account: this.account,
           password: this.password,
         });
-        //console.log('response in login', response)
+        console.log('response in login', response)
         // 取得 API 請求後的資料
         //const { data } = response;
         // 將 token 存放在 localStorage 內
         //console.log('data in login',data)
-        localStorage.setItem("token", response.token);
+        localStorage.setItem("token", response.data.token);
         //vuex: setting current user
-        this.$store.commit("setCurrentUser", response.user);
+        this.$store.commit("setCurrentUser", response.data.user);
         // 成功登入後轉址到餐廳首頁
         this.$router.push("/tweets");
         Toast.fire({

@@ -31,7 +31,7 @@
             :to="{ name: 'SelfPage', params: { id: tweet.User.id } }"
           >
             <div class="reply-avatar">
-              <img :src="tweet.User.avatar | emptyImage" alt="" />
+              <img :src="tweet.User.avatar | emptyAvatar" alt="" />
             </div>
             <div class="reply-name-group">
               <p class="reply-name">

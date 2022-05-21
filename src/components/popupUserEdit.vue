@@ -20,7 +20,7 @@
           <button class="header-btn btn" type="submit">儲存</button>
         </div>
         <div class="popupTweet-cover">
-          <img :src="user.cover" alt="" />
+          <img :src="user.cover | emptyCover" alt="" />
           <div class="cover-grayLayer"></div>
           <div class="cover-edit">
             <div class="cover-edit-tool">
@@ -44,7 +44,7 @@
           <div>
             <div class="avatar">
               <div class="avatar-grayLayer"></div>
-              <img :src="user.avatar" alt="" />
+              <img :src="user.avatar | emptyAvatar" alt="" />
               <label class="avatar-edit">
                 <input
                   type="file"
@@ -95,6 +95,8 @@ import authorizationAPI from "./../apis/authorization";
 
 import { mapState } from "vuex";
 import { Toast } from "./../utils/helpers";
+import { emptyImageFilter } from "./../utils/mixins";
+
 
 export default {
   name: "popupUserEdit",
@@ -171,19 +173,6 @@ export default {
           });
           return;
         }
-
-        //console.log(this.user);
-        //const form = e.target
-        //console.log(form)
-        //const formData = new FormData(form)
-        //console.log('formData',formData)
-        //let test = []
-        //for (let [name, value] of //formData.entries()) {
-        //  console.log(name + ': ' + //value)
-        //  //test.push(value)
-        //}
-        //console.log(test)
-        // 順序是cover avatar name
         const response = await authorizationAPI
         .updateUser(this.currentUser.id,{
           name: this.currentUser.name,
@@ -218,6 +207,7 @@ export default {
   computed: {
     ...mapState(["currentUser"]),
   },
+  mixins: [emptyImageFilter]
 };
 </script>
 

@@ -9,7 +9,7 @@
           :to="{ name: 'SelfPage', params: { id: top.id } }"
           class="followTop-avatar"
         >
-          <img :src="top.avatar | emptyImage" alt="" />
+          <img :src="top.avatar | emptyAvatar" alt="" />
         </router-link>
         <router-link
           :to="{ name: 'SelfPage', params: { id: top.id } }"

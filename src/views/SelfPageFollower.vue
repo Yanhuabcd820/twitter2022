@@ -11,7 +11,7 @@
           :key="followship.id"
         >
           <div class="tweet-avatar">
-            <img src="../assets/images/avatar_default.png" alt="" />
+            <img :src="followship.avatar | emptyAvatar" alt="" />
           </div>
           <div class="tweet-content">
             <div class="tweet-title">
@@ -40,7 +40,7 @@ import followTop from "../components/followTop";
 import userTitle from "../components/userTitle.vue";
 import navTabsFollow from "../components/navTabsFollow";
 
-import { fromNowFilter } from "./../utils/mixins";
+import { fromNowFilter, emptyImageFilter } from './../utils/mixins'
 import userAPI from "./../apis/user";
 import { mapState } from "vuex";
 import { Toast } from "./../utils/helpers";
@@ -105,8 +105,8 @@ export default {
     async fetchUserFollower(userId) {
       try {
         const response = await userAPI.getUserFollowers(userId);
-        //console.log(response)
-        this.followships = [...response.data.data.user];
+        console.log(response)
+        this.followships = [...response.data.data.user[0].Followers];
       } catch (error) {
         console.log("error", error);
       }
@@ -144,7 +144,7 @@ export default {
       immediate: true,
     },
   },
-  mixins: [fromNowFilter],
+  mixins: [fromNowFilter,emptyImageFilter],
 };
 </script>
 

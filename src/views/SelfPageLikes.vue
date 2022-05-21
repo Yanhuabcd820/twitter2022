@@ -164,9 +164,9 @@ export default {
     },
     async fetchUserLikes(userId) {
       try {
-        console.log("userId", userId);
+        //console.log("userId", userId);
         const response = await userAPI.getUserLikes(userId);
-        console.log("like res", response);
+        //console.log("like res", response);
         this.likedTweets = [...response.data.data.likedTweets];
         if (this.likedTweets.length < 1) {
           Toast.fire({

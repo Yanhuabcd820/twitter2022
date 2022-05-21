@@ -9,7 +9,7 @@
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="reply in replies" :key="reply.id">
           <div class="tweet-avatar">
-            <img :src="reply.avatar | emptyAvatar" alt="" />
+            <img :src="user.avatar | emptyAvatar" alt="" />
           </div>
           <div class="tweet-content">
             <div class="tweet-name-group">

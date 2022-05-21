@@ -16,7 +16,7 @@
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="tweet in tweets" :key="tweet.id">
           <div class="tweet-avatar">
-            <img :src="tweet.avatar | emptyAvatar" alt="" />
+            <img :src="user.avatar | emptyAvatar" alt="" />
           </div>
           <div class="tweet-content">
             <div class="tweet-name-group">
@@ -221,15 +221,15 @@ export default {
       }
     },
     async fetchTweets(userId) {
-      const { id } = this.$route.params;
-      const getPath = this.$route.path;
-      console.log("getPath", getPath);
-      console.log("id", id);
-
+      //const { id } = this.$route.params;
+      //const getPath = this.$route.path;
+      //console.log("getPath", getPath);
+      //console.log("id", id);
       try {
         const response = await userAPI.getUserTweets(userId);
         //console.log('fetch tweets response', response)
         this.tweets = [...response.data.data.tweets];
+        //console.log('tweets',response)
       } catch (error) {
         console.log("error", error);
       }

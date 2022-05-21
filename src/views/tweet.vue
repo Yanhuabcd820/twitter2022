@@ -49,7 +49,7 @@
         </div>
         <div class="reply-count">
           <div class="reply-num">
-            <span>{{ replies.length }}</span> 回覆
+            <span>{{ tweet.totalReplies }}</span> 回覆
           </div>
           <div class="like-num">
             <span> {{ tweet.totalLikes }}</span> 喜歡次數
@@ -125,23 +125,6 @@
   </div>
 </template>
 <script>
-// const dummyUser = {
-//   status: "success",
-//   user: {
-//     id: 1,
-//     account: "user1",
-//     name: "user1",
-//     email: "user1@example.com",
-//     password: "$2a$10$DRteVVsafLSZdoetjOpfdeSYGf3t5SuswRL3sRrSvdGpS3ACmU5NG",
-//     role: "user",
-//     introduction: "Deleniti est id inventore.",
-//     avatar: "https://loremflickr.com/320/240/people/?random=73.0908396968221",
-//     cover:
-//       "https://loremflickr.com/320/240/restaurant,food/?random=79.46570629965461",
-//     createdAt: "2022-05-13T15:55:16.000Z",
-//     updatedAt: "2022-05-13T15:55:16.000Z",
-//   },
-// };
 import { fromNowFilter, emptyImageFilter } from "./../utils/mixins";
 import { Toast } from "./../utils/helpers";
 import navigation from "./../components/nav";
@@ -179,8 +162,9 @@ export default {
     async fetchTweet(tweetId) {
       try {
         const { data } = await tweetsApi.getTweet(tweetId);
-        const { tweet } = data.data;
-        this.tweet = tweet;
+        // console.log("data", data);
+        this.tweet = data;
+        // console.log("this.tweet", this.tweet);
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -191,8 +175,7 @@ export default {
     async fetchTweetReplies(tweetId) {
       try {
         const { data } = await tweetsApi.getTweetReplies(tweetId);
-        const { replies } = data.data;
-        this.replies = replies;
+        this.replies = data;
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -232,17 +215,18 @@ export default {
     },
     async afterCreateReplyList(payload) {
       try {
-        const { comment, tweetId } = payload;
+        const { comment, TweetId } = payload;
         const data = await tweetsApi.postTweetsReply({
           comment,
-          tweetId,
+          TweetId,
         });
-        if (data.data.status !== "Success") {
-          throw new Error(data.message);
-        }
+        console.log("data", data);
+        // if (data.data.status !== "Success") {
+        //   throw new Error(data.message);
+        // }
         this.replies.unshift({
           comment,
-          tweetId,
+          TweetId,
           User: {
             id: this.user.id,
             account: this.user.account,
@@ -264,12 +248,11 @@ export default {
     },
     async addLike(TweetId) {
       try {
-        const dataLike = await userApi.addLike({ TweetId });
-        if (dataLike.data.status !== "Success") {
-          throw new Error(dataLike.data.message);
-        }
+        await userApi.addLike({ TweetId });
+        // if (dataLike.data.status !== "Success") {
+        //   throw new Error(dataLike.data.message);
+        // }
         this.tweet.isLiked = true;
-        this.tweet.totalLikes = this.tweet.totalLikes + 1;
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -279,12 +262,12 @@ export default {
     },
     async unLike(TweetId) {
       try {
-        const dataLike = await userApi.unLike({ TweetId });
-        if (dataLike.data.status !== "Success") {
-          throw new Error(dataLike.data.message);
-        }
+        await userApi.unLike({ TweetId });
+        // if (dataLike.data.status !== "Success") {
+        //   throw new Error(dataLike.data.message);
+        // }
+
         this.tweet.isLiked = false;
-        this.tweet.totalLikes = this.tweet.totalLikes - 1;
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -329,6 +312,7 @@ export default {
     }
 
     const { id: tweetId } = this.$route.params;
+
     this.fetchTweet(tweetId);
     this.fetchTweetReplies(tweetId);
     this.user = this.currentUser;

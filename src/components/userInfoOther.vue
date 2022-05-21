@@ -115,6 +115,7 @@ export default {
   width: 140px;
   border-radius: 50%;
   border: 3px white solid;
+  background-color: #fff;
 }
 .user-edit {
   width: 128px;

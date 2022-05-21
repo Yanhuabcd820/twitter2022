@@ -9,6 +9,14 @@ export default {
       }
     })
   },
+  getTweet(id) {
+    return apiHelper.get(`/api/tweets/${id
+}`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`
+      }
+    })
+  },
 
   postTweets({ description }) {
     return apiHelper.post('/api/tweets', { description }, {
@@ -16,26 +24,21 @@ export default {
     })
   },
 
-  getTweetReplies(tweetId) {
-    return apiHelper.get(`/api/tweets/${tweetId}/replies`, {
+  getTweetReplies(TweetId) {
+    return apiHelper.get(`/api/tweets/${TweetId
+}/replies`, {
       headers: {
         Authorization: `Bearer ${getToken()}`
       }
     })
   },
-  postTweetsReply({ comment, tweetId }) {
-    return apiHelper.post(`/api/tweets/${tweetId}/replies`, { comment, tweetId }, {
+  postTweetsReply({ comment, TweetId }) {
+    return apiHelper.post(`/api/tweets/${TweetId
+      }/replies`, { comment, TweetId }, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
 
-  getTweet(tweetId) {
-    return apiHelper.get(`/api/tweets/${tweetId}`, {
-      headers: {
-        Authorization: `Bearer ${getToken()}`
-      }
-    })
-  },
 
   // getReplies(tweetId) {
   //   return apiHelper.get(`/api/tweets/${tweetId}/replies`, {

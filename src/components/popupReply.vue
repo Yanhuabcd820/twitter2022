@@ -11,16 +11,16 @@
         <div class="popupReply-user">
           <div class="popupReply-avatar">
             <div class="popupReply-avatar-img">
-              <img :src="user.avatar | emptyAvatar" alt="" />
+              <img :src="tweet.User.avatar | emptyAvatar" alt="" />
             </div>
           </div>
           <div class="popupReply-content">
             <div class="popupReply-name-group">
               <p class="popupReply-name">
-                <b>{{ user.name }}</b>
+                <b>{{ tweet.User.name }}</b>
               </p>
               <p class="popupReply-account fz14">
-                @{{ user.account }}・{{ tweet.createdAt | fromNow }}
+                @{{ tweet.User.account }}・{{ tweet.createdAt | fromNow }}
               </p>
             </div>
             <div class="popupReply-text">
@@ -96,12 +96,16 @@ export default {
     },
 
     handleSubmit() {
+      if (this.popupText.trim().length >= 140) {
+        return;
+      }
       if (!this.popupText.trim()) {
         this.noZero = true;
         return;
       }
+      // console.log("this.tweet.id", this.tweet.id);
       this.$emit("after-create-reply", {
-        tweetId: this.tweet.TweetId,
+        TweetId: this.tweet.id,
         comment: this.popupText,
       });
     },

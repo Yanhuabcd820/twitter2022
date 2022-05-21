@@ -198,8 +198,10 @@ export default {
           isFollowing,
           createdAt,
           updatedAt,
-        } = response.data.data.user;
-        const { followingCount, followerCount } = response.data.data;
+          followingCount,
+          followerCount
+        } = response.data;
+        //const { followingCount, followerCount } = response.data.data;
         this.user = {
           id,
           account,
@@ -232,7 +234,7 @@ export default {
       try {
         const response = await userAPI.getUserTweets(userId);
         //console.log('fetch tweets response', response)
-        this.tweets = [...response.data.data.tweets];
+        this.tweets = [...response.data];
         //console.log('tweets',response)
       } catch (error) {
         console.log("error", error);

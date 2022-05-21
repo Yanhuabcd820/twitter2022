@@ -9,7 +9,7 @@
     />
     <navigation :userId="currentUser.id" />
     <div class="main">
-      <userTitle :userName="user.name" :tweetNum="tweets.length" />
+      <userTitle :userName="user.name" :tweetNum="currentUser.tweetCount" />
       <userInfo :initial-user="user" v-if="isMe" />
       <userInfoOther :initial-user="user" v-else />
       <navTabs :userId="currentUser.id" />
@@ -288,6 +288,7 @@ export default {
     this.fetchUser(userId);
     this.fetchTweets(userId);
     this.isThisMe(userId);
+    console.log(this.currentUser)
   },
   watch: {
     "$route.params.id": {

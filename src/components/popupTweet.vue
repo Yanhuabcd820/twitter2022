@@ -67,21 +67,22 @@ export default {
   },
 
   methods: {
-    async featchTweets() {
-      try {
-        // 取得tweets資料
-        console.log(123);
-        const responesTweets = await tweetsApi.getTweets();
-        const { tweets } = responesTweets.data.data;
-        this.tweets = tweets;
-        // console.log("tweets", this.tweets);
-      } catch (error) {
-        Toast.fire({
-          icon: "error",
-          title: "無法取得tweets資料，請稍後再試"
-        });
-      }
-    },
+    // async featchTweets() {
+    //   try {
+    //     // 取得tweets資料
+    //     // console.log(123);
+    //     const responesTweets = await tweetsApi.getTweets();
+    //     const tweets = responesTweets.data;
+    //     this.tweets = tweets;
+    //     console.log("tweets", this.tweets);
+    //     // console.log("tweets", this.tweets);
+    //   } catch (error) {
+    //     Toast.fire({
+    //       icon: "error",
+    //       title: "無法取得tweets資料，請稍後再試",
+    //     });
+    //   }
+    // },
     closePopupTweet() {
       this.$emit("close-PopupTweet", {
         isClickPopupReplyTweet: false,
@@ -126,7 +127,7 @@ export default {
     },
   },
   created() {
-    this.featchTweets();
+    // this.featchTweets();
   },
   mixins: [emptyImageFilter],
   computed: {

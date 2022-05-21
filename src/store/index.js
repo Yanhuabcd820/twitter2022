@@ -39,17 +39,17 @@ export default new Vuex.Store({
         const token = localStorage.getItem('token')
         // 假如沒有token，就中斷
 
-        if(!token){
+        if (!token) {
           // 把vuex 清空
           return
         }
         // 呼叫 usersAPI.getCurrentUser() 方法，並將 response 顯示出來
         const response = await authorizationAPI.getCurrentUser()
-        console.log('store vuex',response)
+        console.log('store vuex', response)
         //console.log('store vuex response data',response.data)
-        const { id, name, account, email, avatar, cover, introduction, role } = response.currentUser
+        const { id, name, account, email, avatar, cover, introduction, role } = response.data.currentUser
         const tweetCount = response.tweetCount
-        console.log('test',{
+        console.log('test', {
           id, name, account, email, avatar, cover, introduction, role, tweetCount
         })
         commit('setCurrentUser', {

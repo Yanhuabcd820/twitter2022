@@ -101,12 +101,15 @@ export default {
       });
     },
     handleSubmit() {
+      if (this.popupText.trim().length >= 140) {
+        return;
+      }
       if (!this.popupText.trim()) {
         this.noZero = true;
         return;
       }
       this.$emit("after-create-reply-list", {
-        tweetId: this.tweet.id,
+        TweetId: this.tweet.id,
         comment: this.popupText,
       });
     },

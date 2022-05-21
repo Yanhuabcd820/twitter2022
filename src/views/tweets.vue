@@ -6,12 +6,7 @@
       @after-create-tweet="afterCreateTweet"
       :user="user"
     />
-    <!-- <popupTweet
-      v-if="isClickPopupTweet"
-      @close-PopupTweet="closePopupTweet"
-      @after-create-tweet="afterCreateTweet"
-      :user="user"
-    /> -->
+
     <navigation @after-open-tweet="afterOpenTweet" :userId="currentUser.id" />
     <div class="main">
       <div class="user-title">
@@ -151,7 +146,7 @@ export default {
       try {
         // 取得tweets資料
         const responesTweets = await tweetsApi.getTweets();
-        const { tweets } = responesTweets.data.data;
+        const tweets = responesTweets.data;
         this.tweets = tweets;
       } catch (error) {
         Toast.fire({
@@ -164,13 +159,10 @@ export default {
       try {
         const { description } = payload;
         const data = await tweetsApi.postTweets({ description });
-        if (data.data.status !== "Success") {
-          throw new Error(data.message);
-        }
-        const tweetId = data.data.data.tweet.id;
+        const TweetId = data.data.id;
         this.tweets.unshift({
           description,
-          id: tweetId,
+          id: TweetId,
           User: {
             id: this.user.id,
             account: this.user.account,
@@ -192,18 +184,20 @@ export default {
     },
     async afterCreateReply(payload) {
       try {
-        const { comment, tweetId } = payload;
+        const { comment, TweetId } = payload;
+        console.log("payload", payload);
         const data = await tweetsApi.postTweetsReply({
           comment,
-          tweetId,
+          TweetId,
         });
-        if (data.data.status !== "Success") {
-          throw new Error(data.message);
-        }
-        //console.log("data", data);
+        // console.log("afterCreateReply-data", data);
+        // if (data.status !== "Success") {
+        //   throw new Error(data.message);
+        // }
+        console.log("data", data);
         this.replies.unshift({
           comment,
-          id: tweetId,
+          id: TweetId,
           User: {
             id: this.user.id,
             account: this.user.account,
@@ -214,7 +208,7 @@ export default {
         });
 
         // 成功的話則轉址到 `/tweets/:id`
-        this.$router.push({ name: "tweet", params: { id: tweetId } });
+        this.$router.push({ name: "tweet", params: { id: TweetId } });
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -226,9 +220,12 @@ export default {
     async addLike(TweetId) {
       try {
         const dataLike = await userApi.addLike({ TweetId });
-        if (dataLike.data.status !== "Success") {
-          throw new Error(dataLike.data.message);
-        }
+
+        console.log("dataLike", dataLike);
+
+        // if (dataLike.data.status !== "Success") {
+        //   throw new Error(dataLike.data.message);
+        // }
         this.tweets = this.tweets.map((tweet) => {
           if (tweet.id === TweetId) {
             return {
@@ -250,9 +247,11 @@ export default {
       try {
         const dataUnLike = await userApi.unLike({ TweetId });
 
-        if (dataUnLike.data.status !== "Success") {
-          throw new Error(dataUnLike.data.message);
-        }
+        console.log("dataUnLike", dataUnLike);
+
+        // if (dataUnLike.data.status !== "Success") {
+        //   throw new Error(dataUnLike.data.message);
+        // }
         this.tweets = this.tweets.map((tweet) => {
           if (tweet.id === TweetId) {
             return {
@@ -286,9 +285,10 @@ export default {
       this.isClickPopupTweet = isClickPopupTweet;
     },
 
-    openPopupReply(tweetId) {
-      this.tweetPopup = this.tweets.find((tweet) => tweet.id === tweetId);
+    openPopupReply(TweetId) {
+      this.tweetPopup = this.tweets.find((tweet) => tweet.id === TweetId);
       this.isClickPopupReplyTweet = true;
+      console.log(" this.tweetPopup", this.tweetPopup);
     },
     closePopupReply(payloadPopupReply) {
       const { isClickPopupReplyTweet } = payloadPopupReply;
@@ -307,6 +307,7 @@ export default {
     }
     this.featchTweets();
     this.user = this.currentUser;
+    console.log("this.user", this.user);
   },
   computed: {
     ...mapState(["currentUser"]),

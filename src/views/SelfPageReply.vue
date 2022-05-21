@@ -23,7 +23,7 @@
             <div>
               <p class="fz14">
                 <span class="reply-title">回覆</span
-                ><span class="reply-account"> @apple</span>
+                ><span class="reply-account"> @{{reply.Tweet.User.account}}</span>
               </p>
             </div>
             <router-link

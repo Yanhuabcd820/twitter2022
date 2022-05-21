@@ -9,7 +9,7 @@
     />
     <navigation :userId="currentUser.id" />
     <div class="main">
-      <userTitle :userName="user.name" :tweetNum="2" />
+      <userTitle :userName="user.name" :tweetNum="user.tweetsCount" />
       <userInfo :initial-user="user" v-if="isMe" />
       <userInfoOther :initial-user="user" v-else />
       <navTabs :userId="Number($route.params.id)" />
@@ -127,8 +127,7 @@ export default {
         followingCount: -1,
         followerCount: -1,
         isFollowing: false,
-        createdAt: "",
-        updatedAt: "",
+        tweetsCount: 0
       },
       tweets: [],
       tweetPopup: {},
@@ -200,10 +199,9 @@ export default {
           avatar,
           cover,
           isFollowing,
-          createdAt,
-          updatedAt,
           followingCount,
-          followerCount
+          followerCount,
+          tweetsCount
         } = response.data;
         this.user = {
           id,
@@ -217,8 +215,7 @@ export default {
           followingCount,
           followerCount,
           isFollowing,
-          createdAt,
-          updatedAt,
+          tweetsCount
         };
       } catch (error) {
         console.log("error", error);

@@ -9,7 +9,7 @@
     />
     <navigation :userId="currentUser.id" />
     <div class="main">
-      <userTitle :userName="user.name" :tweetNum="currentUser.tweetCount" />
+      <userTitle :userName="user.name" :tweetNum="user.tweetsCount" />
       <userInfo :initial-user="user" v-if="isMe" />
       <userInfoOther :initial-user="user" v-else />
       <navTabs :userId="Number($route.params.id)" />
@@ -122,8 +122,7 @@ export default {
         followingCount: -1,
         followerCount: -1,
         isFollowing: false,
-        createdAt: "",
-        updatedAt: "",
+        tweetsCount: 0
       },
       tweets: [],
       isMe: true,
@@ -197,7 +196,8 @@ export default {
           createdAt,
           updatedAt,
           followingCount,
-          followerCount
+          followerCount,
+          tweetsCount
         } = response.data;
         this.user = {
           id,
@@ -213,6 +213,7 @@ export default {
           isFollowing,
           createdAt,
           updatedAt,
+          tweetsCount
         };
         //console.log('user',this.user)
       } catch (error) {

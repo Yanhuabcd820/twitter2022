@@ -11,7 +11,7 @@
         <div class="popupReply-user">
           <div class="popupReply-avatar">
             <div class="popupReply-avatar-img">
-              <img :src="user.avatar | emptyImage" alt="" />
+              <img :src="user.avatar | emptyAvatar" alt="" />
             </div>
           </div>
           <div class="popupReply-content">
@@ -104,26 +104,6 @@ export default {
         tweetId: this.tweet.id,
         comment: this.popupText,
       });
-
-      // const { id: userId } = this.$route.params;
-      // const getPath = this.$route.path;
-      // console.log("getPath", getPath);
-
-      // const tt = this.$route.params;
-
-      // if (getPath === `/user/${tt}/like`) {
-      //   console.log(111);
-      //   this.$emit("after-create-reply", {
-      //     tweetId: this.tweet.TweetId,
-      //     comment: this.popupText,
-      //   });
-      // } else {
-      //   console.log(222);
-      //   this.$emit("after-create-reply", {
-      //     tweetId: this.tweet.Id,
-      //     comment: this.popupText,
-      //   });
-      // }
     },
   },
 

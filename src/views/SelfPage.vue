@@ -16,7 +16,7 @@
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="tweet in tweets" :key="tweet.id">
           <div class="tweet-avatar">
-            <img :src="tweet.avatar | emptyImage" alt="" />
+            <img :src="tweet.avatar | emptyAvatar" alt="" />
           </div>
           <div class="tweet-content">
             <div class="tweet-name-group">

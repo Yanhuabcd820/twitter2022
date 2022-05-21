@@ -136,7 +136,7 @@ export default {
           {
             name: this.name,
             account: this.account,
-            email: this.account,
+            email: this.email,
             password: this.password,
             introduction: this.currentUser.introduction,
             avatar: this.currentUser.avatar,

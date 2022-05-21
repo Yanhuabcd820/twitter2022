@@ -12,7 +12,7 @@
 export default {
   props: {
     userId: {
-      type: Number,
+      type: String,
       required: true,
     },
   },
@@ -35,8 +35,12 @@ export default {
           path: `/user/${this.userId}/like`,
         },
       ],
+      testId: -1
     };
   },
+  created(){
+    this.testId = this.userId
+  }
 };
 </script>
 

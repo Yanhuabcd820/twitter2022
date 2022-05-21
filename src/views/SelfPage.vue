@@ -12,7 +12,7 @@
       <userTitle :userName="user.name" :tweetNum="currentUser.tweetCount" />
       <userInfo :initial-user="user" v-if="isMe" />
       <userInfoOther :initial-user="user" v-else />
-      <navTabs :userId="currentUser.id" />
+      <navTabs :userId="$route.params.id" />
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="tweet in tweets" :key="tweet.id">
           <div class="tweet-avatar">

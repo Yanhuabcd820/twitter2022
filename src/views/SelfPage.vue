@@ -9,7 +9,7 @@
     />
     <navigation :userId="currentUser.id" />
     <div class="main">
-      <userTitle :userName="user.name" :tweetNum="currentUser.tweetCount" />
+      <userTitle :userName="user.name" :tweetNum="user.tweetsCount" />
       <userInfo :initial-user="user" v-if="isMe" />
       <userInfoOther :initial-user="user" v-else />
       <navTabs :userId="Number($route.params.id)" />
@@ -122,8 +122,7 @@ export default {
         followingCount: -1,
         followerCount: -1,
         isFollowing: false,
-        createdAt: "",
-        updatedAt: "",
+        tweetsCount: 0
       },
       tweets: [],
       isMe: true,
@@ -184,8 +183,6 @@ export default {
     async fetchUser(userId) {
       try {
         const response = await userAPI.getUser(userId);
-        //console.log("response in selfPage", response);
-        // dummyUser 對應 response.data.user
         const {
           id,
           account,
@@ -198,8 +195,10 @@ export default {
           isFollowing,
           createdAt,
           updatedAt,
-        } = response.data.data.user;
-        const { followingCount, followerCount } = response.data.data;
+          followingCount,
+          followerCount,
+          tweetsCount
+        } = response.data;
         this.user = {
           id,
           account,
@@ -214,6 +213,7 @@ export default {
           isFollowing,
           createdAt,
           updatedAt,
+          tweetsCount
         };
         //console.log('user',this.user)
       } catch (error) {
@@ -225,14 +225,10 @@ export default {
       }
     },
     async fetchTweets(userId) {
-      //const { id } = this.$route.params;
-      //const getPath = this.$route.path;
-      //console.log("getPath", getPath);
-      //console.log("id", id);
       try {
         const response = await userAPI.getUserTweets(userId);
         //console.log('fetch tweets response', response)
-        this.tweets = [...response.data.data.tweets];
+        this.tweets = [...response.data];
         //console.log('tweets',response)
       } catch (error) {
         console.log("error", error);

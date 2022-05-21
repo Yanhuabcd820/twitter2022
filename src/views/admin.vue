@@ -76,7 +76,7 @@ export default {
         // 取得 API 請求後的資料
         const { data } = response;
         // 將 token 存放在 localStorage 內
-        localStorage.setItem("token", data.data.token);
+        localStorage.setItem("token", data.token);
 
         Toast.fire({
           icon: "success",

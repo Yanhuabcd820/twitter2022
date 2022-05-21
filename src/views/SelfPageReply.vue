@@ -2,7 +2,7 @@
   <div class="wrap">
     <navigation :userId="currentUser.id" />
     <div class="main">
-      <userTitle :userName="user.name" :tweetNum="2" />
+      <userTitle :userName="user.name" :tweetNum="user.tweetsCount" />
       <userInfo :initial-user="user" v-if="isMe" />
       <userInfoOther :initial-user="user" v-else />
       <navTabs :userId="Number($route.params.id)" />
@@ -23,7 +23,7 @@
             <div>
               <p class="fz14">
                 <span class="reply-title">回覆</span
-                ><span class="reply-account"> @apple</span>
+                ><span class="reply-account"> @{{reply.Tweet.User.account}}</span>
               </p>
             </div>
             <router-link
@@ -76,6 +76,7 @@ export default {
         followingCount: -1,
         followerCount: -1,
         isFollowing: false,
+        tweetsCount: 0
       },
       replies: [],
       isMe: true,
@@ -85,8 +86,6 @@ export default {
     async fetchUser(userId) {
       try {
         const response = await userAPI.getUser(userId);
-        //console.log("response in selfPage", response);
-        // dummyUser 對應 response.data.user
         const {
           id,
           account,
@@ -97,10 +96,10 @@ export default {
           avatar,
           cover,
           isFollowing,
-          createdAt,
-          updatedAt,
-        } = response.data.data.user;
-        const { followingCount, followerCount } = response.data.data;
+          followingCount,
+          followerCount,
+          tweetsCount
+        } = response.data;
         this.user = {
           id,
           account,
@@ -113,10 +112,8 @@ export default {
           followingCount,
           followerCount,
           isFollowing,
-          createdAt,
-          updatedAt,
+          tweetsCount
         };
-        //console.log('user',this.user)
       } catch (error) {
         console.log("error", error);
         Toast.fire({
@@ -128,8 +125,7 @@ export default {
     async fetchUserReplies(userId) {
       try {
         const response = await userAPI.getUserReplies(userId);
-        console.log(response);
-        this.replies = [...response.data.data.replies];
+        this.replies = [...response.data];
         if (this.replies.length < 1) {
           Toast.fire({
             icon: "info",

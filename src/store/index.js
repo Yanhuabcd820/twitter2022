@@ -45,10 +45,13 @@ export default new Vuex.Store({
         }
         // 呼叫 usersAPI.getCurrentUser() 方法，並將 response 顯示出來
         const response = await authorizationAPI.getCurrentUser()
-        //console.log('store vuex',response)
+        console.log('store vuex',response)
         //console.log('store vuex response data',response.data)
-        const { id, name, account, email, avatar, cover, introduction, role } = response.data.currentUser
-        const tweetCount = response.data.tweetCount
+        const { id, name, account, email, avatar, cover, introduction, role } = response.currentUser
+        const tweetCount = response.tweetCount
+        console.log('test',{
+          id, name, account, email, avatar, cover, introduction, role, tweetCount
+        })
         commit('setCurrentUser', {
           id, name, account, email, avatar, cover, introduction, role, tweetCount
         })

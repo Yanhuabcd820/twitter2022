@@ -8,7 +8,7 @@
       <div class="tweet-list-warp">   
         <div class="tweet-list-card" v-for="tweet in tweets" :key="tweet.id">
           <div class="tweet-list-avatar">
-            <img :src="tweet.User.avatar" alt="" />
+            <img :src="tweet.User.avatar | emptyAvatar" alt="" />
           </div>
           <div class="tweet-list-content">
             <div class="tweet-list-title">
@@ -34,7 +34,7 @@
 <script>
 import navigationAdmin from "../components/navAdmin";
 //import InfiniteLoading from 'vue-infinite-loading';
-import { fromNowFilter } from './../utils/mixins'
+import { fromNowFilter, emptyImageFilter } from './../utils/mixins'
 import adminAPI from "./../apis/admin";
 import { Toast } from './../utils/helpers'
 
@@ -83,7 +83,7 @@ export default {
   created(){
     this.fetchTweets()
   },
-  mixins: [fromNowFilter]
+  mixins: [fromNowFilter, emptyImageFilter]
 };
 </script>
 

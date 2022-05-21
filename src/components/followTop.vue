@@ -20,22 +20,31 @@
           </p>
           <p class="fz14 followTop-account">@{{ top.account }}</p>
         </router-link>
-        <div class="followTop-btn-wrap" v-if="top.isFollowed">
-          <div
-            class="btn active followTop-btn"
-            @click.prevent.stop="unFollow(top.id)"
-          >
-            正在跟隨
+
+          <div class="followTop-btn-wrap" v-if="top.id==testId">
+            <div
+              class="btn active followTop-btn special-you"
+            >
+              你很受歡迎
+            </div>
           </div>
-        </div>
-        <div class="followTop-btn-wrap" v-if="!top.isFollowed">
-          <div
-            class="btn followTop-btn"
-            @click.prevent.stop="addFollow(top.id)"
-          >
-            跟隨
+          <div class="followTop-btn-wrap" v-else-if="top.isFollowed">
+            <div
+              class="btn active followTop-btn"
+              @click.prevent.stop="unFollow(top.id)"
+            >
+              正在跟隨
+            </div>
           </div>
-        </div>
+          <div class="followTop-btn-wrap" v-else>
+            <div
+              class="btn followTop-btn"
+              @click.prevent.stop="addFollow(top.id)"
+            >
+              跟隨
+            </div>
+          </div>
+
       </div>
     </div>
   </div>
@@ -45,6 +54,8 @@ import userApi from "./../apis/user";
 import followshipApi from "./../apis/followship";
 import { Toast } from "./../utils/helpers";
 import { emptyImageFilter } from "./../utils/mixins";
+import { mapState } from "vuex";
+
 export default {
   props: {
     userId: {
@@ -54,6 +65,7 @@ export default {
   data() {
     return {
       tops: {},
+      testId: -1
     };
   },
   methods: {
@@ -63,6 +75,7 @@ export default {
         const Topdata = await userApi.getTop();
         const { data } = Topdata;
         this.tops = data;
+        this.testId = this.currentUser.id
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -123,8 +136,12 @@ export default {
       }
     },
   },
+  computed: {
+    ...mapState(["currentUser"]),
+  },
   created() {
     this.featchTop();
+    console.log('followtop currentuser id',this.currentUser.id)
   },
   mixins: [emptyImageFilter],
 };
@@ -132,3 +149,11 @@ export default {
 
 
 <style lang="css" src="@/assets/css/followTop.css" scoped></style>
+
+<style scoped>
+.special-you{
+  background-color: orange;
+  color: black;
+  border-color: orange;
+}
+</style>

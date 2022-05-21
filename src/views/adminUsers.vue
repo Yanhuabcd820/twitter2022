@@ -13,10 +13,10 @@
         >
           <div class="admin-user-picture-wrap">
             <div class="admin-user-image">
-              <img :src="user.cover | emptyImage" alt="" />
+              <img :src="user.cover | emptyCover" alt="" />
             </div>
             <div class="admin-user-avatar">
-              <img :src="user.avatar | emptyImage" alt="" />
+              <img :src="user.avatar | emptyAvatar" alt="" />
             </div>
           </div>
           <div class="admin-user-info">

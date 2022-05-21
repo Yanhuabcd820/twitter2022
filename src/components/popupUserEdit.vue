@@ -179,7 +179,7 @@ export default {
         .updateUser(this.currentUser.id,{
           name: this.currentUser.name,
           account: this.currentUser.account,
-          email: this.currentUser.account,
+          email: this.currentUser.email,
           password: '',
           introduction: this.temp,
           avatar: this.avatarFile,

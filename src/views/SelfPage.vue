@@ -12,7 +12,7 @@
       <userTitle :userName="user.name" :tweetNum="currentUser.tweetCount" />
       <userInfo :initial-user="user" v-if="isMe" />
       <userInfoOther :initial-user="user" v-else />
-      <navTabs :userId="$route.params.id" />
+      <navTabs :userId="Number($route.params.id)" />
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="tweet in tweets" :key="tweet.id">
           <div class="tweet-avatar">
@@ -218,6 +218,10 @@ export default {
         //console.log('user',this.user)
       } catch (error) {
         console.log("error", error);
+        Toast.fire({
+          icon: "error",
+          title: "無此使用者或讀取資料錯誤",
+        }); 
       }
     },
     async fetchTweets(userId) {
@@ -288,7 +292,7 @@ export default {
     this.fetchUser(userId);
     this.fetchTweets(userId);
     this.isThisMe(userId);
-    console.log(this.currentUser)
+    //console.log(this.currentUser)
   },
   watch: {
     "$route.params.id": {

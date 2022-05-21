@@ -130,9 +130,7 @@ export default {
   },
   data() {
     return {
-      user: {
-        id: 0,
-      },
+      user: {},
       tweets: [],
       replies: [],
       isClickPopupTweet: false,
@@ -307,7 +305,7 @@ export default {
     }
     this.featchTweets();
     this.user = this.currentUser;
-    console.log("this.user", this.user);
+    //console.log("this.user", this.user);
   },
   computed: {
     ...mapState(["currentUser"]),

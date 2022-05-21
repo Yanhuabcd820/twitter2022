@@ -141,7 +141,7 @@ export default {
   },
   created() {
     this.featchTop();
-    console.log('followtop currentuser id',this.currentUser.id)
+    //console.log('followtop currentuser id',this.currentUser.id)
   },
   mixins: [emptyImageFilter],
 };

@@ -200,7 +200,7 @@ export default {
         if (data.data.status !== "Success") {
           throw new Error(data.message);
         }
-        console.log("data", data);
+        //console.log("data", data);
         this.replies.unshift({
           comment,
           id: tweetId,
@@ -273,7 +273,7 @@ export default {
     afterOpenTweet(payload) {
       //將彈跳視窗打開
       const { isClickPopupTweet } = payload;
-      console.log(isClickPopupTweet);
+      //console.log(isClickPopupTweet);
       this.isClickPopupTweet = isClickPopupTweet;
     },
     openPopupTweet() {

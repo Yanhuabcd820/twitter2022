@@ -20,7 +20,7 @@
           :key="likedTweet.id"
         >
           <div class="tweet-avatar">
-            <img src="../assets/images/avatar_default.png" alt="" />
+            <img :src="likedTweet.Tweet.User.avatar | emptyAvatar" alt="" />
           </div>
           <div class="tweet-content">
             <div class="tweet-name-group">
@@ -84,7 +84,7 @@ import navTabs from "../components/navTabs";
 import popupReply from "./../components/popupReply";
 import userAPI from "./../apis/user";
 import tweetsApi from "./../apis/tweets";
-import { fromNowFilter } from "./../utils/mixins";
+import { fromNowFilter, emptyImageFilter } from "./../utils/mixins";
 import { mapState } from "vuex";
 import { Toast } from "./../utils/helpers";
 
@@ -240,9 +240,14 @@ export default {
       immediate: true,
     },
   },
-  mixins: [fromNowFilter],
+  mixins: [fromNowFilter, emptyImageFilter],
 };
 </script>
 
 <style lang="css" src="@/assets/css/main.css" scoped></style>
 
+<style scoped>
+  .tweet-name{
+    color: black;
+  }
+</style>

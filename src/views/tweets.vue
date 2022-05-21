@@ -18,7 +18,7 @@
             :to="{ name: 'SelfPage', params: { id: user.id } }"
             class="post-avatar"
           >
-            <img :src="user.avatar | emptyImage" alt="" />
+            <img :src="user.avatar | emptyAvatar" alt="" />
           </router-link>
         </div>
         <div class="post-inner-tweet" @click.prevent.stop="openPopupTweet">

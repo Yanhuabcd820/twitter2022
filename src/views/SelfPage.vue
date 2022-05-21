@@ -134,11 +134,7 @@ export default {
   methods: {
     async addLike(TweetId) {
       try {
-        const dataLike = await userAPI.addLike({ TweetId });
-        if (dataLike.data.status !== "Success") {
-          throw new Error(dataLike.data.message);
-        }
-        console.log("TweetId", TweetId);
+        await userAPI.addLike({ TweetId });
         this.tweets = this.tweets.map((tweet) => {
           if (tweet.id === TweetId) {
             return {

@@ -114,6 +114,10 @@ export default {
         //console.log('user',this.user)
       } catch (error) {
         console.log("error", error);
+        Toast.fire({
+          icon: "error",
+          title: "無此使用者或讀取資料錯誤",
+        }); 
       }
     },
     async fetchUserReplies(userId) {

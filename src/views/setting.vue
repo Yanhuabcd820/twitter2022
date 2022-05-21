@@ -174,3 +174,9 @@ export default {
 </script>
 
 <style lang="css" src="@/assets/css/setting.css" scoped></style>
+
+<style scoped>
+  .setting-save:hover>p{
+    color: var(--main-color);
+  }
+</style>

@@ -16,7 +16,7 @@
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="tweet in tweets" :key="tweet.id">
           <div class="tweet-avatar">
-            <img :src="likedTweet.Tweet.User.avatar | emptyAvatar" alt="" />
+            <img :src="tweet.Tweet.User.avatar | emptyAvatar" alt="" />
           </div>
           <div class="tweet-content">
             <div class="tweet-name-group">
@@ -45,7 +45,7 @@
             <div class="tweet-count">
               <div
                 class="tweet-reply"
-                @click.prevent.stop="openPopupReply(like.TweetId)"
+                @click.prevent.stop="openPopupReply(tweet.TweetId)"
               >
                 <div class="tweet-reply-img">
                   <img src="../assets/images/tweet-reply.png" alt="" />
@@ -234,11 +234,6 @@ export default {
         console.log("like res", response);
         this.tweets = [...response.data.data.tweets];
         if (this.tweets.length < 1) {
-
-        //console.log("like res", response);
-        //this.likedTweets = [...response.data.data.likedTweets];
-        //if (this.likedTweets.length < 1) {
-
           Toast.fire({
             icon: "info",
             title: "目前沒有喜歡的內容",
@@ -254,7 +249,7 @@ export default {
 
     openPopupReply(tweetId) {
       console.log(tweetId);
-      this.tweetPopup = this.likes.find((like) => like.TweetId === tweetId);
+      this.tweetPopup = this.tweets.find((tweet) => tweet.TweetId === tweetId);
       this.isClickPopupReplyTweet = true;
     },
     closePopupReply(payloadPopupReply) {
@@ -317,7 +312,7 @@ export default {
 <style lang="css" src="@/assets/css/main.css" scoped></style>
 
 <style scoped>
-  .tweet-name{
-    color: black;
-  }
+.tweet-name {
+  color: black;
+}
 </style>

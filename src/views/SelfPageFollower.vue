@@ -3,7 +3,7 @@
     <navigation :userId="currentUser.id"/>
     <div class="main">
       <userTitle :userName="user.name" />
-      <navTabsFollow :userId="currentUser.id"/>
+      <navTabsFollow :userId="$route.params.id"/>
       <div class="tweet-wrap">
         <div
           class="tweet-card"
@@ -11,7 +11,7 @@
           :key="followship.id"
         >
           <div class="tweet-avatar">
-            <img src="../assets/images/avatar_default.png" alt="" />
+            <img :src="followship.avatar | emptyAvatar" alt="" />
           </div>
           <div class="tweet-content">
             <div class="tweet-title">
@@ -19,7 +19,8 @@
                 <p class="tweet-name">
                   <b>{{ followship.name }}</b>
                 </p>
-                <div class="btn active">正在跟隨</div>
+                <div class="btn active" v-if="1>0">正在跟隨</div>
+                <div class="btn" v-else>跟隨</div>
               </div>
             </div>
             <div class="tweet-text">
@@ -40,7 +41,7 @@ import followTop from "../components/followTop";
 import userTitle from "../components/userTitle.vue";
 import navTabsFollow from "../components/navTabsFollow";
 
-import { fromNowFilter } from "./../utils/mixins";
+import { fromNowFilter, emptyImageFilter } from './../utils/mixins'
 import userAPI from "./../apis/user";
 import { mapState } from "vuex";
 import { Toast } from "./../utils/helpers";
@@ -105,8 +106,14 @@ export default {
     async fetchUserFollower(userId) {
       try {
         const response = await userAPI.getUserFollowers(userId);
-        //console.log(response)
-        this.followships = [...response.data.data.user];
+        console.log(response)
+        this.followships = [...response.data.data.user[0].Followers];
+        if(this.followships.length<1){
+          Toast.fire({
+            icon: "info",
+            title: "沒有人正在追蹤這個人",
+          });
+        }
       } catch (error) {
         console.log("error", error);
       }
@@ -144,7 +151,7 @@ export default {
       immediate: true,
     },
   },
-  mixins: [fromNowFilter],
+  mixins: [fromNowFilter,emptyImageFilter],
 };
 </script>
 

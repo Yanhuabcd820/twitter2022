@@ -46,7 +46,7 @@
             :to="{ name: 'SelfPage', params: { id: tweet.User.id } }"
             class="tweet-avatar"
           >
-            <img :src="tweet.User.avatar | emptyImage" alt="" />
+            <img :src="tweet.User.avatar | emptyAvatar" alt="" />
           </router-link>
           <router-link
             :to="{ name: 'tweet', params: { id: tweet.id } }"

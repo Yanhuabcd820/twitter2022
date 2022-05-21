@@ -9,7 +9,7 @@
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="reply in replies" :key="reply.id">
           <div class="tweet-avatar">
-            <img src="../assets/images/avatar_default.png" alt="" />
+            <img :src="reply.avatar | emptyAvatar" alt="" />
           </div>
           <div class="tweet-content">
             <div class="tweet-name-group">
@@ -20,7 +20,7 @@
                 @{{ user.account }}・{{ reply.createdAt | fromNow }}
               </p>
             </div>
-
+            <div><p class="fz14"><span class="reply-title">回覆</span><span class="reply-account"> @apple</span></p></div>
             <router-link
               :to="{ name: 'tweet', params: { id: reply.TweetId } }"
               class="tweet-text"
@@ -45,7 +45,7 @@ import userTitle from "../components/userTitle";
 import navTabs from "../components/navTabs";
 import userAPI from "./../apis/user";
 import { mapState } from "vuex";
-import { fromNowFilter } from "./../utils/mixins";
+import { fromNowFilter,emptyImageFilter } from "./../utils/mixins";
 import { Toast } from "./../utils/helpers";
 
 export default {
@@ -119,7 +119,7 @@ export default {
     async fetchUserReplies(userId) {
       try {
         const response = await userAPI.getUserReplies(userId);
-        //console.log(response)
+        console.log(response)
         this.replies = [...response.data.data.replies];
         if (this.replies.length < 1) {
           Toast.fire({
@@ -164,9 +164,12 @@ export default {
       immediate: true,
     },
   },
-  mixins: [fromNowFilter],
+  mixins: [fromNowFilter,emptyImageFilter],
 };
 </script>
 
 <style lang="css" src="@/assets/css/main.css" scoped></style>
 
+<style scoped>
+  
+</style>

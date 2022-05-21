@@ -108,7 +108,16 @@
 .tweet-name-group {
   display: flex;
   align-items: center;
+}
+.tweet-content>div{
   margin-bottom: 8px;
+}
+
+.reply-title {
+  color: #6c757d;
+}
+.reply-account {
+  color: var(--main-color);
 }
 
 .tweet-name {

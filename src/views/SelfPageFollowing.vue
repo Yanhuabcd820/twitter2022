@@ -3,17 +3,18 @@
     <navigation :userId="currentUser.id"/>
     <div class="main">
       <userTitle :userName="user.name"/>
-      <navTabsFollow :userId="currentUser.id"/>
+      <navTabsFollow :userId="$route.params.id"/>
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="followship in followships" :key="followship.id">
           <div class="tweet-avatar">
-            <img src="../assets/images/avatar_default.png" alt="" />
+            <img :src="followship.avatar | emptyAvatar" alt="" />
           </div>
           <div class="tweet-content">
             <div class="tweet-title">
               <div class="tweet-name-group">
                 <p class="tweet-name"><b>{{followship.name}}</b></p>
-                <div class="btn">正在跟隨</div>
+                <div class="btn active" v-if="1>0">正在跟隨</div>
+                <div class="btn" v-else>跟隨</div>
               </div>
               
             </div>
@@ -36,52 +37,11 @@ import followTop from "../components/followTop";
 import userTitle from "../components/userTitle.vue"
 import navTabsFollow from "../components/navTabsFollow";
 
-import { fromNowFilter } from './../utils/mixins'
+import { fromNowFilter, emptyImageFilter } from './../utils/mixins'
 import userAPI from './../apis/user'
 import { mapState } from 'vuex'
 import { Toast } from './../utils/helpers'
 
-/*
-const dummyUser = {
-  "id": 1,
-  "account": "heyjohn",
-  "name": "John Doe",
-  "email": "root@example.com",
-  "role": "admin",
-  "introduction": "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.",
-  "avatar": "../assets/images/AvatarBigger.png",
-  "cover": "../assets/images/cover.png",
-  "followingCount": 34,
-  "followerCount": 59,
-  "isFollowing": true,
-  "createdAt": "2022-01-18T07:23:18.000Z",
-  "updatedAt": "2022-01-18T07:23:18.000Z"
-}
-
-
-const dummyData = {
-  "followships": [
-    {
-      "User": {
-        "id": 2,
-        "name": "Apple",
-        "avatar": "https://via.placeholder.com/300",
-        "introduction": "I'm pretty."
-      },
-      "isFollowing": true
-    },
-    {
-      "User": {
-        "id": 3,
-        "name": "Orange",
-        "avatar": "https://via.placeholder.com/300",
-        "introduction": "I'm pretty."
-      },
-      "isFollowing": true
-    }
-  ]
-}
-*/
 
 export default {
   name: "selfPageFollowing",
@@ -116,7 +76,14 @@ export default {
       try {
         const response = await userAPI.getUserFollowings(userId)
         //console.log('following', response)
-        this.followships = [...response.data.data.user]
+        this.followships = [...response.data.data.user[0].Followings]
+        //console.log('this following',this.followships )
+        if(this.followships.length<1){
+          Toast.fire({
+            icon: "info",
+            title: "這個人沒有追蹤任何人",
+          });
+        }
       } catch (error) {
         console.log('error', error)
       }
@@ -154,7 +121,7 @@ export default {
       immediate: true,
     }
   },
-  mixins: [fromNowFilter]
+  mixins: [fromNowFilter,emptyImageFilter]
 };
 </script>
 

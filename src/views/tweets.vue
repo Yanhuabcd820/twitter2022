@@ -223,14 +223,14 @@ export default {
       }
     },
 
-    async addLike(tweetId) {
+    async addLike(TweetId) {
       try {
-        const dataLike = await userApi.addLike({ tweetId });
+        const dataLike = await userApi.addLike({ TweetId });
         if (dataLike.data.status !== "Success") {
           throw new Error(dataLike.data.message);
         }
         this.tweets = this.tweets.map((tweet) => {
-          if (tweet.id === tweetId) {
+          if (tweet.id === TweetId) {
             return {
               ...tweet,
               isLiked: true,
@@ -246,15 +246,15 @@ export default {
         });
       }
     },
-    async unLike(tweetId) {
+    async unLike(TweetId) {
       try {
-        const dataUnLike = await userApi.unLike({ tweetId });
+        const dataUnLike = await userApi.unLike({ TweetId });
 
         if (dataUnLike.data.status !== "Success") {
           throw new Error(dataUnLike.data.message);
         }
         this.tweets = this.tweets.map((tweet) => {
-          if (tweet.id === tweetId) {
+          if (tweet.id === TweetId) {
             return {
               ...tweet,
               isLiked: false,

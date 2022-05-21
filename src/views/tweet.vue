@@ -262,9 +262,9 @@ export default {
         });
       }
     },
-    async addLike(tweetId) {
+    async addLike(TweetId) {
       try {
-        const dataLike = await userApi.addLike({ tweetId });
+        const dataLike = await userApi.addLike({ TweetId });
         if (dataLike.data.status !== "Success") {
           throw new Error(dataLike.data.message);
         }
@@ -277,9 +277,9 @@ export default {
         });
       }
     },
-    async unLike(tweetId) {
+    async unLike(TweetId) {
       try {
-        const dataLike = await userApi.unLike({ tweetId });
+        const dataLike = await userApi.unLike({ TweetId });
         if (dataLike.data.status !== "Success") {
           throw new Error(dataLike.data.message);
         }

@@ -3,7 +3,7 @@
     <navigation :userId="currentUser.id"/>
     <div class="main">
       <userTitle :userName="user.name" />
-      <navTabsFollow :userId="currentUser.id"/>
+      <navTabsFollow :userId="$route.params.id"/>
       <div class="tweet-wrap">
         <div
           class="tweet-card"
@@ -19,7 +19,8 @@
                 <p class="tweet-name">
                   <b>{{ followship.name }}</b>
                 </p>
-                <div class="btn active">正在跟隨</div>
+                <div class="btn active" v-if="1>0">正在跟隨</div>
+                <div class="btn" v-else>跟隨</div>
               </div>
             </div>
             <div class="tweet-text">

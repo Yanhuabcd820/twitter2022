@@ -2,11 +2,11 @@
   <div>
     <div class="user-block">
       <div class="user-cover">
-        <img :src="user.cover | emptyImage" alt="" />
+        <img :src="user.cover | emptyCover" alt="" />
       </div>
       <div class="avatar-block">
         <div class="user-avatar">
-          <img :src="user.avatar | emptyImage" alt="" />
+          <img :src="user.avatar | emptyAvatar" alt="" />
         </div>
         <div class="tools">
           <div class="icon"><img src="../assets/images/mail.png" alt="" /></div>

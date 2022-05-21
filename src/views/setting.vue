@@ -121,7 +121,6 @@ export default {
           });
           return;
         }
-
         if (this.name.length > 50) {
           Toast.fire({
             icon: "warning",
@@ -129,9 +128,8 @@ export default {
           });
           return;
         }
-
         // 串API
-        const response = await authorizationAPI.updateUser(
+        await authorizationAPI.updateUser(
           this.currentUser.id,
           {
             name: this.name,
@@ -143,7 +141,11 @@ export default {
             cover: this.currentUser.cover,
           }
         );
-        console.log(response);
+        Toast.fire({
+          icon: "success",
+          title: "儲存成功",
+        });
+        //console.log(response);
       } catch (error) {
         Toast.fire({
           icon: "warning",

@@ -81,7 +81,7 @@ export default {
         if(this.followships.length<1){
           Toast.fire({
             icon: "info",
-            title: "他沒有追蹤任何人",
+            title: "這個人沒有追蹤任何人",
           });
         }
       } catch (error) {

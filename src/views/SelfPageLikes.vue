@@ -138,10 +138,10 @@ export default {
   methods: {
     async addLike(TweetId) {
       try {
-        const dataLike = await userAPI.addLike({ TweetId });
-        if (dataLike.data.status !== "Success") {
-          throw new Error(dataLike.data.message);
-        }
+        await userAPI.addLike({ TweetId });
+        //if (dataLike.data.status !== "Success") {
+        //  throw new Error(dataLike.data.message);
+        //}
         console.log("TweetId", TweetId);
         this.tweets = this.tweets.map((tweet) => {
           if (tweet.TweetId === TweetId) {
@@ -166,9 +166,9 @@ export default {
         console.log("TweetId", TweetId);
         const dataUnLike = await userAPI.unLike({ TweetId });
         console.log("dataUnLike", dataUnLike);
-        if (dataUnLike.data.status !== "Success") {
-          throw new Error(dataUnLike.data.message);
-        }
+        //if (dataUnLike.data.status !== "Success") {
+        //  throw new Error(dataUnLike.data.message);
+        //}
         this.tweets = this.tweets.map((tweet) => {
           if (tweet.TweetId === TweetId) {
             return {

@@ -35,12 +35,16 @@ export default {
           path: `/user/${this.userId}/like`,
         },
       ],
-      testId: -1
     };
   },
-  created(){
-    this.testId = this.userId
-  }
+  //watch: {
+  //  "$route.params.id": {
+  //    handler: function (userId) {
+  //      this.testId = userId
+  //    },
+  //    immediate: true,
+  //  },
+  //}
 };
 </script>
 

@@ -184,7 +184,7 @@ export default {
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "無法取得餐廳資料，請稍後再試",
+          title: "無法取得資料，請稍後再試",
         });
       }
     },
@@ -196,7 +196,7 @@ export default {
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "無法取得餐廳資料，請稍後再試",
+          title: "無法取得資料，請稍後再試",
         });
       }
     },

@@ -47,11 +47,11 @@ export default new Vuex.Store({
         const response = await authorizationAPI.getCurrentUser()
         console.log('store vuex',response)
         //console.log('store vuex response data',response.data)
-        const { id, name, account, email, avatar, cover, introduction, role } = response.currentUser
-        const tweetCount = response.tweetCount
-        console.log('test',{
-          id, name, account, email, avatar, cover, introduction, role, tweetCount
-        })
+        const { id, name, account, email, avatar, cover, introduction, role } = response.data.currentUser
+        const tweetCount = response.data.tweetCount
+        //console.log('test',{
+        //  id, name, account, email, avatar, cover, introduction, role, tweetCount
+        //})
         commit('setCurrentUser', {
           id, name, account, email, avatar, cover, introduction, role, tweetCount
         })

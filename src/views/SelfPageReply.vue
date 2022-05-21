@@ -20,7 +20,7 @@
                 @{{ user.account }}・{{ reply.createdAt | fromNow }}
               </p>
             </div>
-
+            <div><p class="fz14"><span class="reply-title">回覆</span><span class="reply-account"> @apple</span></p></div>
             <router-link
               :to="{ name: 'tweet', params: { id: reply.TweetId } }"
               class="tweet-text"
@@ -170,3 +170,6 @@ export default {
 
 <style lang="css" src="@/assets/css/main.css" scoped></style>
 
+<style scoped>
+  
+</style>

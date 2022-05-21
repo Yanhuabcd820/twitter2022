@@ -103,6 +103,7 @@ export default {
         password: "",
         checkPassword: "",
       },
+      isProcessing: false,
     };
   },
   methods: {
@@ -134,6 +135,7 @@ export default {
           return
         }
 
+        this.isProcessing = true
         await authorizationAPI
         .signUp({
           account: this.user.account, 
@@ -150,6 +152,7 @@ export default {
         this.$router.push("/login"); // 註冊後跳到登入頁面
       } catch (error) {
         //console.log(error)
+        this.isProcessing = false
         if (error.response.data.message === "Error: Account has already been taken."){
           Toast.fire({
             icon: 'error',

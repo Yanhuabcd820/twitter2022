@@ -126,6 +126,7 @@ export default {
       try {
         const response = await userAPI.getUserReplies(userId);
         this.replies = [...response.data];
+        this.replies = this.replies.filter(reply => reply.Tweet)
         if (this.replies.length < 1) {
           Toast.fire({
             icon: "info",

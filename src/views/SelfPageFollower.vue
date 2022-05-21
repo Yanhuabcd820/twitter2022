@@ -108,6 +108,12 @@ export default {
         const response = await userAPI.getUserFollowers(userId);
         console.log(response)
         this.followships = [...response.data.data.user[0].Followers];
+        if(this.followships.length<1){
+          Toast.fire({
+            icon: "info",
+            title: "沒有人正在追蹤他",
+          });
+        }
       } catch (error) {
         console.log("error", error);
       }

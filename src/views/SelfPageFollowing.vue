@@ -78,6 +78,12 @@ export default {
         //console.log('following', response)
         this.followships = [...response.data.data.user[0].Followings]
         //console.log('this following',this.followships )
+        if(this.followships.length<1){
+          Toast.fire({
+            icon: "info",
+            title: "他沒有追蹤任何人",
+          });
+        }
       } catch (error) {
         console.log('error', error)
       }

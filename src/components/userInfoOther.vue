@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="user-block-wrap">
     <div class="user-block">
       <div class="user-cover">
         <img :src="user.cover | emptyCover" alt="" />

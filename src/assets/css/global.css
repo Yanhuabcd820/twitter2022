@@ -168,3 +168,12 @@
 .swal2-popup.swal2-toast .swal2-icon .swal2-icon-content {
   font-size: 22px !important;
 }
+
+.swal2-icon.swal2-info {
+  border: 2px solid #50B5FF !important;
+  color: #50B5FF !important;
+}
+
+.swal2-popup.swal2-toast .swal2-icon .swal2-icon-content {
+  font-weight: normal !important;
+}

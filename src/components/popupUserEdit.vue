@@ -2,9 +2,11 @@
   <div class="popupTweet-wrap">
     <div class="overlay" @click.stop.prevent="closePopupTweet"></div>
     <div class="popupTweet">
-
-      <form action="" @submit.stop.prevent="handleSubmit" enctype="multipart/form-data">
-
+      <form
+        action=""
+        @submit.stop.prevent="handleSubmit"
+        enctype="multipart/form-data"
+      >
         <div class="header">
           <div class="popupTweet-colse">
             <div
@@ -15,9 +17,7 @@
             </div>
           </div>
           <h5>編輯個人資料</h5>
-          <button class="header-btn btn" type="submit">
-            儲存
-          </button>
+          <button class="header-btn btn" type="submit">儲存</button>
         </div>
         <div class="popupTweet-cover">
           <img :src="user.cover" alt="" />
@@ -86,18 +86,15 @@
             <div class="length">{{ temp.length }}/160</div>
           </div>
         </div>
-
       </form>
-
     </div>
   </div>
 </template>
 <script>
-
 import authorizationAPI from "./../apis/authorization";
 
-import { mapState } from 'vuex'
-import { Toast } from './../utils/helpers'
+import { mapState } from "vuex";
+import { Toast } from "./../utils/helpers";
 
 export default {
   name: "popupUserEdit",
@@ -115,9 +112,9 @@ export default {
         name: this.initialUser.name,
         introduction: this.initialUser.introduction,
       },
-      temp: this.initialUser.introduction || '',
-      coverFile:{},
-      avatarFile:{}
+      temp: this.initialUser.introduction || "",
+      coverFile: {},
+      avatarFile: {},
     };
   },
   methods: {
@@ -140,7 +137,7 @@ export default {
         // 否則產生預覽圖
         const imageURL = window.URL.createObjectURL(files[0]);
         this.user.cover = imageURL;
-        this.coverFile = files[0]
+        this.coverFile = files[0];
       }
     },
     handleAvatarChange(e) {
@@ -153,25 +150,28 @@ export default {
         // 否則產生預覽圖
         const imageURL = window.URL.createObjectURL(files[0]);
         this.user.avatar = imageURL;
-        this.avatarFile = files[0]
+        this.avatarFile = files[0];
       }
     },
     async handleSubmit() {
       try {
-        if (this.user.name.length > 50 ){
+
+        if (this.user.name.length > 50) {
           Toast.fire({
-            icon: 'warning',
-            title: '名字不能超過50字'
-          })
-          return
+            icon: "warning",
+            title: "名字不能超過50字",
+          });
+          return;
         }
+
         if (this.temp.length > 160) {
           Toast.fire({
-            icon: 'warning',
-            title: '自我介紹不能超過160字'
-          })
-          return          
+            icon: "warning",
+            title: "自我介紹不能超過160字",
+          });
+          return;
         }
+
         //console.log(this.user);
         //const form = e.target
         //console.log(form)
@@ -204,11 +204,11 @@ export default {
           isClickPopupTweet: false,
         });
         Toast.fire({
-          icon: 'success',
-          title: '儲存成功'
-        })
+          icon: "success",
+          title: "儲存成功",
+        });
       } catch (error) {
-        console.log('error', error)
+        console.log("error", error);
       }
     },
     clearCover() {
@@ -216,8 +216,8 @@ export default {
     },
   },
   computed: {
-    ...mapState(['currentUser'])
-  }
+    ...mapState(["currentUser"]),
+  },
 };
 </script>
 
@@ -287,7 +287,17 @@ export default {
   position: absolute;
   top: 0px;
   left: 0px;
-  z-index: 1;
+  z-index: 2;
+}
+.avatar::before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: -1;
 }
 .avatar > img {
   /* width: 140px;

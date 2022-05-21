@@ -77,6 +77,7 @@ export default {
           });
           return;
         }
+        this.isProcessing = true
         const response = await authorizationAPI.signIn({
           account: this.account,
           password: this.password,
@@ -101,6 +102,7 @@ export default {
           icon: "error",
           title: "登入失敗",
         });
+        this.isProcessing = false
         this.isAccountExist = false;
       }
     },

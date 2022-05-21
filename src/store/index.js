@@ -15,7 +15,8 @@ export default new Vuex.Store({
       cover: '',
       introduction: '',
       role: '',
-      isAdmin: false
+      isAdmin: false,
+      tweetCount: 0
     },
     isAuthenticated: false
   },
@@ -28,11 +29,8 @@ export default new Vuex.Store({
       }
       // 將使用者的登入狀態改為 true
       state.isAuthenticated = true
-
-      console.log('store vuex2  ',currentUser)
-      console.log('store vuex2 state ',state.currentUser)
-
-
+      //console.log('store vuex2  ',currentUser)
+      //console.log('store vuex2 state ',state.currentUser)
     }
   },
   actions: {
@@ -50,8 +48,9 @@ export default new Vuex.Store({
         //console.log('store vuex',response)
         //console.log('store vuex response data',response.data)
         const { id, name, account, email, avatar, cover, introduction, role } = response.data.currentUser
+        const tweetCount = response.data.tweetCount
         commit('setCurrentUser', {
-          id, name, account, email, avatar, cover, introduction, role
+          id, name, account, email, avatar, cover, introduction, role, tweetCount
         })
       } catch (error) {
         console.error(error.message)

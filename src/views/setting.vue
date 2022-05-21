@@ -100,6 +100,7 @@ export default {
       email: "",
       password: "",
       passwordCheck: "",
+      isProcessing: false,
     };
   },
   computed: {
@@ -128,6 +129,7 @@ export default {
           });
           return;
         }
+        this.isProcessing = true
         // 串API
         await authorizationAPI.updateUser(
           this.currentUser.id,
@@ -148,9 +150,10 @@ export default {
         //console.log(response);
       } catch (error) {
         Toast.fire({
-          icon: "warning",
+          icon: "error",
           title: "發生錯誤",
         });
+        this.isProcessing = false
       }
     },
   },

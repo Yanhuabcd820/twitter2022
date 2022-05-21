@@ -117,6 +117,7 @@ export default {
       temp: this.initialUser.introduction || "",
       coverFile: {},
       avatarFile: {},
+      isProcessing: false
     };
   },
   methods: {
@@ -173,6 +174,7 @@ export default {
           });
           return;
         }
+        this.isProcessing = true
         const response = await authorizationAPI
         .updateUser(this.currentUser.id,{
           name: this.currentUser.name,
@@ -198,6 +200,11 @@ export default {
         });
       } catch (error) {
         console.log("error", error);
+        this.isProcessing = false
+        Toast.fire({
+          icon: "error",
+          title: "儲存失敗",
+        });
       }
     },
     clearCover() {

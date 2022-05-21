@@ -37,6 +37,7 @@
 
 <script>
 import popupTweet from "../components/popupTweet";
+import { Toast } from './../utils/helpers'
 
 export default {
   name: "navigation",
@@ -68,6 +69,10 @@ export default {
     },
     logOut() {
       localStorage.removeItem("token");
+      Toast.fire({
+        icon: 'success',
+        title: '成功登出'
+      })
       //this.$store.commit("setCurrentUser", {
       //  id:-1,
       //  name:'',

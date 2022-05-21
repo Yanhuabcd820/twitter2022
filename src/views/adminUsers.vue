@@ -6,8 +6,7 @@
         <h4>使用者列表</h4>
       </div>
       <div class="admin-users-cards-wrap">
-        <router-link
-          to="/"
+        <div
           class="admin-user-card"
           v-for="user in users"
           :key="user.id"
@@ -56,7 +55,7 @@
               </div>
             </div>
           </div>
-        </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -81,9 +80,9 @@ export default {
       // 串接api得到回應
       try {
         const response = await adminAPI.getUsersAdmin();
-        console.log("response", response);
+        //console.log("response", response);
         //this.users = response.data.data.data
-        console.log("users", response.data.data.data);
+        //console.log("users", response.data.data.data);
         this.users = response.data.data.data.sort((a, b) => b.Likes - a.Likes);
       } catch (error) {
         console.log("error", error);

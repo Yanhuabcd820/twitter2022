@@ -153,9 +153,8 @@ export default {
         this.avatarFile = files[0];
       }
     },
-    async handleSubmit(e) {
+    async handleSubmit() {
       try {
-        console.log(this.user.name.length);
 
         if (this.user.name.length > 50) {
           Toast.fire({
@@ -165,7 +164,6 @@ export default {
           return;
         }
 
-        console.log(this.temp.length);
         if (this.temp.length > 160) {
           Toast.fire({
             icon: "warning",
@@ -174,31 +172,29 @@ export default {
           return;
         }
 
-        // console.log(this.user);
-        const form = e.target;
+        //console.log(this.user);
+        //const form = e.target
         //console.log(form)
-        const formData = new FormData(form);
-        console.log("formData", formData);
+        //const formData = new FormData(form)
+        //console.log('formData',formData)
         //let test = []
-        for (let [name, value] of formData.entries()) {
-          console.log(name + ": " + value);
-          //test.push(value)
-        }
+        //for (let [name, value] of //formData.entries()) {
+        //  console.log(name + ': ' + //value)
+        //  //test.push(value)
+        //}
         //console.log(test)
         // 順序是cover avatar name
-        const response = await authorizationAPI.updateUser(
-          this.currentUser.id,
-          {
-            name: this.currentUser.name,
-            account: this.currentUser.account,
-            email: this.currentUser.account,
-            password: "",
-            introduction: this.user.introduction,
-            avatar: this.avatarFile,
-            cover: this.coverFile,
-          }
-        );
-        console.log("res", response);
+        const response = await authorizationAPI
+        .updateUser(this.currentUser.id,{
+          name: this.currentUser.name,
+          account: this.currentUser.account,
+          email: this.currentUser.account,
+          password: '',
+          introduction: this.temp,
+          avatar: this.avatarFile,
+          cover: this.coverFile
+        })
+        console.log("res",response)
 
         this.$emit("after-edit-info", {
           avatar: this.user.avatar,

@@ -78,7 +78,12 @@
       </div>
     </div>
 
-    <followTop :userId="currentUser.id" />
+    <followTop
+      :userId="currentUser.id"
+      :initialUser="user"
+      @add-following-num="addFollowingNum"
+      @un-following-num="unFollowingNum"
+    />
   </div>
 </template>
 <script>
@@ -122,7 +127,7 @@ export default {
         followingCount: -1,
         followerCount: -1,
         isFollowing: false,
-        tweetsCount: 0
+        tweetsCount: 0,
       },
       tweets: [],
       isMe: true,
@@ -132,6 +137,117 @@ export default {
     };
   },
   methods: {
+    async fetchUser(userId) {
+      try {
+        const response = await userAPI.getUser(userId);
+
+        const {
+          id,
+          account,
+          name,
+          email,
+          role,
+          introduction,
+          avatar,
+          cover,
+          isFollowing,
+          createdAt,
+          updatedAt,
+          followingCount,
+          followerCount,
+          tweetsCount,
+        } = response.data;
+        this.user = {
+          id,
+          account,
+          name,
+          email,
+          role,
+          introduction,
+          avatar,
+          cover,
+          followingCount,
+          followerCount,
+          isFollowing,
+          createdAt,
+          updatedAt,
+          tweetsCount,
+        };
+        //console.log('user',this.user)
+      } catch (error) {
+        console.log("error", error);
+        Toast.fire({
+          icon: "error",
+          title: "無此使用者或讀取資料錯誤",
+        });
+      }
+    },
+    async fetchTweets(userId) {
+      try {
+        const response = await userAPI.getUserTweets(userId);
+        // console.log('fetch tweets response', response)
+        this.tweets = [...response.data];
+        //console.log('tweets',response)
+      } catch (error) {
+        console.log("error", error);
+      }
+    },
+    openPopupReply(tweetId) {
+      this.tweetPopup = this.tweets.find((tweet) => tweet.id === tweetId);
+
+      this.isClickPopupReplyTweet = true;
+    },
+    closePopupReply(payloadPopupReply) {
+      const { isClickPopupReplyTweet } = payloadPopupReply;
+      this.isClickPopupReplyTweet = isClickPopupReplyTweet;
+    },
+
+    async afterCreateReply(payload) {
+      try {
+        const { comment, TweetId } = payload;
+        console.log("payload", payload);
+        console.log("comment, TweetId ", comment, TweetId);
+        await tweetsApi.postTweetsReply({
+          comment,
+          TweetId,
+        });
+        // if (data.data.status !== "Success") {
+        //   throw new Error(data.message);
+        // }
+
+        // 成功的話則轉址到 `/tweets/:id`
+        this.$router.push({ name: "tweet", params: { id: TweetId } });
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法新增此筆tweetReply",
+        });
+      }
+    },
+    async addFollowingNum(payload) {
+      try {
+        const { followingCount } = payload;
+        console.log("followingCount", followingCount);
+        this.user.followingCount = followingCount;
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法新增此筆tweetReply",
+        });
+      }
+    },
+    async unFollowingNum(payload) {
+      try {
+        const { followingCount } = payload;
+        console.log("followingCount", followingCount);
+        this.user.followingCount = followingCount;
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法新增此筆tweetReply",
+        });
+      }
+    },
     async addLike(TweetId) {
       try {
         await userAPI.addLike({ TweetId });
@@ -176,90 +292,6 @@ export default {
         });
       }
     },
-    async fetchUser(userId) {
-      try {
-        const response = await userAPI.getUser(userId);
-        const {
-          id,
-          account,
-          name,
-          email,
-          role,
-          introduction,
-          avatar,
-          cover,
-          isFollowing,
-          createdAt,
-          updatedAt,
-          followingCount,
-          followerCount,
-          tweetsCount
-        } = response.data;
-        this.user = {
-          id,
-          account,
-          name,
-          email,
-          role,
-          introduction,
-          avatar,
-          cover,
-          followingCount,
-          followerCount,
-          isFollowing,
-          createdAt,
-          updatedAt,
-          tweetsCount
-        };
-        //console.log('user',this.user)
-      } catch (error) {
-        console.log("error", error);
-        Toast.fire({
-          icon: "error",
-          title: "無此使用者或讀取資料錯誤",
-        }); 
-      }
-    },
-    async fetchTweets(userId) {
-      try {
-        const response = await userAPI.getUserTweets(userId);
-        //console.log('fetch tweets response', response)
-        this.tweets = [...response.data];
-        //console.log('tweets',response)
-      } catch (error) {
-        console.log("error", error);
-      }
-    },
-    openPopupReply(tweetId) {
-      this.tweetPopup = this.tweets.find((tweet) => tweet.id === tweetId);
-      this.isClickPopupReplyTweet = true;
-    },
-    closePopupReply(payloadPopupReply) {
-      const { isClickPopupReplyTweet } = payloadPopupReply;
-      this.isClickPopupReplyTweet = isClickPopupReplyTweet;
-    },
-
-    async afterCreateReply(payload) {
-      try {
-        const { comment, tweetId } = payload;
-        const data = await tweetsApi.postTweetsReply({
-          comment,
-          tweetId,
-        });
-        if (data.data.status !== "Success") {
-          throw new Error(data.message);
-        }
-
-        // 成功的話則轉址到 `/tweets/:id`
-        this.$router.push({ name: "tweet", params: { id: tweetId } });
-      } catch (error) {
-        Toast.fire({
-          icon: "error",
-          title: "無法新增此筆tweetReply",
-        });
-      }
-    },
-
     isThisMe(paramsId) {
       //console.log('params', paramsId)
       //console.log('vuex',this.currentUser.id)

@@ -23,7 +23,9 @@
             <div>
               <p class="fz14">
                 <span class="reply-title">回覆</span
-                ><span class="reply-account"> @{{reply.Tweet.User.account}}</span>
+                ><span class="reply-account">
+                  @{{ reply.Tweet.User.account }}</span
+                >
               </p>
             </div>
             <router-link
@@ -38,7 +40,12 @@
         </div>
       </div>
     </div>
-    <followTop />
+    <followTop
+      :userId="currentUser.id"
+      :initialUser="user"
+      @add-following-num="addFollowingNum"
+      @un-following-num="unFollowingNum"
+    />
   </div>
 </template>
 <script>
@@ -76,7 +83,7 @@ export default {
         followingCount: -1,
         followerCount: -1,
         isFollowing: false,
-        tweetsCount: 0
+        tweetsCount: 0,
       },
       replies: [],
       isMe: true,
@@ -98,7 +105,7 @@ export default {
           isFollowing,
           followingCount,
           followerCount,
-          tweetsCount
+          tweetsCount,
         } = response.data;
         this.user = {
           id,
@@ -112,21 +119,21 @@ export default {
           followingCount,
           followerCount,
           isFollowing,
-          tweetsCount
+          tweetsCount,
         };
       } catch (error) {
         console.log("error", error);
         Toast.fire({
           icon: "error",
           title: "無此使用者或讀取資料錯誤",
-        }); 
+        });
       }
     },
     async fetchUserReplies(userId) {
       try {
         const response = await userAPI.getUserReplies(userId);
         this.replies = [...response.data];
-        this.replies = this.replies.filter(reply => reply.Tweet)
+        this.replies = this.replies.filter((reply) => reply.Tweet);
         if (this.replies.length < 1) {
           Toast.fire({
             icon: "info",
@@ -135,6 +142,30 @@ export default {
         }
       } catch (error) {
         console.log(error);
+      }
+    },
+    async addFollowingNum(payload) {
+      try {
+        const { followingCount } = payload;
+        console.log("followingCount", followingCount);
+        this.user.followingCount = followingCount;
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法新增此筆tweetReply",
+        });
+      }
+    },
+    async unFollowingNum(payload) {
+      try {
+        const { followingCount } = payload;
+        console.log("followingCount", followingCount);
+        this.user.followingCount = followingCount;
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法新增此筆tweetReply",
+        });
       }
     },
     isThisMe(paramsId) {

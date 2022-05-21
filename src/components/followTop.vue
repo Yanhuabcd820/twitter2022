@@ -21,30 +21,25 @@
           <p class="fz14 followTop-account">@{{ top.account }}</p>
         </router-link>
 
-          <div class="followTop-btn-wrap" v-if="top.id==testId">
-            <div
-              class="btn active followTop-btn special-you"
-            >
-              你很受歡迎
-            </div>
+        <div class="followTop-btn-wrap" v-if="top.id == testId">
+          <div class="btn active followTop-btn special-you">你很受歡迎</div>
+        </div>
+        <div class="followTop-btn-wrap" v-else-if="top.isFollowed">
+          <div
+            class="btn active followTop-btn"
+            @click.prevent.stop="unFollow(top.id)"
+          >
+            正在跟隨
           </div>
-          <div class="followTop-btn-wrap" v-else-if="top.isFollowed">
-            <div
-              class="btn active followTop-btn"
-              @click.prevent.stop="unFollow(top.id)"
-            >
-              正在跟隨
-            </div>
+        </div>
+        <div class="followTop-btn-wrap" v-else>
+          <div
+            class="btn followTop-btn"
+            @click.prevent.stop="addFollow(top.id)"
+          >
+            跟隨
           </div>
-          <div class="followTop-btn-wrap" v-else>
-            <div
-              class="btn followTop-btn"
-              @click.prevent.stop="addFollow(top.id)"
-            >
-              跟隨
-            </div>
-          </div>
-
+        </div>
       </div>
     </div>
   </div>
@@ -61,11 +56,15 @@ export default {
     userId: {
       type: Number,
     },
+    initialUser: {
+      type: Object,
+      required: true,
+    },
   },
   data() {
     return {
       tops: {},
-      testId: -1
+      testId: -1,
     };
   },
   methods: {
@@ -75,7 +74,7 @@ export default {
         const Topdata = await userApi.getTop();
         const { data } = Topdata;
         this.tops = data;
-        this.testId = this.currentUser.id
+        this.testId = this.currentUser.id;
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -85,12 +84,7 @@ export default {
     },
     async addFollow(id) {
       try {
-        //console.log('tops',this.tops)
         await followshipApi.addFollow({ id });
-        //const addFollow = await followshipApi.addFollow({ id });
-        //console.log(addFollow);
-        //const { data } = addFollow;
-        //console.log(data);
         this.tops = this.tops.map((top) => {
           if (top.id === id) {
             return {
@@ -100,8 +94,10 @@ export default {
           }
           return top;
         });
-        //this.tops = this.tops.sort((a,b)=>b.Followers.length - a.Followers.length)
-        //console.log('tops',this.tops.map(el=>el.Followers.length))
+        
+        this.$emit("add-following-num", {
+          followingCount: this.initialUser.followingCount + 1,
+        });
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -112,13 +108,8 @@ export default {
 
     async unFollow(followingId) {
       try {
-        //console.log("id", followingId);
         await followshipApi.unFollow({ followingId });
-        //const dataUnFollow = await followshipApi.unFollow({ followingId });
-        //console.log("dataUnFollow", dataUnFollow);
-        // if (dataUnFollow.data.status !== "Success") {
-        //   throw new Error(dataUnFollow.data.statusText);
-        // }
+
         this.tops = this.tops.map((top) => {
           if (top.id === followingId) {
             return {
@@ -127,6 +118,10 @@ export default {
             };
           }
           return top;
+        });
+
+        this.$emit("un-following-num", {
+          followingCount: this.initialUser.followingCount - 1,
         });
       } catch (error) {
         Toast.fire({
@@ -151,7 +146,7 @@ export default {
 <style lang="css" src="@/assets/css/followTop.css" scoped></style>
 
 <style scoped>
-.special-you{
+.special-you {
   background-color: orange;
   color: black;
   border-color: orange;

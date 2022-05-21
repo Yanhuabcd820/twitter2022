@@ -11,7 +11,7 @@ export default {
   },
   getTweet(id) {
     return apiHelper.get(`/api/tweets/${id
-}`, {
+      }`, {
       headers: {
         Authorization: `Bearer ${getToken()}`
       }
@@ -25,14 +25,16 @@ export default {
   },
 
   getTweetReplies(TweetId) {
+    console.log('TweetId', TweetId)
     return apiHelper.get(`/api/tweets/${TweetId
-}/replies`, {
+      }/replies`, {
       headers: {
         Authorization: `Bearer ${getToken()}`
       }
     })
   },
   postTweetsReply({ comment, TweetId }) {
+    console.log('comment, TweetId', comment, TweetId);
     return apiHelper.post(`/api/tweets/${TweetId
       }/replies`, { comment, TweetId }, {
       headers: { Authorization: `Bearer ${getToken()}` }

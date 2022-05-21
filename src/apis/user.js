@@ -48,5 +48,10 @@ export default {
     return apiHelper.get(`/api/users/top10`, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
-  }
+  },
+  getFollowing(id) {
+    return apiHelper.get(`/api/users/${id}/followings`, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
+  },
 }

@@ -1,9 +1,12 @@
 <template>
   <div class="popupReply-wrap">
-    <div class="overlay" @click.stop.prevent="closePopupReply"></div>
+    <div class="overlay" @click.stop.prevent="closePopupReplyLike"></div>
     <div class="popupReply">
       <div class="popupReply-colse">
-        <div class="popupReply-colse-img" @click.stop.prevent="closePopupReply">
+        <div
+          class="popupReply-colse-img"
+          @click.stop.prevent="closePopupReplyLike"
+        >
           <img src="../assets/images/pop-up-cancle.png" alt="" />
         </div>
       </div>
@@ -11,24 +14,26 @@
         <div class="popupReply-user">
           <div class="popupReply-avatar">
             <div class="popupReply-avatar-img">
-              <img :src="user.avatar | emptyAvatar" alt="" />
+              <img :src="tweet.Tweet.User.avatar | emptyImage" alt="" />
             </div>
           </div>
           <div class="popupReply-content">
             <div class="popupReply-name-group">
               <p class="popupReply-name">
-                <b>{{ user.name }}</b>
+                <b>{{ tweet.Tweet.User.name }}</b>
               </p>
               <p class="popupReply-account fz14">
-                @{{user.account }}・{{ tweet.createdAt | fromNow }}
+                @{{ tweet.Tweet.User.account }}・{{ tweet.createdAt | fromNow }}
               </p>
             </div>
             <div class="popupReply-text">
               <p>
-                {{ tweet.description }}
+                {{ tweet.Tweet.description }}
               </p>
 
-              <p class="reply-to fz14"><span>回覆</span> @{{ user.name }}</p>
+              <p class="reply-to fz14">
+                <span>回覆</span> @{{ tweet.Tweet.User.name }}
+              </p>
             </div>
           </div>
         </div>
@@ -64,7 +69,7 @@
 // import { v4 as uuidv4 } from "uuid";
 import { fromNowFilter, emptyImageFilter } from "./../utils/mixins";
 export default {
-  name: "popupReply",
+  name: "popupReplyList",
   props: {
     tweet: {
       type: Object,
@@ -88,13 +93,13 @@ export default {
       }
     },
   },
+
   methods: {
-    closePopupReply() {
-      this.$emit("close-PopupReply", {
-        isClickPopupReplyTweet: false,
+    closePopupReplyLike() {
+      this.$emit("close-PopupReplyLike", {
+        isClickpopupReplyLike: false,
       });
     },
-
     handleSubmit() {
       if (this.popupText.trim().length >= 140) {
         return;
@@ -103,14 +108,13 @@ export default {
         this.noZero = true;
         return;
       }
-      // console.log("this.tweet.id", this.tweet.id);
-      this.$emit("after-create-reply", {
-        TweetId: this.tweet.id,
+      // console.log("this.tweetId", this.tweet.TweetId);
+      this.$emit("after-create-reply-like", {
+        TweetId: this.tweet.TweetId,
         comment: this.popupText,
       });
     },
   },
-
   mixins: [fromNowFilter, emptyImageFilter],
 };
 </script>

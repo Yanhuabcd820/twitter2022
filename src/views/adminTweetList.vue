@@ -54,8 +54,8 @@ export default {
     async fetchTweets(){
       try {
         const response = await adminAPI.getTweetsAdmin()
-        console.log('response', response)
-        this.tweets = response.data.data.tweets
+        //console.log('response', response)
+        this.tweets = response.data
       } catch (error) {
         console.log('error',error)
       }

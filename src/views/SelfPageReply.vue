@@ -85,8 +85,6 @@ export default {
     async fetchUser(userId) {
       try {
         const response = await userAPI.getUser(userId);
-        //console.log("response in selfPage", response);
-        // dummyUser 對應 response.data.user
         const {
           id,
           account,
@@ -99,8 +97,9 @@ export default {
           isFollowing,
           createdAt,
           updatedAt,
-        } = response.data.data.user;
-        const { followingCount, followerCount } = response.data.data;
+          followingCount,
+          followerCount
+        } = response.data;
         this.user = {
           id,
           account,
@@ -128,8 +127,7 @@ export default {
     async fetchUserReplies(userId) {
       try {
         const response = await userAPI.getUserReplies(userId);
-        console.log(response);
-        this.replies = [...response.data.data.replies];
+        this.replies = [...response.data];
         if (this.replies.length < 1) {
           Toast.fire({
             icon: "info",

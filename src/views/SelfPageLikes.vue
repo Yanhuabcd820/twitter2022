@@ -190,8 +190,6 @@ export default {
     async fetchUser(userId) {
       try {
         const response = await userAPI.getUser(userId);
-        //console.log("response in selfPage", response);
-        // dummyUser 對應 response.data.user
         const {
           id,
           account,
@@ -204,8 +202,9 @@ export default {
           isFollowing,
           createdAt,
           updatedAt,
-        } = response.data.data.user;
-        const { followingCount, followerCount } = response.data.data;
+          followingCount,
+          followerCount
+        } = response.data;
         this.user = {
           id,
           account,
@@ -221,7 +220,6 @@ export default {
           createdAt,
           updatedAt,
         };
-        //console.log('user',this.user)
       } catch (error) {
         console.log("error", error);
         Toast.fire({
@@ -236,7 +234,7 @@ export default {
         const response = await userAPI.getUserLikes(userId);
 
         //console.log("like res", response);
-        this.tweets = [...response.data.data.tweets];
+        this.tweets = [...response.data];
         if (this.tweets.length < 1) {
           Toast.fire({
             icon: "info",
@@ -270,7 +268,6 @@ export default {
         if (data.data.status !== "Success") {
           throw new Error(data.message);
         }
-
         // 成功的話則轉址到 `/tweets/:id`
         this.$router.push({ name: "tweet", params: { id: tweetId } });
       } catch (error) {

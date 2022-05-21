@@ -184,8 +184,6 @@ export default {
     async fetchUser(userId) {
       try {
         const response = await userAPI.getUser(userId);
-        //console.log("response in selfPage", response);
-        // dummyUser 對應 response.data.user
         const {
           id,
           account,
@@ -201,7 +199,6 @@ export default {
           followingCount,
           followerCount
         } = response.data;
-        //const { followingCount, followerCount } = response.data.data;
         this.user = {
           id,
           account,
@@ -227,10 +224,6 @@ export default {
       }
     },
     async fetchTweets(userId) {
-      //const { id } = this.$route.params;
-      //const getPath = this.$route.path;
-      //console.log("getPath", getPath);
-      //console.log("id", id);
       try {
         const response = await userAPI.getUserTweets(userId);
         //console.log('fetch tweets response', response)

@@ -2,7 +2,7 @@
   <div class="wrap">
     <navigation :userId="currentUser.id"/>
     <div class="main">
-      <userTitle :userName="user.name" />
+      <userTitle :userName="user.name" :tweetNum="user.tweetsCount" />
       <navTabsFollow :userId="$route.params.id"/>
       <div class="tweet-wrap">
         <div
@@ -96,7 +96,6 @@ export default {
           isFollowing,
           tweetsCount
         };
-        //console.log('user',this.user)
       } catch (error) {
         console.log("error", error);
       }

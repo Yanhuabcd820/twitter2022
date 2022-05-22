@@ -16,9 +16,9 @@
           class="followTop-name-wrap"
         >
           <p class="followTop-name">
-            <b>{{ top.name }}</b>
+            <b>{{ top.name | partOfContents}}</b>
           </p>
-          <p class="fz14 followTop-account">@{{ top.account }}</p>
+          <p class="fz14 followTop-account">@{{ top.account | partOfContents }}</p>
         </router-link>
 
         <div class="followTop-btn-wrap" v-if="top.id == testId">
@@ -130,6 +130,11 @@ export default {
         });
       }
     },
+  },
+  filters: {
+    partOfContents(text){
+      return text.length > 9 ? text.substr(0, 9)+'...' : text 
+    }
   },
   computed: {
     ...mapState(["currentUser"]),

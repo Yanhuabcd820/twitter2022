@@ -149,6 +149,24 @@ export default {
         });
         //console.log(response);
       } catch (error) {
+        console.log(error)
+
+        if(error.response.data.message==="Error: Account has already been taken."){
+          Toast.fire({
+            icon: "error",
+            title: "此帳號已有人用過",
+          });
+          return
+        }
+
+        if(error.response.data.message==="Error: Email has already been taken."){
+          Toast.fire({
+            icon: "error",
+            title: "此Email已有人用過",
+          });
+          return
+        }
+
         Toast.fire({
           icon: "error",
           title: "發生錯誤",

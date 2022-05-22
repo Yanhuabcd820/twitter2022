@@ -91,10 +91,12 @@ export default {
       this.isClickPopupTweet = isClickPopupTweet;
     },
     AfterEditInfo(payload) {
-      const { avatar, cover } = payload;
+      const { avatar, cover ,name , introduction} = payload;
       console.log(payload);
       this.user.avatar = avatar;
       this.user.cover = cover;
+      this.user.name = name;
+      this.user.introduction = introduction
     },
     fetchUser() {
       //console.log(1);

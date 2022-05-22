@@ -190,6 +190,8 @@ export default {
         this.$emit("after-edit-info", {
           avatar: this.user.avatar,
           cover: this.user.cover,
+          name: this.user.name,
+          introduction: this.temp
         });
         this.$emit("close-PopupTweet", {
           isClickPopupTweet: false,

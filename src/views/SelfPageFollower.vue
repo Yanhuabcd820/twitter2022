@@ -161,6 +161,9 @@ export default {
         });
       }
     },
+    testForceRender(){
+      
+    }
   },
   computed: {
     ...mapState(["currentUser"]),

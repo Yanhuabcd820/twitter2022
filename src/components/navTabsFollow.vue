@@ -44,8 +44,11 @@ ul {
   border-top: 1px solid #e6ecf0;
   border-bottom: 1px solid #e6ecf0;
   margin-top: 74px;
-  position: fixed;
+  /* position: fixed; */
   background-color: #fff;
+  position: absolute;
+  top: 0;
+  z-index: 2;
 }
 li {
   display: flex;

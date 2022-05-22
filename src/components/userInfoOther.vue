@@ -11,18 +11,17 @@
         <div class="tools">
           <div class="icon"><img src="../assets/images/mail.png" alt="" /></div>
           <div class="icon"><img src="../assets/images/noti.png" alt="" /></div>
-
           <div
             class="btn active"
-            v-if="ifFollowing"
-            @click.prevent.stop="unFollow(user.id)"
+            v-if="ifFollow"
+            @click.stop.prevent="unFollow(user.id)"
           >
             正在跟隨
           </div>
           <div
             class="btn"
-            v-if="!ifFollowing"
-            @click.prevent.stop="addFollow(user.id)"
+            v-if="!ifFollow"
+            @click.stop.prevent="addFollow(user.id)"
           >
             跟隨
           </div>
@@ -60,7 +59,7 @@
 
 <script>
 import userApi from "./../apis/user";
-import followshipApi from "./../apis/followship";
+import followshipApi from "../apis/followship";
 import { Toast } from "./../utils/helpers";
 import { emptyImageFilter } from "./../utils/mixins";
 import { mapState } from "vuex";
@@ -70,55 +69,58 @@ export default {
       type: Object,
       required: true,
     },
+    changeBtnColor: {
+      type: Boolean,
+    },
+    ifFollowOtherUser: {
+      type: Boolean,
+    },
   },
   data() {
     return {
       user: {},
-      following: [],
-      ifFollowing: false,
+      ifFollow: false, //我有沒有追蹤這位otherUser
+      myFollowingList: [], //我的跟隨清單
+      // YYchangeBtnColor: this.changeBtnColor,
     };
+  },
+
+  watch: {
+    ifFollowOtherUser() {
+      console.log("YYchangeBtnColor", this.ifFollowOtherUser);
+      this.ifFollow = this.ifFollowOtherUser;
+    },
+
+    initialUser() {
+      this.user = this.initialUser;
+    },
   },
   methods: {
     fetchUser() {
       this.user = { ...this.initialUser };
     },
-    async featchTop() {
-      try {
-        // 取得tweets資料
-        const Topdata = await userApi.getTop();
-        const { data } = Topdata;
-        this.tops = data;
-        this.testId = this.currentUser.id;
-      } catch (error) {
-        Toast.fire({
-          icon: "error",
-          title: "無法取得Tops資料，請稍後再試",
-        });
-      }
-    },
     async getFollowing(currentUserId) {
+      // 先抓我的跟隨清單
       try {
-        // console.log("currentUserId", currentUserId);
-        const followingList = await userApi.getFollowing(currentUserId);
-        this.following = followingList.data;
+        const dataFollowing = await userApi.getFollowing(currentUserId);
+        this.myFollowingList = dataFollowing.data;
 
-        // 追蹤清單中是否有和此人id相同者
-        this.ifFollowing = this.following.some(
-          (follow) => follow.followingUser.id === this.initialUser.id
+        //確認我有是否已經追蹤此otherUser
+        this.ifFollow = this.myFollowingList.some(
+          (follow) => follow.followingId === this.user.id
         );
-        // console.log("this.user.id", this.initialUser.id);
       } catch (error) {
-        Toast.fire({
-          icon: "error",
-          title: "無法確認是否有follow此人，請稍後再試",
-        });
+        console.log("error", error);
       }
     },
-
     async addFollow(id) {
       try {
         await followshipApi.addFollow({ id });
-        this.ifFollowing = true;
+        this.ifFollow = true;
+        this.$emit("if-follow-this-other-user", {
+          ifFollowOtherUser: this.ifFollow,
+          followOtherId: this.user.id,
+        });
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -129,10 +131,14 @@ export default {
     async unFollow(followingId) {
       try {
         await followshipApi.unFollow({ followingId });
-        this.ifFollowing = false;
-
-        // this.$emit("un-follow-one", {
-        //   followingId,
+        this.ifFollow = false;
+        this.$emit("if-follow-this-other-user", {
+          ifFollowOtherUser: this.ifFollow,
+          followOtherId: this.user.id,
+        });
+        // this.$emit("un-following-num", {
+        //   followingCount: this.initialUser.followingCount - 1,
+        //   followingId: followingId,
         // });
       } catch (error) {
         Toast.fire({
@@ -149,11 +155,11 @@ export default {
   computed: {
     ...mapState(["currentUser"]),
   },
-  watch: {
-    initialUser() {
-      this.user = this.initialUser;
-    },
-  },
+  // watch: {
+  //   initialUser() {
+  //     this.user = this.initialUser;
+  //   },
+  // },
   mixins: [emptyImageFilter],
 };
 </script>

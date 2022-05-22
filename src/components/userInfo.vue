@@ -51,6 +51,7 @@
 <script>
 import popupUserEdit from "../components/popupUserEdit";
 import { emptyImageFilter } from "./../utils/mixins";
+import { mapState } from "vuex";
 
 export default {
   props: {
@@ -91,12 +92,12 @@ export default {
       this.isClickPopupTweet = isClickPopupTweet;
     },
     AfterEditInfo(payload) {
-      const { avatar, cover ,name , introduction} = payload;
+      const { avatar, cover, name, introduction } = payload;
       console.log(payload);
       this.user.avatar = avatar;
       this.user.cover = cover;
       this.user.name = name;
-      this.user.introduction = introduction
+      this.user.introduction = introduction;
     },
     fetchUser() {
       //console.log(1);
@@ -105,6 +106,9 @@ export default {
       //console.log("user", this.user.account);
       //console.log(2);
     },
+  },
+  computed: {
+    ...mapState(["currentUser"]),
   },
   created() {
     this.fetchUser();
@@ -146,17 +150,21 @@ export default {
 }
 .user-avatar {
   width: 140px;
+  height: 140px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  overflow: hidden;
   position: absolute;
   top: -70px;
   left: 16px;
+  border: 3px white solid;
+  background-color: #fff;
 }
 .user-avatar > img {
   object-fit: cover;
   object-position: initial;
-  height: 140px;
-  width: 140px;
-  border-radius: 50%;
-  border: 3px white solid;
+  height: 100%;
+  width: 100%;
   background-color: #fff;
 }
 .user-edit {

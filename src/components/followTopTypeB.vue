@@ -52,45 +52,11 @@ import { emptyImageFilter } from "./../utils/mixins";
 import { mapState } from "vuex";
 
 export default {
-  props: {
-    // userId: {
-    //   type: Number,
-    // },
-    initialUser: {
-      type: Object,
-      required: true,
-    },
-    otherUser: {
-      type: Object,
-      required: true,
-    },
-    ifFollowOtherUser: {
-      type: Boolean,
-    },
-    followOtherId: {
-      type: Number,
-    },
-  },
   data() {
     return {
       tops: {},
       testId: -1,
     };
-  },
-  watch: {
-    ifFollowOtherUser() {
-      console.log("11ifFollowOtherUser", this.ifFollowOtherUser);
-      console.log("followOtherId", this.followOtherId);
-      this.tops = this.tops.map((top) => {
-        if (top.id === this.followOtherId) {
-          return {
-            ...top,
-            isFollowed: this.ifFollowOtherUser,
-          };
-        }
-        return top;
-      });
-    },
   },
   methods: {
     async featchTop() {
@@ -100,6 +66,7 @@ export default {
         const { data } = Topdata;
         this.tops = data;
         this.testId = this.currentUser.id;
+        console.log('this.tops',this.tops)
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -119,19 +86,11 @@ export default {
           }
           return top;
         });
-        this.$emit("add-following-num", {
-          followingCount: this.initialUser.followingCount + 1,
-          followingId: id,
-        });
 
-        // 假如追蹤的按鈕就是otherUser, 就要傳送資訊
-        // 以變換父層的按鈕
-        if (this.otherUser.id === id) {
-          this.$emit("if-change-btn-color", {
-            changeBtnColor: true,
-          });
-        }
-        
+        // 找到這個物件
+        const followObj = this.tops.find(top => top.id === id)
+        console.log(followObj)
+        this.$emit("addFollow-From-followTop", followObj);
 
       } catch (error) {
         Toast.fire({
@@ -140,7 +99,6 @@ export default {
         });
       }
     },
-
     async unFollow(followingId) {
       try {
         await followshipApi.unFollow({ followingId });
@@ -155,15 +113,11 @@ export default {
           return top;
         });
 
-        this.$emit("un-following-num", {
-          followingCount: this.initialUser.followingCount - 1,
-          followingId: followingId,
-        });
-        if (this.otherUser.id === followingId) {
-          this.$emit("if-change-btn-color", {
-            changeBtnColor: false,
-          });
-        }
+        // 找到這個物件
+        const followObj = this.tops.find(top => top.id === followingId)
+        console.log(followObj)
+        this.$emit("unFollow-From-followTop", followObj);
+
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -177,7 +131,6 @@ export default {
   },
   created() {
     this.featchTop();
-    //console.log('followtop currentuser id',this.currentUser.id)
   },
   mixins: [emptyImageFilter],
 };

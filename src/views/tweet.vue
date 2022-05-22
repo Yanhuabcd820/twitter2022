@@ -325,3 +325,8 @@ export default {
 </script>
 
 <style lang="css" src="@/assets/css/reply.css" scoped></style>
+<style scoped>
+.reply-text{
+  color: black;
+}
+</style>

@@ -2,7 +2,7 @@
   <div class="wrap">
     <navigation :userId="currentUser.id"/>
     <div class="main">
-      <userTitle :userName="user.name" />
+      <userTitle :userName="user.name" :tweetNum="user.tweetsCount" />
       <navTabsFollow :userId="$route.params.id"/>
       <div class="tweet-wrap">
         <div
@@ -11,21 +11,21 @@
           :key="followship.id"
         >
           <div class="tweet-avatar">
-            <img :src="followship.avatar | emptyAvatar" alt="" />
+            <img :src="followship.followerUser.avatar | emptyAvatar" alt="" />
           </div>
           <div class="tweet-content">
             <div class="tweet-title">
               <div class="tweet-name-group">
                 <p class="tweet-name">
-                  <b>{{ followship.name }}</b>
+                  <b>{{ followship.followerUser.name }}</b>
                 </p>
-                <div class="btn active" v-if="1>0">正在跟隨</div>
+                <div class="btn active" v-if="followship.isFollowed">正在跟隨</div>
                 <div class="btn" v-else>跟隨</div>
               </div>
             </div>
             <div class="tweet-text">
               <p>
-                {{ followship.introduction }}
+                {{ followship.followerUser.introduction }}
               </p>
             </div>
           </div>
@@ -67,7 +67,7 @@ export default {
     async fetchUser(userId) {
       try {
         const response = await userAPI.getUser(userId);
-        //console.log('response in selfPage', response)
+        //console.log('response in followers', response)
         const {
           id,
           account,
@@ -80,9 +80,8 @@ export default {
           followingCount,
           followerCount,
           isFollowing,
-          createdAt,
-          updatedAt,
-        } = response.data.data.user;
+          tweetsCount
+        } = response.data;
         this.user = {
           id,
           account,
@@ -95,10 +94,8 @@ export default {
           followingCount,
           followerCount,
           isFollowing,
-          createdAt,
-          updatedAt,
+          tweetsCount
         };
-        //console.log('user',this.user)
       } catch (error) {
         console.log("error", error);
       }
@@ -106,8 +103,9 @@ export default {
     async fetchUserFollower(userId) {
       try {
         const response = await userAPI.getUserFollowers(userId);
-        console.log(response)
-        this.followships = [...response.data.data.user[0].Followers];
+        console.log('res follower',response)
+        this.followships = [...response.data];
+        console.log('1',this.followships)
         if(this.followships.length<1){
           Toast.fire({
             icon: "info",

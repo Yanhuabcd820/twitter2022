@@ -3,8 +3,14 @@
     <navigation :userId="currentUser.id" />
     <div class="main">
       <userTitle :userName="user.name" :tweetNum="user.tweetsCount" />
-      <userInfo :initial-user="user" v-if="isMe" />
-      <userInfoOther :initial-user="user" v-else />
+      <userInfo :initial-user="currentUser" v-if="isMe" />
+      <userInfoOther
+        :initial-user="user"
+        v-else
+        @if-follow-this-other-user="ifFollowThisOtherUser"
+        :changeBtnColor="changeBtnColor"
+        :ifFollowOtherUser="ifFollowOtherUser"
+      />
       <navTabs :userId="Number($route.params.id)" />
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="reply in replies" :key="reply.id">
@@ -42,6 +48,11 @@
     </div>
     <followTop
       :initialUser="currentUser"
+      @if-follow-this-other-user="ifFollowThisOtherUser"
+      :ifFollowOtherUser="ifFollowOtherUser"
+      :followOtherId="followOtherId"
+      :otherUser="user"
+      @if-change-btn-color="ifChangeBtnColor"
       @add-following-num="addFollowingNum"
       @un-following-num="unFollowingNum"
     />
@@ -92,9 +103,26 @@ export default {
       },
       replies: [],
       isMe: true,
+      ifFollowOtherUser: false,
+      followOtherId: -1,
+      changeBtnColor: false,
     };
   },
   methods: {
+    ifFollowThisOtherUser(payload) {
+      //告訴followTop要變換OtherUser的按鈕顏色
+      const { ifFollowOtherUser, followOtherId } = payload;
+      this.ifFollowOtherUser = ifFollowOtherUser;
+      this.followOtherId = followOtherId;
+    },
+    ifChangeBtnColor(payload) {
+      //告訴userInfoOther要變換按鈕顏色
+      const { changeBtnColor } = payload;
+      // this.changeBtnColor = changeBtnColor;
+      console.log("changeBtnColor.changeBtnColor", changeBtnColor);
+      console.log("changeBtnColor.payload", payload);
+      this.ifFollowOtherUser = changeBtnColor;
+    },
     async fetchUser(userId) {
       try {
         const response = await userAPI.getUser(userId);
@@ -151,25 +179,35 @@ export default {
     },
     async addFollowingNum(payload) {
       try {
-        const { followingCount } = payload;
-        console.log("followingCount", followingCount);
-        this.user.followingCount = followingCount;
+        const { followingCount, followingId } = payload;
+        if (this.isMe) {
+          this.currentUser.followingCount = followingCount;
+        } else {
+          if (this.user.id === followingId) {
+            this.user.followerCount = this.user.followerCount + 1;
+          }
+        }
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "無法新增此筆tweetReply",
+          title: "無法新增此筆addFollowing",
         });
       }
     },
     async unFollowingNum(payload) {
       try {
-        const { followingCount } = payload;
-        console.log("followingCount", followingCount);
-        this.user.followingCount = followingCount;
+        const { followingCount, followingId } = payload;
+        if (this.isMe) {
+          this.currentUser.followingCount = followingCount;
+        } else {
+          if (this.user.id === followingId) {
+            this.user.followerCount = this.user.followerCount - 1;
+          }
+        }
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "無法新增此筆tweetReply",
+          title: "無法新增此筆unFollowing",
         });
       }
     },

@@ -16,7 +16,9 @@ export default new Vuex.Store({
       introduction: '',
       role: '',
       isAdmin: false,
-      tweetCount: 0
+      tweetCount: 0,
+      followerCount: 0,
+      followingCount: 0
     },
     isAuthenticated: false
   },
@@ -47,7 +49,7 @@ export default new Vuex.Store({
         const response = await authorizationAPI.getCurrentUser()
         console.log('store vuex', response)
         //console.log('store vuex response data',response.data)
-        const { id, name, account, email, avatar, cover, introduction, role } = response.data.currentUser
+        const { id, name, account, email, avatar, cover, introduction, role, Followers, Followings } = response.data.currentUser
 
         const tweetCount = response.data.tweetCount
         //console.log('test',{
@@ -55,7 +57,9 @@ export default new Vuex.Store({
         //})
 
         commit('setCurrentUser', {
-          id, name, account, email, avatar, cover, introduction, role, tweetCount
+          id, name, account, email, avatar, cover, introduction, role, tweetCount,
+          followerCount: Followers.length,
+          followingCount: Followings.length
         })
       } catch (error) {
         console.error(error.message)

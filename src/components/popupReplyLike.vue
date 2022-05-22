@@ -14,7 +14,7 @@
         <div class="popupReply-user">
           <div class="popupReply-avatar">
             <div class="popupReply-avatar-img">
-              <img :src="tweet.Tweet.User.avatar | emptyImage" alt="" />
+              <img :src="tweet.Tweet.User.avatar | emptyAvatar" alt="" />
             </div>
           </div>
           <div class="popupReply-content">
@@ -39,7 +39,7 @@
         </div>
         <div class="popupReply-again-inner">
           <div class="popupReply-again-avatar">
-            <img :src="user.avatar | emptyImage" alt="" />
+            <img :src="user.avatar | emptyAvatar" alt="" />
           </div>
           <textarea
             name=""

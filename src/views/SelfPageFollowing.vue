@@ -3,7 +3,7 @@
     <navigation :userId="currentUser.id"/>
     <div class="main">
       <userTitle :userName="user.name" :tweetNum="user.tweetsCount" />
-      <navTabsFollow :userId="$route.params.id"/>
+      <navTabsFollow :userId="Number($route.params.id)"/>
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="followship in followships" :key="followship.id">
           <div class="tweet-avatar">
@@ -13,8 +13,8 @@
             <div class="tweet-title">
               <div class="tweet-name-group">
                 <p class="tweet-name"><b>{{followship.followingUser.name}}</b></p>
-                <div class="btn active" v-if="followship.isFollowed">正在跟隨</div>
-                <div class="btn" v-else>跟隨</div>
+                <div class="btn active" v-if="followship.isFollowed" @click.prevent.stop="unFollow(followship.followingId)">正在跟隨</div>
+                <div class="btn" v-else @click.prevent.stop="addFollow(followship.followingId)">跟隨</div>
               </div>
               
             </div>
@@ -41,6 +41,7 @@ import { fromNowFilter, emptyImageFilter } from './../utils/mixins'
 import userAPI from './../apis/user'
 import { mapState } from 'vuex'
 import { Toast } from './../utils/helpers'
+import followshipApi from "./../apis/followship";
 
 
 export default {
@@ -102,7 +103,47 @@ export default {
     },
     isThisMe(paramsId){
       this.isMe = this.currentUser.id == paramsId   // 驗證是不是我
-    }
+    },
+    async addFollow(id) {
+      try {
+        console.log(id)
+        await followshipApi.addFollow({ id });
+        this.followships=this.followships.map(user=>{
+          if(user.followingId === id){
+            return {
+              ...user,
+              isFollowed: true
+            }
+          }
+          return user
+        })
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法follow此人，請稍後再試",
+        });
+      }
+    },
+    async unFollow(followingId) {
+      try {
+        console.log(followingId)
+        await followshipApi.unFollow({ followingId });
+        this.followships=this.followships.map(user=>{
+          if(user.followingId === followingId){
+            return {
+              ...user,
+              isFollowed: false
+            }
+          }
+          return user
+        })
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法unFollow此人，請稍後再試",
+        });
+      }
+    },
   },
   computed: {
     ...mapState(['currentUser'])

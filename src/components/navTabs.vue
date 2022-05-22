@@ -36,15 +36,7 @@ export default {
         },
       ],
     };
-  },
-  //watch: {
-  //  "$route.params.id": {
-  //    handler: function (userId) {
-  //      this.testId = userId
-  //    },
-  //    immediate: true,
-  //  },
-  //}
+  }
 };
 </script>
 

@@ -219,6 +219,19 @@ export default {
       try {
         const response = await userAPI.getUserTweets(userId);
         this.tweets = [...response.data];
+        // 解決傳送到popupReply中資料不夠的問題
+        this.tweets = this.tweets.map(tweet => {
+          return {
+            ...tweet,
+            User: {
+              name:this.user.name,
+              account:this.user.account,
+              avatar:this.user.avatar,
+            }
+          }
+        })
+        //console.log(this.tweets)
+        //console.log('tweets',response)
       } catch (error) {
         console.log("error", error);
       }

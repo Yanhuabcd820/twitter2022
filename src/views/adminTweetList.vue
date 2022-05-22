@@ -14,7 +14,7 @@
             <div class="tweet-list-title">
               <div class="tweet-list-name-group">
                 <p class="tweet-list-name"><b>{{tweet.User.name}}</b></p>
-                <p class="tweet-list-account fz14">@{{tweet.User.account}}・{{tweet.createdAt | fromNow}} 小時</p>
+                <p class="tweet-list-account fz14">@{{tweet.User.account}}・{{tweet.createdAt | fromNow}} </p>
               </div>
               <div class="tweet-list-delete" @click="deleteTweet(tweet.id)">
                 <img src="../assets/images/tweet-list-delete.png" alt="" />

@@ -126,7 +126,7 @@ export default {
         console.log(id)
         await followshipApi.addFollow({ id });
         this.followships=this.followships.map(user=>{
-          if(user.followingId === id){
+          if(user.followerId === id){
             return {
               ...user,
               isFollowed: true
@@ -146,7 +146,7 @@ export default {
         console.log(followingId)
         await followshipApi.unFollow({ followingId });
         this.followships=this.followships.map(user=>{
-          if(user.followingId === followingId){
+          if(user.followerId === followingId){
             return {
               ...user,
               isFollowed: false

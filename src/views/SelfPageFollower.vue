@@ -19,8 +19,8 @@
                 <p class="tweet-name">
                   <b>{{ followship.followerUser.name }}</b>
                 </p>
-                <div class="btn active" v-if="followship.isFollowed">正在跟隨</div>
-                <div class="btn" v-else>跟隨</div>
+                <div class="btn active" v-if="followship.isFollowed" @click.prevent.stop="unFollow(followship.followerId)">正在跟隨</div>
+                <div class="btn" v-else @click.prevent.stop="addFollow(followship.followerId)">跟隨</div>
               </div>
             </div>
             <div class="tweet-text">
@@ -45,6 +45,8 @@ import { fromNowFilter, emptyImageFilter } from './../utils/mixins'
 import userAPI from "./../apis/user";
 import { mapState } from "vuex";
 import { Toast } from "./../utils/helpers";
+import followshipApi from "./../apis/followship";
+
 
 export default {
   name: "selfPageFollower",
@@ -118,6 +120,46 @@ export default {
     },
     isThisMe(paramsId) {
       this.isMe = this.currentUser.id == paramsId; // 驗證是不是我
+    },
+    async addFollow(id) {
+      try {
+        console.log(id)
+        await followshipApi.addFollow({ id });
+        this.followships=this.followships.map(user=>{
+          if(user.followingId === id){
+            return {
+              ...user,
+              isFollowed: true
+            }
+          }
+          return user
+        })
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法follow此人，請稍後再試",
+        });
+      }
+    },
+    async unFollow(followingId) {
+      try {
+        console.log(followingId)
+        await followshipApi.unFollow({ followingId });
+        this.followships=this.followships.map(user=>{
+          if(user.followingId === followingId){
+            return {
+              ...user,
+              isFollowed: false
+            }
+          }
+          return user
+        })
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法unFollow此人，請稍後再試",
+        });
+      }
     },
   },
   computed: {

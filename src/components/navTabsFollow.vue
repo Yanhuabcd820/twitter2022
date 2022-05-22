@@ -12,7 +12,7 @@
 export default {
   props: {
     userId: {
-      type: String,
+      type: Number,
       required: true,
     },
   },
@@ -31,7 +31,7 @@ export default {
         },
       ],
     };
-  },
+  }
 };
 </script>
 
@@ -64,10 +64,10 @@ li {
   height: 100%;
   width: 100%;
 }
-.router-link-exact-active {
+.router-link-exact-active{
   color: var(--main-color);
 }
-li .router-link-exact-active {
+li .router-link-exact-active{
   border-bottom: var(--main-color) 2px solid;
 }
 </style>

@@ -3,7 +3,7 @@
     <navigation :userId="currentUser.id"/>
     <div class="main">
       <userTitle :userName="user.name" :tweetNum="user.tweetsCount" />
-      <navTabsFollow :userId="$route.params.id"/>
+      <navTabsFollow :userId="Number($route.params.id)"/>
       <div class="tweet-wrap">
         <div
           class="tweet-card"

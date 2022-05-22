@@ -80,7 +80,7 @@
       <div class="reply-tweet-wrap">
         <div class="reply-tweet-card" v-for="reply in replies" :key="reply.id">
           <div class="reply-tweet-avatar">
-            <img :src="reply.User.avatar | emptyImage" alt="" />
+            <img :src="reply.User.avatar | emptyAvatar" alt="" />
           </div>
           <div class="reply-tweet-content">
             <div class="reply-tweet-name-group">

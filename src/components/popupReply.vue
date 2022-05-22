@@ -34,7 +34,7 @@
         </div>
         <div class="popupReply-again-inner">
           <div class="popupReply-again-avatar">
-            <img :src="user.avatar | emptyImage" alt="" />
+            <img :src="user.avatar | emptyAvatar" alt="" />
           </div>
           <textarea
             name=""

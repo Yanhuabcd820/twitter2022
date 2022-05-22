@@ -16,9 +16,9 @@
           class="followTop-name-wrap"
         >
           <p class="followTop-name">
-            <b>{{ top.name | partOfContents}}</b>
+            <b>{{ top.name }}</b>
           </p>
-          <p class="fz14 followTop-account">@{{ top.account | partOfContents }}</p>
+          <p class="fz14 followTop-account">@{{ top.account }}</p>
         </router-link>
 
         <div class="followTop-btn-wrap" v-if="top.id == testId">
@@ -56,9 +56,19 @@ export default {
     // userId: {
     //   type: Number,
     // },
-    currentUser: {
+    initialUser: {
       type: Object,
       required: true,
+    },
+    otherUser: {
+      type: Object,
+      required: true,
+    },
+    ifFollowOtherUser: {
+      type: Boolean,
+    },
+    followOtherId: {
+      type: Number,
     },
   },
   data() {
@@ -67,10 +77,25 @@ export default {
       testId: -1,
     };
   },
+  watch: {
+    ifFollowOtherUser() {
+      console.log("11ifFollowOtherUser", this.ifFollowOtherUser);
+      console.log("followOtherId", this.followOtherId);
+      this.tops = this.tops.map((top) => {
+        if (top.id === this.followOtherId) {
+          return {
+            ...top,
+            isFollowed: this.ifFollowOtherUser,
+          };
+        }
+        return top;
+      });
+    },
+  },
   methods: {
     async featchTop() {
       try {
-        // 取得Tops資料
+        // 取得tweets資料
         const Topdata = await userApi.getTop();
         const { data } = Topdata;
         this.tops = data;
@@ -94,10 +119,18 @@ export default {
           }
           return top;
         });
-        
         this.$emit("add-following-num", {
-          followingCount: this.currentUser.followingCount + 1,
+          followingCount: this.initialUser.followingCount + 1,
+          followingId: id,
         });
+
+        // 假如追蹤的按鈕就是otherUser, 就要傳送資訊
+        // 以變換父層的按鈕
+        if (this.otherUser.id === id) {
+          this.$emit("if-change-btn-color", {
+            changeBtnColor: true,
+          });
+        }
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -121,8 +154,14 @@ export default {
         });
 
         this.$emit("un-following-num", {
-          followingCount: this.currentUser.followingCount - 1,
+          followingCount: this.initialUser.followingCount - 1,
+          followingId: followingId,
         });
+        if (this.otherUser.id === followingId) {
+          this.$emit("if-change-btn-color", {
+            changeBtnColor: false,
+          });
+        }
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -130,11 +169,6 @@ export default {
         });
       }
     },
-  },
-  filters: {
-    partOfContents(text){
-      return text.length > 9 ? text.substr(0, 9)+'...' : text 
-    }
   },
   computed: {
     ...mapState(["currentUser"]),

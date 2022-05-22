@@ -10,8 +10,14 @@
     <navigation :userId="currentUser.id" />
     <div class="main">
       <userTitle :userName="user.name" :tweetNum="user.tweetsCount" />
-      <userInfo :initial-user="user" v-if="isMe" />
-      <userInfoOther :initial-user="user" v-else />
+      <userInfo :initial-user="currentUser" v-if="isMe" />
+      <userInfoOther
+        :initial-user="user"
+        v-else
+        @if-follow-this-other-user="ifFollowThisOtherUser"
+        :changeBtnColor="changeBtnColor"
+        :ifFollowOtherUser="ifFollowOtherUser"
+      />
       <navTabs :userId="Number($route.params.id)" />
       <div class="tweet-wrap">
         <div class="tweet-card" v-for="tweet in tweets" :key="tweet.id">
@@ -79,7 +85,12 @@
     </div>
 
     <followTop
-      :currentUser="currentUser"
+      :initialUser="currentUser"
+      @if-follow-this-other-user="ifFollowThisOtherUser"
+      :ifFollowOtherUser="ifFollowOtherUser"
+      :followOtherId="followOtherId"
+      :otherUser="user"
+      @if-change-btn-color="ifChangeBtnColor"
       @add-following-num="addFollowingNum"
       @un-following-num="unFollowingNum"
     />
@@ -139,9 +150,27 @@ export default {
       isClickPopupEditModal: false,
       isClickPopupReplyTweet: false,
       tweetPopup: {},
+      ifFollowOtherUser: false,
+      followOtherId: -1,
+      changeBtnColor: false,
     };
   },
   methods: {
+    ifFollowThisOtherUser(payload) {
+      //告訴followTop要變換OtherUser的按鈕顏色
+      const { ifFollowOtherUser, followOtherId } = payload;
+      this.ifFollowOtherUser = ifFollowOtherUser;
+      this.followOtherId = followOtherId;
+    },
+    ifChangeBtnColor(payload) {
+      //告訴userInfoOther要變換按鈕顏色
+      const { changeBtnColor } = payload;
+      // this.changeBtnColor = changeBtnColor;
+      console.log("changeBtnColor.changeBtnColor", changeBtnColor);
+      console.log("changeBtnColor.payload", payload);
+      this.ifFollowOtherUser = changeBtnColor;
+    },
+
     async fetchUser(userId) {
       try {
         const response = await userAPI.getUser(userId);
@@ -189,9 +218,7 @@ export default {
     async fetchTweets(userId) {
       try {
         const response = await userAPI.getUserTweets(userId);
-        // console.log('fetch tweets response', response)
         this.tweets = [...response.data];
-
         // 解決傳送到popupReply中資料不夠的問題
         this.tweets = this.tweets.map(tweet => {
           return {
@@ -211,7 +238,6 @@ export default {
     },
     openPopupReply(tweetId) {
       this.tweetPopup = this.tweets.find((tweet) => tweet.id === tweetId);
-
       this.isClickPopupReplyTweet = true;
     },
     closePopupReply(payloadPopupReply) {
@@ -243,10 +269,13 @@ export default {
     },
     async addFollowingNum(payload) {
       try {
+        const { followingCount, followingId } = payload;
         if (this.isMe) {
-          const { followingCount } = payload;
-          console.log("followingCount", followingCount);
-          this.user.followingCount = followingCount;
+          this.currentUser.followingCount = followingCount;
+        } else {
+          if (this.user.id === followingId) {
+            this.user.followerCount = this.user.followerCount + 1;
+          }
         }
       } catch (error) {
         Toast.fire({
@@ -257,10 +286,13 @@ export default {
     },
     async unFollowingNum(payload) {
       try {
+        const { followingCount, followingId } = payload;
         if (this.isMe) {
-          const { followingCount } = payload;
-          console.log("followingCount", followingCount);
-          this.user.followingCount = followingCount;
+          this.currentUser.followingCount = followingCount;
+        } else {
+          if (this.user.id === followingId) {
+            this.user.followerCount = this.user.followerCount - 1;
+          }
         }
       } catch (error) {
         Toast.fire({
@@ -317,7 +349,9 @@ export default {
       //console.log('params', paramsId)
       //console.log('vuex',this.currentUser.id)
       //console.log(this.isMe)
+      console.log("paramsId", paramsId);
       this.isMe = this.currentUser.id == paramsId; // 驗證是不是我
+      console.log("isMe", this.isMe);
     },
   },
   computed: {

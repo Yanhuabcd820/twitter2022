@@ -80,8 +80,8 @@ export default {
       // 串接api得到回應
       try {
         const response = await adminAPI.getUsersAdmin();
-        //console.log("response", response);
-        this.users = response.data.sort((a, b) => b.Likes - a.Likes);
+        console.log("response", response);
+        this.users = response.data.sort((a, b) => b.Tweets - a.Tweets);
       } catch (error) {
         console.log("error", error);
       }

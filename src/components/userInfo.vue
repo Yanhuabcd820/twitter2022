@@ -24,7 +24,7 @@
           <p class="fz14">@{{ initialUser.account }}</p>
         </div>
         <p class="user-des fz14">
-          {{ initialUser.introduction }}
+          {{ user.introduction }}
         </p>
         <div class="user-follow">
           <router-link

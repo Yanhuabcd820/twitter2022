@@ -110,11 +110,10 @@ export default {
       });
     },
   },
-  created(){
-    console.log('tweet',this.tweet)
-    console.log('user',this.user)
-  },
-
+  //created(){
+  //  console.log('tweet',this.tweet)
+  //  console.log('user',this.user)
+  //},
   mixins: [fromNowFilter, emptyImageFilter],
 };
 </script>

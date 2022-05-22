@@ -93,7 +93,7 @@
                 >
               </p>
               <p class="reply-to fz14">
-                <span>回覆</span> @{{ reply.User.name }}
+                <span>回覆</span> @{{ tweet.User.account }}
               </p>
             </div>
             <div class="reply-tweet-text">

@@ -1,11 +1,11 @@
 <template>
   <div class="wrap">
-    <popupReplyLike
-      v-if="isClickpopupReplyLike"
-      @close-PopupReplyLike="closepopupReplyLike"
+    <popupReply
+      v-if="isClickPopupReplyTweet"
+      @close-PopupReply="closePopupReply"
       :tweet="tweetPopup"
       :user="user"
-      @after-create-reply-like="afterCreateReplyLike"
+      @after-create-reply="afterCreateReply"
     />
     <navigation :userId="currentUser.id" />
     <div class="main">
@@ -30,7 +30,7 @@
                 <b>{{ tweet.Tweet.User.name }}</b>
               </router-link>
               <p class="tweet-account fz14">
-                @{{ tweet.Tweet.User.account }}・{{ tweet.createdAt | fromNow }}
+                @{{ tweet.Tweet.User.account }}・3 小時
               </p>
             </div>
 
@@ -45,7 +45,7 @@
             <div class="tweet-count">
               <div
                 class="tweet-reply"
-                @click.prevent.stop="openpopupReplyLike(tweet.TweetId)"
+                @click.prevent.stop="openPopupReply(tweet.TweetId)"
               >
                 <div class="tweet-reply-img">
                   <img src="../assets/images/tweet-reply.png" alt="" />
@@ -85,12 +85,7 @@
         </div>
       </div>
     </div>
-    <followTop
-      :userId="currentUser.id"
-      :initialUser="user"
-      @add-following-num="addFollowingNum"
-      @un-following-num="unFollowingNum"
-    />
+    <followTop />
   </div>
 </template>
 <script>
@@ -100,7 +95,7 @@ import userInfo from "../components/userInfo";
 import userInfoOther from "../components/userInfoOther";
 import userTitle from "../components/userTitle";
 import navTabs from "../components/navTabs";
-import popupReplyLike from "./../components/popupReplyLike";
+import popupReply from "./../components/popupReply";
 import userAPI from "./../apis/user";
 import tweetsApi from "./../apis/tweets";
 import { fromNowFilter, emptyImageFilter } from "./../utils/mixins";
@@ -116,7 +111,7 @@ export default {
     userTitle,
     navTabs,
     userInfoOther,
-    popupReplyLike,
+    popupReply,
   },
   data() {
     return {
@@ -137,7 +132,7 @@ export default {
       tweets: [],
       tweetPopup: {},
       isMe: true,
-      isClickpopupReplyLike: false,
+      isClickPopupReplyTweet: false,
     };
   },
   methods: {
@@ -247,57 +242,31 @@ export default {
         console.log("error", error);
       }
     },
-
-    async addFollowingNum(payload) {
-      try {
-        const { followingCount } = payload;
-        console.log("followingCount", followingCount);
-        this.user.followingCount = followingCount;
-      } catch (error) {
-        Toast.fire({
-          icon: "error",
-          title: "無法新增此筆tweetReply",
-        });
-      }
-    },
-    async unFollowingNum(payload) {
-      try {
-        const { followingCount } = payload;
-        console.log("followingCount", followingCount);
-        this.user.followingCount = followingCount;
-      } catch (error) {
-        Toast.fire({
-          icon: "error",
-          title: "無法新增此筆tweetReply",
-        });
-      }
-    },
     isThisMe(paramsId) {
       this.isMe = this.currentUser.id == paramsId;
     },
 
-    openpopupReplyLike(tweetId) {
+    openPopupReply(tweetId) {
       console.log(tweetId);
       this.tweetPopup = this.tweets.find((tweet) => tweet.TweetId === tweetId);
-      this.isClickpopupReplyLike = true;
+      this.isClickPopupReplyTweet = true;
     },
-    closepopupReplyLike(payload) {
-      const { isClickpopupReplyLike } = payload;
-      this.isClickpopupReplyLike = isClickpopupReplyLike;
+    closePopupReply(payloadPopupReply) {
+      const { isClickPopupReplyTweet } = payloadPopupReply;
+      this.isClickPopupReplyTweet = isClickPopupReplyTweet;
     },
-    async afterCreateReplyLike(payload) {
+    async afterCreateReply(payload) {
       try {
-        const { comment, TweetId } = payload;
-        // console.log("payload", payload);
-        await tweetsApi.postTweetsReply({
+        const { comment, tweetId } = payload;
+        const data = await tweetsApi.postTweetsReply({
           comment,
-          TweetId,
+          tweetId,
         });
-        // if (data.data.status !== "Success") {
-        //   throw new Error(data.message);
-        // }
+        if (data.data.status !== "Success") {
+          throw new Error(data.message);
+        }
         // 成功的話則轉址到 `/tweets/:id`
-        this.$router.push({ name: "tweet", params: { id: TweetId } });
+        this.$router.push({ name: "tweet", params: { id: tweetId } });
       } catch (error) {
         Toast.fire({
           icon: "error",

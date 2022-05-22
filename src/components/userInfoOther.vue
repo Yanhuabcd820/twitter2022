@@ -11,7 +11,21 @@
         <div class="tools">
           <div class="icon"><img src="../assets/images/mail.png" alt="" /></div>
           <div class="icon"><img src="../assets/images/noti.png" alt="" /></div>
-          <div class="btn active">正在跟隨</div>
+
+          <div
+            class="btn active"
+            v-if="ifFollowing"
+            @click.prevent.stop="unFollow(user.id)"
+          >
+            正在跟隨
+          </div>
+          <div
+            class="btn"
+            v-if="!ifFollowing"
+            @click.prevent.stop="addFollow(user.id)"
+          >
+            跟隨
+          </div>
         </div>
       </div>
       <div class="user-info">
@@ -45,7 +59,11 @@
 </template>
 
 <script>
+import userApi from "./../apis/user";
+import followshipApi from "./../apis/followship";
+import { Toast } from "./../utils/helpers";
 import { emptyImageFilter } from "./../utils/mixins";
+import { mapState } from "vuex";
 export default {
   props: {
     initialUser: {
@@ -56,15 +74,80 @@ export default {
   data() {
     return {
       user: {},
+      following: [],
+      ifFollowing: false,
     };
   },
   methods: {
     fetchUser() {
       this.user = { ...this.initialUser };
     },
+    async featchTop() {
+      try {
+        // 取得tweets資料
+        const Topdata = await userApi.getTop();
+        const { data } = Topdata;
+        this.tops = data;
+        this.testId = this.currentUser.id;
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法取得Tops資料，請稍後再試",
+        });
+      }
+    },
+    async getFollowing(currentUserId) {
+      try {
+        // console.log("currentUserId", currentUserId);
+        const followingList = await userApi.getFollowing(currentUserId);
+        this.following = followingList.data;
+
+        // 追蹤清單中是否有和此人id相同者
+        this.ifFollowing = this.following.some(
+          (follow) => follow.followingUser.id === this.initialUser.id
+        );
+        // console.log("this.user.id", this.initialUser.id);
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法確認是否有follow此人，請稍後再試",
+        });
+      }
+    },
+
+    async addFollow(id) {
+      try {
+        await followshipApi.addFollow({ id });
+        this.ifFollowing = true;
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法follow此人，請稍後再試",
+        });
+      }
+    },
+    async unFollow(followingId) {
+      try {
+        await followshipApi.unFollow({ followingId });
+        this.ifFollowing = false;
+
+        // this.$emit("un-follow-one", {
+        //   followingId,
+        // });
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法unFollow此人，請稍後再試",
+        });
+      }
+    },
   },
   created() {
     this.fetchUser();
+    this.getFollowing(this.currentUser.id);
+  },
+  computed: {
+    ...mapState(["currentUser"]),
   },
   watch: {
     initialUser() {

@@ -121,7 +121,8 @@
         </div>
       </div>
     </div>
-    <followTop :userId="currentUser.id" />
+    <followTop :initialUser="user" />
+    <!-- <followTop :userId="currentUser.id" /> -->
   </div>
 </template>
 <script>

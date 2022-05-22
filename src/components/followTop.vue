@@ -53,10 +53,10 @@ import { mapState } from "vuex";
 
 export default {
   props: {
-    userId: {
-      type: Number,
-    },
-    initialUser: {
+    // userId: {
+    //   type: Number,
+    // },
+    currentUser: {
       type: Object,
       required: true,
     },
@@ -70,7 +70,7 @@ export default {
   methods: {
     async featchTop() {
       try {
-        // 取得tweets資料
+        // 取得Tops資料
         const Topdata = await userApi.getTop();
         const { data } = Topdata;
         this.tops = data;
@@ -96,7 +96,7 @@ export default {
         });
         
         this.$emit("add-following-num", {
-          followingCount: this.initialUser.followingCount + 1,
+          followingCount: this.currentUser.followingCount + 1,
         });
       } catch (error) {
         Toast.fire({
@@ -121,7 +121,7 @@ export default {
         });
 
         this.$emit("un-following-num", {
-          followingCount: this.initialUser.followingCount - 1,
+          followingCount: this.currentUser.followingCount - 1,
         });
       } catch (error) {
         Toast.fire({

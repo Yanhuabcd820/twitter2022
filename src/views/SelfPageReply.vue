@@ -41,11 +41,16 @@
       </div>
     </div>
     <followTop
+      :initialUser="currentUser"
+      @add-following-num="addFollowingNum"
+      @un-following-num="unFollowingNum"
+    />
+    <!-- <followTop
       :userId="currentUser.id"
       :initialUser="user"
       @add-following-num="addFollowingNum"
       @un-following-num="unFollowingNum"
-    />
+    /> -->
   </div>
 </template>
 <script>

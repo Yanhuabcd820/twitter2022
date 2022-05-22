@@ -98,6 +98,14 @@ export default {
         });
       } catch (error) {
         console.log(error);
+        if(error.message==="Network Error"){
+          Toast.fire({
+            icon: "error",
+            title: "可能是heroku斷掉了",
+          });
+          this.isProcessing = false
+          return
+        }
         Toast.fire({
           icon: "error",
           title: "登入失敗",

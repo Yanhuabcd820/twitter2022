@@ -32,7 +32,7 @@
         </div>
       </div>
     </div>
-    <followTop />
+    <followTop :key="componentKey"/>
   </div>
 </template>
 <script>
@@ -63,6 +63,7 @@ export default {
         tweetNum: -1,
       },
       followships: [],
+      componentKey: 0
     };
   },
   methods: {
@@ -134,6 +135,7 @@ export default {
           }
           return user
         })
+        this.testForceRender()
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -154,6 +156,7 @@ export default {
           }
           return user
         })
+        this.testForceRender()
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -162,7 +165,7 @@ export default {
       }
     },
     testForceRender(){
-      
+      this.componentKey += 1;
     }
   },
   computed: {

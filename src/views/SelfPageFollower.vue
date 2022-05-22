@@ -19,7 +19,7 @@
                 <p class="tweet-name">
                   <b>{{ followship.followerUser.name }}</b>
                 </p>
-                <div class="btn active" v-if="1>0">正在跟隨</div>
+                <div class="btn active" v-if="followship.isFollowed">正在跟隨</div>
                 <div class="btn" v-else>跟隨</div>
               </div>
             </div>

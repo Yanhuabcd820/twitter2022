@@ -28,7 +28,7 @@
       </div>
 
     </div>
-    <followTop />
+    <followTop :key="componentKey"/>
   </div>
 </template>
 <script>
@@ -58,7 +58,8 @@ export default {
         name:"",
         tweetNum: -1
       },
-      followships: []
+      followships: [],
+      componentKey: 0
     };
   },
   methods: {
@@ -117,6 +118,7 @@ export default {
           }
           return user
         })
+        this.forceRenderFollowTop()
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -137,6 +139,7 @@ export default {
           }
           return user
         })
+        this.forceRenderFollowTop()
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -144,6 +147,9 @@ export default {
         });
       }
     },
+    forceRenderFollowTop(){
+      this.componentKey += 1;
+    }
   },
   computed: {
     ...mapState(['currentUser'])

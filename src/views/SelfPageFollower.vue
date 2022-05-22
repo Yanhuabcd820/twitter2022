@@ -135,7 +135,7 @@ export default {
           }
           return user
         })
-        this.testForceRender()
+        this.forceRenderFollowTop()
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -156,7 +156,7 @@ export default {
           }
           return user
         })
-        this.testForceRender()
+        this.forceRenderFollowTop()
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -164,7 +164,7 @@ export default {
         });
       }
     },
-    testForceRender(){
+    forceRenderFollowTop(){
       this.componentKey += 1;
     }
   },

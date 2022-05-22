@@ -86,11 +86,16 @@
       </div>
     </div>
     <followTop
-      :userId="currentUser.id"
-      :initialUser="user"
+      :initialUser="currentUser"
       @add-following-num="addFollowingNum"
       @un-following-num="unFollowingNum"
     />
+    <!-- <followTop
+      :userId="currentUser.id"
+      :initialUser="currentUser"
+      @add-following-num="addFollowingNum"
+      @un-following-num="unFollowingNum"
+    /> -->
   </div>
 </template>
 <script>

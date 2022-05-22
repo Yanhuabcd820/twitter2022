@@ -79,11 +79,16 @@
     </div>
 
     <followTop
+      :currentUser="currentUser"
+      @add-following-num="addFollowingNum"
+      @un-following-num="unFollowingNum"
+    />
+    <!-- <followTop
       :userId="currentUser.id"
       :initialUser="user"
       @add-following-num="addFollowingNum"
       @un-following-num="unFollowingNum"
-    />
+    /> -->
   </div>
 </template>
 <script>
@@ -140,7 +145,6 @@ export default {
     async fetchUser(userId) {
       try {
         const response = await userAPI.getUser(userId);
-
         const {
           id,
           account,
@@ -226,25 +230,29 @@ export default {
     },
     async addFollowingNum(payload) {
       try {
-        const { followingCount } = payload;
-        console.log("followingCount", followingCount);
-        this.user.followingCount = followingCount;
+        if (this.isMe) {
+          const { followingCount } = payload;
+          console.log("followingCount", followingCount);
+          this.user.followingCount = followingCount;
+        }
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "無法新增此筆tweetReply",
+          title: "無法新增此筆addFollowingNum",
         });
       }
     },
     async unFollowingNum(payload) {
       try {
-        const { followingCount } = payload;
-        console.log("followingCount", followingCount);
-        this.user.followingCount = followingCount;
+        if (this.isMe) {
+          const { followingCount } = payload;
+          console.log("followingCount", followingCount);
+          this.user.followingCount = followingCount;
+        }
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "無法新增此筆tweetReply",
+          title: "無法新增此筆unFollowingNum",
         });
       }
     },

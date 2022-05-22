@@ -11,16 +11,16 @@
         <div class="popupReply-user">
           <div class="popupReply-avatar">
             <div class="popupReply-avatar-img">
-              <img :src="user.avatar | emptyAvatar" alt="" />
+              <img :src="tweet.User.avatar | emptyAvatar" alt="" />
             </div>
           </div>
           <div class="popupReply-content">
             <div class="popupReply-name-group">
               <p class="popupReply-name">
-                <b>{{ user.name }}</b>
+                <b>{{ tweet.User.name }}</b>
               </p>
               <p class="popupReply-account fz14">
-                @{{user.account }}・{{ tweet.createdAt | fromNow }}
+                @{{tweet.User.account }}・{{ tweet.createdAt | fromNow }}
               </p>
             </div>
             <div class="popupReply-text">
@@ -28,7 +28,7 @@
                 {{ tweet.description }}
               </p>
 
-              <p class="reply-to fz14"><span>回覆</span> @{{ user.name }}</p>
+              <p class="reply-to fz14"><span>回覆給</span> @{{ tweet.User.name }}</p>
             </div>
           </div>
         </div>
@@ -109,6 +109,10 @@ export default {
         comment: this.popupText,
       });
     },
+  },
+  created(){
+    console.log('tweet',this.tweet)
+    console.log('user',this.user)
   },
 
   mixins: [fromNowFilter, emptyImageFilter],

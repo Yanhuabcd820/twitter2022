@@ -32,12 +32,12 @@
         </div>
       </div>
     </div>
-    <followTop :key="componentKey"/>
+    <followTopTypeB :key="componentKey" @addFollow-From-followTop="addFollowFromfollowTop" @unFollow-From-followTop="unFollowFromfollowTop"/>
   </div>
 </template>
 <script>
 import navigation from "../components/nav";
-import followTop from "../components/followTop";
+import followTopTypeB from "../components/followTopTypeB.vue";
 import userTitle from "../components/userTitle.vue";
 import navTabsFollow from "../components/navTabsFollow";
 
@@ -52,7 +52,7 @@ export default {
   name: "selfPageFollower",
   components: {
     navigation,
-    followTop,
+    followTopTypeB,
     userTitle,
     navTabsFollow,
   },
@@ -106,9 +106,9 @@ export default {
     async fetchUserFollower(userId) {
       try {
         const response = await userAPI.getUserFollowers(userId);
-        console.log('res follower',response)
+        //console.log('res follower',response)
         this.followships = [...response.data];
-        console.log('1',this.followships)
+        //console.log('1',this.followships)
         if(this.followships.length<1){
           Toast.fire({
             icon: "info",
@@ -124,7 +124,7 @@ export default {
     },
     async addFollow(id) {
       try {
-        console.log(id)
+        //console.log(id)
         await followshipApi.addFollow({ id });
         this.followships=this.followships.map(user=>{
           if(user.followerId === id){
@@ -135,7 +135,7 @@ export default {
           }
           return user
         })
-        this.testForceRender()
+        this.forceRenderFollowTop()
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -145,7 +145,7 @@ export default {
     },
     async unFollow(followingId) {
       try {
-        console.log(followingId)
+        //console.log(followingId)
         await followshipApi.unFollow({ followingId });
         this.followships=this.followships.map(user=>{
           if(user.followerId === followingId){
@@ -156,7 +156,7 @@ export default {
           }
           return user
         })
-        this.testForceRender()
+        this.forceRenderFollowTop()
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -164,8 +164,34 @@ export default {
         });
       }
     },
-    testForceRender(){
+    forceRenderFollowTop(){
       this.componentKey += 1;
+    },
+    addFollowFromfollowTop(payload){
+      console.log(payload.id) // 拿到這物件的id
+      this.followships = this.followships.map(user => {
+        if (user.followerId === payload.id){
+          console.log('user',user)
+          return {
+            ...user,
+            isFollowed: true
+          }
+        }
+        return user
+      })
+    },
+    unFollowFromfollowTop(payload){
+      //console.log(payload.id) // 拿到這物件的id
+      this.followships = this.followships.map(user => {
+        if (user.followerId === payload.id){
+          console.log('user',user)
+          return {
+            ...user,
+            isFollowed: false
+          }
+        }
+        return user
+      })
     }
   },
   computed: {

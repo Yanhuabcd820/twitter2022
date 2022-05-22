@@ -28,12 +28,12 @@
       </div>
 
     </div>
-    <followTop />
+    <followTopTypeB :key="componentKey" @addFollow-From-followTop="addFollowFromfollowTop" @unFollow-From-followTop="unFollowFromfollowTop"/>
   </div>
 </template>
 <script>
 import navigation from "../components/nav";
-import followTop from "../components/followTop";
+import followTopTypeB from "../components/followTopTypeB";
 import userTitle from "../components/userTitle.vue"
 import navTabsFollow from "../components/navTabsFollow";
 
@@ -48,7 +48,7 @@ export default {
   name: "selfPageFollowing",
   components: {
     navigation,
-    followTop,
+    followTopTypeB,
     userTitle,
     navTabsFollow
   },
@@ -58,7 +58,8 @@ export default {
         name:"",
         tweetNum: -1
       },
-      followships: []
+      followships: [],
+      componentKey: 0
     };
   },
   methods: {
@@ -117,6 +118,7 @@ export default {
           }
           return user
         })
+        this.forceRenderFollowTop()
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -137,6 +139,7 @@ export default {
           }
           return user
         })
+        this.forceRenderFollowTop()
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -144,6 +147,57 @@ export default {
         });
       }
     },
+    forceRenderFollowTop(){
+      this.componentKey += 1;
+    },
+    addFollowFromfollowTop(payload){
+      console.log(payload.id) // 拿到這物件的id
+
+      // 1 先判斷這個頁面是不是自己的，如果不是
+      if (this.user.id === this.currentUser.id){
+      // 如果是自己的頁面，就新增一張卡片
+        this.followships.push({
+          id: payload.id,
+          name: payload.name,
+          account: payload.account,
+          avatar: payload.avatar,
+          isFollowed: true
+        })
+      } else {
+
+        const found = this.followships.find(user => user.id===payload.id)
+
+        if(found){
+          // 1-1 找這個id在不在清單中，如果在，就切換按鈕即可
+          this.followships = this.followships.map(user => {
+            if (user.followingId === payload.id){
+              console.log('user',user)
+              return {
+                ...user,
+                isFollowed: true
+              }
+            }
+            return user
+          })
+        } 
+
+      // 1-2 如果不在，就不用管他
+
+      }
+      this.followships = this.followships.map(user => {
+        if (user.followingId === payload.id){
+          console.log('user',user)
+          return {
+            ...user,
+            isFollowed: true
+          }
+        }
+        return user
+      })
+    },
+    unFollowFromfollowTop(payload){
+      console.log(payload)
+    }
   },
   computed: {
     ...mapState(['currentUser'])

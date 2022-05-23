@@ -212,7 +212,7 @@ export default {
             if(user.followingId === payload.id){
               return {
                 ...user,
-                isFollowed: true
+                isFollowed: false
               }
             }
             return user
@@ -226,7 +226,7 @@ export default {
             if(user.followingId === payload.id){
               return {
                 ...user,
-                isFollowed: true
+                isFollowed: false
               }
             }
             return user

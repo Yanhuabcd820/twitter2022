@@ -106,7 +106,7 @@
         </div>
       </div>
     </div>
-    <followTop followTop :initialUser="user" />
+    <followTop :initialUser="currentUser" :otherUser="user" />
     <!-- <followTop :userId="currentUser.id" /> -->
   </div>
 </template>

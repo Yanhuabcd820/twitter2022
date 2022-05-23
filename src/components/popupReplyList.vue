@@ -101,7 +101,7 @@ export default {
       });
     },
     handleSubmit() {
-      if (this.popupText.trim().length >= 140) {
+      if (this.popupText.trim().length >= 80) {
         return;
       }
       if (!this.popupText.trim()) {

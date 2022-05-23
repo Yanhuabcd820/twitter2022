@@ -110,12 +110,7 @@ export default {
           });
         } else {
           // 如果目前在userPage或setting就直接在原地新增資料後轉址到tweets
-          const data = await tweetsApi.postTweets({ description });
-          console.log(data);
-          if (data.data.status !== "Success") {
-            throw new Error(data.message);
-          }
-          // 成功登入後轉址到餐廳首頁
+          await tweetsApi.postTweets({ description });
           this.$router.push("/tweets");
         }
       } catch (error) {

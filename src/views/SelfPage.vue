@@ -93,23 +93,7 @@
       @add-following-num="addFollowingNum"
       @un-following-num="unFollowingNum"
     />
-    <!-- 
-    <followTop
-      :initialUser="currentUser"
-      :otherUser="user"
-      @if-follow-this-other-user="ifFollowThisOtherUser"
-      :ifFollowOtherUser="ifFollowOtherUser"
-      :followOtherId="followOtherId"
-      @if-change-btn-color="ifChangeBtnColor"
-      @add-following-num="addFollowingNum"
-      @un-following-num="unFollowingNum"
-    /> -->
-    <!-- <followTop
-      :userId="currentUser.id"
-      :initialUser="user"
-      @add-following-num="addFollowingNum"
-      @un-following-num="unFollowingNum"
-    /> -->
+    
   </div>
 </template>
 <script>
@@ -227,8 +211,7 @@ export default {
         this.ifFollowOtherUser = this.myFollowingList.some(
           (follow) => follow.followingId === this.user.id
         );
-        // console.log("this.myFollowingList", this.myFollowingList);
-        // console.log("this.user.id", this.user.id);
+        this.changeBtnColor = this.ifFollowOtherUser;
       } catch (error) {
         console.log("error", error);
       }

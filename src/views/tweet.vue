@@ -121,7 +121,7 @@
         </div>
       </div>
     </div>
-    <followTop :initialUser="user" />
+    <followTop :initialUser="currentUser" :otherUser="user" />
     <!-- <followTop :userId="currentUser.id" /> -->
   </div>
 </template>
@@ -327,7 +327,7 @@ export default {
 
 <style lang="css" src="@/assets/css/reply.css" scoped></style>
 <style scoped>
-.reply-text{
+.reply-text {
   color: black;
 }
 </style>

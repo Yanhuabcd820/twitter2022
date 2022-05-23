@@ -86,14 +86,24 @@
 
     <followTop
       :initialUser="currentUser"
-      @if-follow-this-other-user="ifFollowThisOtherUser"
+      :otherUser="user"
       :ifFollowOtherUser="ifFollowOtherUser"
       :followOtherId="followOtherId"
-      :otherUser="user"
       @if-change-btn-color="ifChangeBtnColor"
       @add-following-num="addFollowingNum"
       @un-following-num="unFollowingNum"
     />
+    <!-- 
+    <followTop
+      :initialUser="currentUser"
+      :otherUser="user"
+      @if-follow-this-other-user="ifFollowThisOtherUser"
+      :ifFollowOtherUser="ifFollowOtherUser"
+      :followOtherId="followOtherId"
+      @if-change-btn-color="ifChangeBtnColor"
+      @add-following-num="addFollowingNum"
+      @un-following-num="unFollowingNum"
+    /> -->
     <!-- <followTop
       :userId="currentUser.id"
       :initialUser="user"
@@ -153,23 +163,15 @@ export default {
       ifFollowOtherUser: false,
       followOtherId: -1,
       changeBtnColor: false,
+      myFollowingList: [],
+      ifFollow: false, //我有沒有追蹤這位otherUser
     };
   },
   methods: {
-    ifFollowThisOtherUser(payload) {
-      //告訴followTop要變換OtherUser的按鈕顏色
-      const { ifFollowOtherUser, followOtherId } = payload;
-      this.ifFollowOtherUser = ifFollowOtherUser;
-      this.followOtherId = followOtherId;
-    },
-    ifChangeBtnColor(payload) {
-      //告訴userInfoOther要變換按鈕顏色
-      const { changeBtnColor } = payload;
-      // this.changeBtnColor = changeBtnColor;
-      console.log("changeBtnColor.changeBtnColor", changeBtnColor);
-      console.log("changeBtnColor.payload", payload);
-      this.ifFollowOtherUser = changeBtnColor;
-    },
+    // confirmiFollowOtherUser() {
+    //   this.ifFollowOtherUser = this.user.isFollowing;
+    //   console.log("confirmiFollowOtherUser", this.ifFollowOtherUser);
+    // },
 
     async fetchUser(userId) {
       try {
@@ -215,21 +217,53 @@ export default {
         });
       }
     },
+    async confirmUserFollowing(userId) {
+      // 先抓我的跟隨清單
+      try {
+        const dataFollowing = await userAPI.getFollowing(userId);
+        this.myFollowingList = dataFollowing.data;
+
+        //確認我有是否已經追蹤此otherUser
+        this.ifFollowOtherUser = this.myFollowingList.some(
+          (follow) => follow.followingId === this.user.id
+        );
+        // console.log("this.myFollowingList", this.myFollowingList);
+        // console.log("this.user.id", this.user.id);
+      } catch (error) {
+        console.log("error", error);
+      }
+    },
+    ifFollowThisOtherUser(payload) {
+      //告訴followTop要變換OtherUser的按鈕顏色
+      const { ifFollowOtherUser, followOtherId } = payload;
+      this.ifFollowOtherUser = ifFollowOtherUser;
+      this.followOtherId = followOtherId;
+      console.log("this.ifFollowOtherUser", this.ifFollowOtherUser);
+    },
+    ifChangeBtnColor(payload) {
+      //告訴userInfoOther要變換按鈕顏色
+      const { changeBtnColor } = payload;
+      // this.changeBtnColor = changeBtnColor;
+      // console.log("changeBtnColor.payload", payload);
+      this.ifFollowOtherUser = changeBtnColor;
+      console.log("payload.changeBtnColor", this.ifFollowOtherUser);
+    },
+
     async fetchTweets(userId) {
       try {
         const response = await userAPI.getUserTweets(userId);
         this.tweets = [...response.data];
         // 解決傳送到popupReply中資料不夠的問題
-        this.tweets = this.tweets.map(tweet => {
+        this.tweets = this.tweets.map((tweet) => {
           return {
             ...tweet,
             User: {
-              name:this.user.name,
-              account:this.user.account,
-              avatar:this.user.avatar,
-            }
-          }
-        })
+              name: this.user.name,
+              account: this.user.account,
+              avatar: this.user.avatar,
+            },
+          };
+        });
         //console.log(this.tweets)
         //console.log('tweets',response)
       } catch (error) {
@@ -240,6 +274,7 @@ export default {
       this.tweetPopup = this.tweets.find((tweet) => tweet.id === tweetId);
       this.isClickPopupReplyTweet = true;
     },
+
     closePopupReply(payloadPopupReply) {
       const { isClickPopupReplyTweet } = payloadPopupReply;
       this.isClickPopupReplyTweet = isClickPopupReplyTweet;
@@ -349,9 +384,9 @@ export default {
       //console.log('params', paramsId)
       //console.log('vuex',this.currentUser.id)
       //console.log(this.isMe)
-      console.log("paramsId", paramsId);
+      // console.log("paramsId", paramsId);
       this.isMe = this.currentUser.id == paramsId; // 驗證是不是我
-      console.log("isMe", this.isMe);
+      // console.log("isMe", this.isMe);
     },
   },
   computed: {
@@ -372,6 +407,8 @@ export default {
     this.fetchTweets(userId);
     this.isThisMe(userId);
     //console.log(this.currentUser)
+    // this.confirmiFollowOtherUser();
+    this.confirmUserFollowing(this.currentUser.id);
   },
   watch: {
     "$route.params.id": {

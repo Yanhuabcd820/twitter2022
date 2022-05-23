@@ -81,20 +81,20 @@ export default {
       user: {},
       ifFollow: false, //我有沒有追蹤這位otherUser
       myFollowingList: [], //我的跟隨清單
-      // YYchangeBtnColor: this.changeBtnColor,
     };
   },
-
+  computed: {
+    ...mapState(["currentUser"]),
+  },
   watch: {
     ifFollowOtherUser() {
-      console.log("YYchangeBtnColor", this.ifFollowOtherUser);
       this.ifFollow = this.ifFollowOtherUser;
     },
-
     initialUser() {
       this.user = this.initialUser;
     },
   },
+
   methods: {
     fetchUser() {
       this.user = { ...this.initialUser };
@@ -113,6 +113,24 @@ export default {
         console.log("error", error);
       }
     },
+
+    // async confirmUserFollowing(userId) {
+    //   // 先抓我的跟隨清單
+    //   try {
+    //     const dataFollowing = await userA.getFollowing(userId);
+    //     this.myFollowingList = dataFollowing.data;
+
+    //     //確認我有是否已經追蹤此otherUser
+    //     this.ifFollowOtherUser = this.myFollowingList.some(
+    //       (follow) => follow.followingId === this.user.id
+    //     );
+    //     console.log("this.ifFollow", this.ifFollowOtherUser);
+    //     console.log("this.myFollowingList", this.myFollowingList);
+    //     console.log("this.user.id", this.user.id);
+    //   } catch (error) {
+    //     console.log("error", error);
+    //   }
+    // },
     async addFollow(id) {
       try {
         await followshipApi.addFollow({ id });
@@ -152,9 +170,9 @@ export default {
     this.fetchUser();
     this.getFollowing(this.currentUser.id);
   },
-  computed: {
-    ...mapState(["currentUser"]),
-  },
+  // computed: {
+  //   ...mapState(["currentUser"]),
+  // },
   // watch: {
   //   initialUser() {
   //     this.user = this.initialUser;

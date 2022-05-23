@@ -79,8 +79,11 @@ export default {
   },
   watch: {
     ifFollowOtherUser() {
-      console.log("11ifFollowOtherUser", this.ifFollowOtherUser);
-      console.log("followOtherId", this.followOtherId);
+      this.changeBtn();
+    },
+  },
+  methods: {
+    changeBtn() {
       this.tops = this.tops.map((top) => {
         if (top.id === this.followOtherId) {
           return {
@@ -91,8 +94,6 @@ export default {
         return top;
       });
     },
-  },
-  methods: {
     async featchTop() {
       try {
         // 取得tweets資料
@@ -123,7 +124,6 @@ export default {
           followingCount: this.initialUser.followingCount + 1,
           followingId: id,
         });
-
         // 假如追蹤的按鈕就是otherUser, 就要傳送資訊
         // 以變換父層的按鈕
         if (this.otherUser.id === id) {
@@ -144,7 +144,6 @@ export default {
     async unFollow(followingId) {
       try {
         await followshipApi.unFollow({ followingId });
-
         this.tops = this.tops.map((top) => {
           if (top.id === followingId) {
             return {
@@ -154,7 +153,6 @@ export default {
           }
           return top;
         });
-
         this.$emit("un-following-num", {
           followingCount: this.initialUser.followingCount - 1,
           followingId: followingId,

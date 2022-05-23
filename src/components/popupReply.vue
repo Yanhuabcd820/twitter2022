@@ -20,7 +20,7 @@
                 <b>{{ tweet.User.name }}</b>
               </p>
               <p class="popupReply-account fz14">
-                @{{tweet.User.account }}・{{ tweet.createdAt | fromNow }}
+                @{{ tweet.User.account }}・{{ tweet.createdAt | fromNow }}
               </p>
             </div>
             <div class="popupReply-text">
@@ -28,7 +28,9 @@
                 {{ tweet.description }}
               </p>
 
-              <p class="reply-to fz14"><span>回覆給</span> @{{ tweet.User.name }}</p>
+              <p class="reply-to fz14">
+                <span>回覆給</span> @{{ tweet.User.name }}
+              </p>
             </div>
           </div>
         </div>
@@ -96,7 +98,7 @@ export default {
     },
 
     handleSubmit() {
-      if (this.popupText.trim().length >= 140) {
+      if (this.popupText.trim().length >= 80) {
         return;
       }
       if (!this.popupText.trim()) {

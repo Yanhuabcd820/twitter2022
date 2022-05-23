@@ -6,11 +6,7 @@
         <h4>使用者列表</h4>
       </div>
       <div class="admin-users-cards-wrap">
-        <div
-          class="admin-user-card"
-          v-for="user in users"
-          :key="user.id"
-        >
+        <div class="admin-user-card" v-for="user in users" :key="user.id">
           <div class="admin-user-picture-wrap">
             <div class="admin-user-image">
               <img :src="user.cover | emptyCover" alt="" />

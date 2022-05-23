@@ -135,6 +135,7 @@ export default {
       try {
         await followshipApi.addFollow({ id });
         this.ifFollow = true;
+        this.initialUser.followerCount = this.initialUser.followerCount + 1;
         this.$emit("if-follow-this-other-user", {
           ifFollowOtherUser: this.ifFollow,
           followOtherId: this.user.id,
@@ -150,6 +151,7 @@ export default {
       try {
         await followshipApi.unFollow({ followingId });
         this.ifFollow = false;
+        this.initialUser.followerCount = this.initialUser.followerCount - 1;
         this.$emit("if-follow-this-other-user", {
           ifFollowOtherUser: this.ifFollow,
           followOtherId: this.user.id,

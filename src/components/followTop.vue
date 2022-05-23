@@ -73,27 +73,11 @@ export default {
   },
   data() {
     return {
-      tops: {},
+      tops: [],
       testId: -1,
     };
   },
-  watch: {
-    ifFollowOtherUser() {
-      this.changeBtn();
-    },
-  },
   methods: {
-    changeBtn() {
-      this.tops = this.tops.map((top) => {
-        if (top.id === this.followOtherId) {
-          return {
-            ...top,
-            isFollowed: this.ifFollowOtherUser,
-          };
-        }
-        return top;
-      });
-    },
     async featchTop() {
       try {
         // 取得tweets資料
@@ -131,8 +115,6 @@ export default {
             changeBtnColor: true,
           });
         }
-        
-
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -175,7 +157,23 @@ export default {
   },
   created() {
     this.featchTop();
-    //console.log('followtop currentuser id',this.currentUser.id)
+  },
+
+  watch: {
+    ifFollowOtherUser() {
+      // console.log(this.tops);
+      this.tops = this.tops.map((top) => {
+        if (top.id === this.followOtherId) {
+          // console.log("top.id", top.id);
+          return {
+            ...top,
+            isFollowed: this.ifFollowOtherUser,
+          };
+        }
+        return top;
+      });
+      // console.log("this.tops", this.tops);
+    },
   },
   mixins: [emptyImageFilter],
 };

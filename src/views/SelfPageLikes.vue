@@ -101,12 +101,6 @@
       @add-following-num="addFollowingNum"
       @un-following-num="unFollowingNum"
     />
-    <!-- <followTop
-      :userId="currentUser.id"
-      :initialUser="currentUser"
-      @add-following-num="addFollowingNum"
-      @un-following-num="unFollowingNum"
-    /> -->
   </div>
 </template>
 <script>
@@ -157,23 +151,11 @@ export default {
       ifFollowOtherUser: false,
       followOtherId: -1,
       changeBtnColor: false,
+      myFollowingList: [],
+      ifFollow: false, //我有沒有追蹤這位otherUser
     };
   },
   methods: {
-    ifFollowThisOtherUser(payload) {
-      //告訴followTop要變換OtherUser的按鈕顏色
-      const { ifFollowOtherUser, followOtherId } = payload;
-      this.ifFollowOtherUser = ifFollowOtherUser;
-      this.followOtherId = followOtherId;
-    },
-    ifChangeBtnColor(payload) {
-      //告訴userInfoOther要變換按鈕顏色
-      const { changeBtnColor } = payload;
-      // this.changeBtnColor = changeBtnColor;
-      console.log("changeBtnColor.changeBtnColor", changeBtnColor);
-      console.log("changeBtnColor.payload", payload);
-      this.ifFollowOtherUser = changeBtnColor;
-    },
     async addFollowingNum(payload) {
       try {
         const { followingCount, followingId } = payload;
@@ -191,6 +173,37 @@ export default {
         });
       }
     },
+    async confirmUserFollowing(userId) {
+      // 先抓我的跟隨清單
+      try {
+        const dataFollowing = await userAPI.getFollowing(userId);
+        this.myFollowingList = dataFollowing.data;
+
+        //確認我有是否已經追蹤此otherUser
+        this.ifFollowOtherUser = this.myFollowingList.some(
+          (follow) => follow.followingId === this.user.id
+        );
+        // console.log("this.myFollowingList", this.myFollowingList);
+        // console.log("this.user.id", this.user.id);
+      } catch (error) {
+        console.log("error", error);
+      }
+    },
+    ifFollowThisOtherUser(payload) {
+      //告訴followTop要變換OtherUser的按鈕顏色
+      const { ifFollowOtherUser, followOtherId } = payload;
+      this.ifFollowOtherUser = ifFollowOtherUser;
+      this.followOtherId = followOtherId;
+    },
+    ifChangeBtnColor(payload) {
+      //告訴userInfoOther要變換按鈕顏色
+      const { changeBtnColor } = payload;
+      // this.changeBtnColor = changeBtnColor;
+      console.log("changeBtnColor.changeBtnColor", changeBtnColor);
+      console.log("changeBtnColor.payload", payload);
+      this.ifFollowOtherUser = changeBtnColor;
+    },
+
     async unFollowingNum(payload) {
       try {
         const { followingCount, followingId } = payload;
@@ -365,6 +378,7 @@ export default {
     this.fetchUser(userId);
     this.fetchUserLikes(userId);
     this.isThisMe(userId);
+    this.confirmUserFollowing(this.currentUser.id);
   },
   watch: {
     "$route.params.id": {

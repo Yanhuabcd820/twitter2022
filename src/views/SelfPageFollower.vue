@@ -168,10 +168,10 @@ export default {
       this.componentKey += 1;
     },
     addFollowFromfollowTop(payload){
-      console.log(payload.id) // 拿到這物件的id
+      //console.log(payload.id) // 拿到這物件的id
       this.followships = this.followships.map(user => {
         if (user.followerId === payload.id){
-          console.log('user',user)
+          //console.log('user',user)
           return {
             ...user,
             isFollowed: true
@@ -184,7 +184,7 @@ export default {
       //console.log(payload.id) // 拿到這物件的id
       this.followships = this.followships.map(user => {
         if (user.followerId === payload.id){
-          console.log('user',user)
+          //console.log('user',user)
           return {
             ...user,
             isFollowed: false

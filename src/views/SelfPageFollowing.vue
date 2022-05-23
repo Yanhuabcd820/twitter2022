@@ -91,7 +91,7 @@ export default {
         const response = await userAPI.getUserFollowings(userId)
         //console.log('following', response)
         this.followships = [...response.data]
-        console.log('this following',this.followships )
+        //console.log('this following',this.followships )
         if(this.followships.length<1){
           Toast.fire({
             icon: "info",
@@ -107,7 +107,7 @@ export default {
     },
     async addFollow(id) {
       try {
-        console.log(id)
+        //console.log(id)
         await followshipApi.addFollow({ id });
         this.followships=this.followships.map(user=>{
           if(user.followingId === id){
@@ -128,7 +128,7 @@ export default {
     },
     async unFollow(followingId) {
       try {
-        console.log(followingId)
+        //console.log(followingId)
         await followshipApi.unFollow({ followingId });
         this.followships=this.followships.map(user=>{
           if(user.followingId === followingId){
@@ -151,23 +151,36 @@ export default {
       this.componentKey += 1;
     },
     addFollowFromfollowTop(payload){
-      console.log('payload',payload) // 拿到這物件的id
-      console.log('avatar',payload.avatar)
+      //console.log('payload',payload) // 拿到這物件的id
       // 1 先判斷這個頁面是不是自己的
       if (this.$route.params.id == this.currentUser.id){
-      // 如果是自己的頁面，就新增一張卡片
-        this.followships.push({
-          followingId: payload.id,
-          followingUser: {
-            id: payload.id,
-            name: payload.name,
-            account: payload.account,
-            avatar: payload.avatar,
-            introduction: payload.introduction
-          },
-          isFollowed: true
-        })
-        console.log(this.followships)
+
+        if (this.followships.find(user=>user.followingId===payload.id)) {
+        // 如果有這個Id的項目，就改狀態
+          this.followships = this.followships.map(user => {
+            if(user.followingId === payload.id){
+              return {
+                ...user,
+                isFollowed: true
+              }
+            }
+            return user
+          })
+        } else {
+        // 如果畫面沒有，就新增卡片
+        // 如果是自己的頁面，就新增一張卡片
+          this.followships.push({
+            followingId: payload.id,
+            followingUser: {
+              id: payload.id,
+              name: payload.name,
+              account: payload.account,
+              avatar: payload.avatar,
+              introduction: payload.introduction
+            },
+            isFollowed: true
+          })
+        }
       } else {
         // 如果不是自己頁面，
         // 1-1 找這個id在不在清單中，如果在，就切換按鈕即可
@@ -176,7 +189,7 @@ export default {
         if (found) {
           this.followships = this.followships.map(user => {
             if (user.followingId === payload.id){
-              console.log('user',user)
+              //console.log('user',user)
               return {
                 ...user,
                 isFollowed: true
@@ -189,7 +202,37 @@ export default {
       }
     },
     unFollowFromfollowTop(payload){
-      console.log(payload)
+      //console.log('payload',payload) 
+      // 拿到這物件的id 
+      // 如果在自己畫面，就改變狀態
+      if (this.$route.params.id == this.currentUser.id){
+        if (this.followships.find(user=>user.followingId===payload.id)) {
+        // 如果有這個Id的項目，就改狀態
+          this.followships = this.followships.map(user => {
+            if(user.followingId === payload.id){
+              return {
+                ...user,
+                isFollowed: true
+              }
+            }
+            return user
+          })
+        } 
+      } else {
+      // 如果是別人畫面，就要判斷該項目有沒有在畫面上，如果有就改變狀態
+        if (this.followships.find(user=>user.followingId===payload.id)) {
+        // 如果有這個Id的項目，就改狀態
+          this.followships = this.followships.map(user => {
+            if(user.followingId === payload.id){
+              return {
+                ...user,
+                isFollowed: true
+              }
+            }
+            return user
+          })
+        } 
+      }
     }
   },
   computed: {

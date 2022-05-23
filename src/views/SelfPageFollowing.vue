@@ -151,24 +151,29 @@ export default {
       this.componentKey += 1;
     },
     addFollowFromfollowTop(payload){
-      console.log(payload.id) // 拿到這物件的id
-
-      // 1 先判斷這個頁面是不是自己的，如果不是
-      if (this.user.id === this.currentUser.id){
+      console.log('payload',payload) // 拿到這物件的id
+      console.log('avatar',payload.avatar)
+      // 1 先判斷這個頁面是不是自己的
+      if (this.$route.params.id == this.currentUser.id){
       // 如果是自己的頁面，就新增一張卡片
         this.followships.push({
-          id: payload.id,
-          name: payload.name,
-          account: payload.account,
-          avatar: payload.avatar,
+          followingId: payload.id,
+          followingUser: {
+            id: payload.id,
+            name: payload.name,
+            account: payload.account,
+            avatar: payload.avatar,
+            introduction: payload.introduction
+          },
           isFollowed: true
         })
+        console.log(this.followships)
       } else {
+        // 如果不是自己頁面，
+        // 1-1 找這個id在不在清單中，如果在，就切換按鈕即可
+        const found = this.followships.find(user => user.followingId===payload.id)
 
-        const found = this.followships.find(user => user.id===payload.id)
-
-        if(found){
-          // 1-1 找這個id在不在清單中，如果在，就切換按鈕即可
+        if (found) {
           this.followships = this.followships.map(user => {
             if (user.followingId === payload.id){
               console.log('user',user)
@@ -179,21 +184,9 @@ export default {
             }
             return user
           })
-        } 
-
-      // 1-2 如果不在，就不用管他
-
-      }
-      this.followships = this.followships.map(user => {
-        if (user.followingId === payload.id){
-          console.log('user',user)
-          return {
-            ...user,
-            isFollowed: true
-          }
         }
-        return user
-      })
+      // 1-2 如果不在，就不用管他
+      }
     },
     unFollowFromfollowTop(payload){
       console.log(payload)

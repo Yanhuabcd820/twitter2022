@@ -91,7 +91,7 @@ export default {
         const response = await userAPI.getUserFollowings(userId)
         //console.log('following', response)
         this.followships = [...response.data]
-        console.log('this following',this.followships )
+        //console.log('this following',this.followships )
         if(this.followships.length<1){
           Toast.fire({
             icon: "info",
@@ -107,7 +107,7 @@ export default {
     },
     async addFollow(id) {
       try {
-        console.log(id)
+        //console.log(id)
         await followshipApi.addFollow({ id });
         this.followships=this.followships.map(user=>{
           if(user.followingId === id){
@@ -128,7 +128,7 @@ export default {
     },
     async unFollow(followingId) {
       try {
-        console.log(followingId)
+        //console.log(followingId)
         await followshipApi.unFollow({ followingId });
         this.followships=this.followships.map(user=>{
           if(user.followingId === followingId){
@@ -151,7 +151,7 @@ export default {
       this.componentKey += 1;
     },
     addFollowFromfollowTop(payload){
-      console.log('payload',payload) // 拿到這物件的id
+      //console.log('payload',payload) // 拿到這物件的id
       // 1 先判斷這個頁面是不是自己的
       if (this.$route.params.id == this.currentUser.id){
 
@@ -189,7 +189,7 @@ export default {
         if (found) {
           this.followships = this.followships.map(user => {
             if (user.followingId === payload.id){
-              console.log('user',user)
+              //console.log('user',user)
               return {
                 ...user,
                 isFollowed: true
@@ -202,9 +202,8 @@ export default {
       }
     },
     unFollowFromfollowTop(payload){
-      console.log('payload',payload) // 拿到這物件的id
-
-    
+      //console.log('payload',payload) 
+      // 拿到這物件的id 
       // 如果在自己畫面，就改變狀態
       if (this.$route.params.id == this.currentUser.id){
         if (this.followships.find(user=>user.followingId===payload.id)) {

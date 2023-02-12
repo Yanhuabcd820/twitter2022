@@ -1,0 +1,92 @@
+/* 發文彈跳視窗 */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, .4);
+  z-index: 10;
+}
+
+.popupTweet-wrap {
+  position: relative;
+}
+
+.popupTweet {
+  display: flex;
+  flex-direction: column;
+  width: 634px;
+  height: 300px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fff;
+  position: fixed;
+  top: 56px;
+  border-radius: 14px;
+  z-index: 999;
+}
+
+.popupTweet-colse {
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.popupTweet-colse-img {
+  width: 24px;
+  cursor: pointer;
+}
+
+.popupTweet-text-wrap {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 16px 24px;
+}
+
+.popupTweet-text {
+  display: flex;
+  flex-grow: 1;
+}
+
+.popupTweet-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.popupTweet-avatar>img {
+  width: 100%;
+  height: 100%;
+}
+
+.popupTweet-text>textarea {
+  display: inline-block;
+  height: 100%;
+  padding: 12px 8px;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--commen-text-color);
+  border: 0px;
+  flex-grow: 1;
+  resize: none;
+
+}
+
+.popupTweet-btn-wrap {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-top: 16px;
+}
+
+.post-text-num-warning {
+  font-size: 14px;
+  color: var(--danger-color);
+  margin-right: 20px;
+}
+
+.popupTweet-btn {
+  align-self: flex-end;
+}

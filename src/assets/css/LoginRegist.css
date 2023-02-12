@@ -1,0 +1,145 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+.container {
+  position: relative;
+}
+
+form {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.logo {
+  width: 50px;
+  margin-top: 69px;
+  margin: 69px auto 0 auto;
+  /* display: flex;
+  justify-content: center; */
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+}
+
+.title {
+  margin-top: 29px;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.title h3 {
+  font-size: 28px;
+}
+
+.form-label-group {
+  display: flex;
+  flex-direction: column;
+  width: 356px;
+  background-color: #F5F8FA;
+  /*border-bottom: 2px #657786 solid;*/
+  padding: 2px 10.55px;
+  margin-bottom: 32px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/*.form-label-group:hover {
+  border-bottom: 2px #50B5FF solid;
+}*/
+label {
+  font-size: 14px;
+  line-height: 22px;
+  color: #696974;
+}
+
+input {
+  font-size: 16px;
+  line-height: 26px;
+  border: 0;
+  background-color: #F5F8FA;
+  outline: none;
+}
+
+.input-bottomline {
+  width: 100%;
+  height: 2px;
+  background-color: #657786;
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+}
+
+input:focus~.input-bottomline {
+  background-color: #50B5FF;
+}
+
+.form-label-group:hover>.input-bottomline {
+  background-color: #50B5FF;
+}
+
+.inputBottomLineWarn {
+  background-color: #FC5A5A;
+}
+
+::placeholder {
+  /* CSS 3 標準 */
+  color: #B5B5BE;
+}
+
+.input-warning {
+  position: absolute;
+  font-size: 12px;
+  top: 100%;
+  left: 0px;
+  color: #FC5A5A;
+}
+
+.confirm-btn {
+  background-color: #FF6600;
+  width: 356px;
+  height: 46px;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  line-height: 30px;
+  cursor: pointer;
+}
+
+.confirm-btn p {
+  color: white;
+
+}
+
+nav {
+  margin-top: 22px;
+  display: flex;
+  justify-content: flex-end;
+  color: #f00;
+}
+
+nav p.login-btn {
+  color: var(--primary-color);
+  /* text-decoration: underline; */
+
+}
+
+nav>* {
+  margin-left: 12px;
+}
+
+nav:last-child {
+  margin-right: 15px;
+}
+
+
+a {
+  color: var(--primary-color);
+  border-bottom: 1px solid var(--primary-color);
+}

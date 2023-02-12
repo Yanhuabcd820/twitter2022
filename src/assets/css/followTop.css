@@ -1,0 +1,50 @@
+.followTop {
+  width: 300px;
+  margin-left: 20px;
+  margin-top: 20px;
+  background-color: var(--grey-bg-color);
+  border-radius: 16px;
+  align-self: flex-start;
+}
+
+.followTop-title {
+  padding: 24px 24px 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.followTop-card {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.followTop-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 8px;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.followTop-avatar>img {
+  width: 100%;
+  height: 100%;
+}
+
+.followTop-name-wrap {
+  margin-right: 4px;
+
+}
+
+.followTop-account {
+  color: var(--secondary-text-color);
+}
+
+.followTop-btn-wrap {
+  flex-grow: 1;
+  flex-shrink: 0;
+  align-self: center;
+  text-align: right;
+}

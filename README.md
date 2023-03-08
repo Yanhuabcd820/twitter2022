@@ -6,7 +6,7 @@
 
 [後端 API](https://github.com/GallonShih/twitter-api-2020)
 
-[Twitter Demo](https://bunreal.github.io/Twitter2022/#/login)  
+[Twitter Demo](https://yanhuabcd820.github.io/twitter2022/)  
 (前台登入 - 帳號：user1 密碼：12345678)  
 (後台登入 - 帳號：root 密碼：12345678)
 
